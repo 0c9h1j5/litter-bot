@@ -62,7 +62,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <h1>체육관 정리 로봇</h1>
 <p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
 <div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(주인 회고) 표시를 꼭 함께 읽을 것</div>
-<div class="cards"><div class="card"><b>주 기능 · 밀기</b><span>모터 없는 극세사 패드로 먼지·흙먼지·셔틀콕 깃털을 직선 줄로 민다. 성과 = 닦은 면적 %</span></div><div class="card"><b>보조 · 집기</b><span>벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림</span></div><div class="card"><b>운영 모드</b><span>짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0</span></div><div class="card"><b>앞 모듈 교체형</b><span>모듈 A 밀대(필수) ↔ 모듈 B 제설 날(확장). 여름~가을 체육관, 겨울 출입로</span></div><div class="card"><b>근거·검증</b><span>1차 근거 주인 회고(n≈10곳) → 11/24~30 계수로 확인 · 관리자 1명 이상 시험 운영 동의</span></div></div>
+<div class="cards"><div class="card"><b>주 기능 · 밀기·흡입</b><span>① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기) → ③ 뒤 패드로 먼지·흙먼지·깃털을 모아 빨아들인다</span></div><div class="card"><b>보조 · 집기</b><span>벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림</span></div><div class="card"><b>운영 모드</b><span>짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0</span></div><div class="card"><b>앞 모듈 교체형</b><span>모듈 A 가이드·흡입·패드(필수, 회전 패드 실물은 확장) ↔ 모듈 B 사선 제설 날(확장)</span></div><div class="card"><b>근거·검증</b><span>1차 근거 주인 회고(n≈10곳) → 11/24~30 계수로 확인 · 관리자 1명 이상 시험 운영 동의</span></div></div>
 </header>
 <nav class="toc"><b>목차</b><ol><li><a href="#s1">이 기획안의 약속</a></li><li><a href="#s2">0. 한 문장</a></li><li><a href="#s3">1. 문제와 근거</a></li><li><a href="#s4">2. 사용자</a></li><li><a href="#s5">3. 로봇 없이 풀리는가 (대안 비교)</a></li><li><a href="#s6">4. 대상 정의</a></li><li><a href="#s7">5. 운행 조건 (ODD: 로봇이 일하는 조건)</a></li><li><a href="#s8">6. 해결 방식</a></li><li><a href="#s9">7. 유저 시나리오 (요약)</a></li><li><a href="#s10">8. 시뮬레이션 계획</a></li><li><a href="#s11">9. 실물 축소판 계획</a></li><li><a href="#s12">10. 비슷한 제품과 차별점</a></li><li><a href="#s13">11. 성공 기준</a></li><li><a href="#s14">12. 위험과 중단 기준</a></li><li><a href="#s15">13. 현장 검증 (1주, 11/24(화) ~ 11/30(월))</a></li><li><a href="#s16">14. 4주 일정</a></li><li><a href="#s17">15. 주인이 정할 것</a></li><li><a href="#s18">16. 로드맵</a></li><li><a href="#s19">출처</a></li><li><a href="#s20">변경 기록</a></li><li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li></ol></nav>
 <main><blockquote>
@@ -121,7 +121,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td><strong>주 기능 (4주 필수)</strong></td>
-<td><strong>먼지 밀기.</strong> 로봇 앞 아래에 단 극세사 밀대 패드(모터 없음)로 코트를 직선 줄로 훑어 먼지·흙먼지·먼지 뭉치·셔틀콕 깃털을 민다(<strong>직선 훑기</strong>). 성과 = 패드가 닦은 면적 %(커버리지)</td>
+<td><strong>먼지 밀기·빨아들이기.</strong> 앞 모듈 A = <strong>① V자 사선 가이드 → ② 가운데 흡입구(시판 핸디 청소기 + 덕트) → ③ 뒤 패드</strong>(6-10). 코트를 직선 줄로 훑어 먼지·흙먼지·먼지 뭉치·셔틀콕 깃털을 모아 빨아들이고 닦는다(<strong>직선 훑기</strong>). 성과 = 닦은 면적 %(커버리지) + 흡입 수거율. 뒤 회전 패드 실물은 확장</td>
 </tr>
 <tr>
 <td><strong>보조 기능 (4주 필수, 범위 작게)</strong></td>
@@ -129,7 +129,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>앞 모듈 교체형</td>
-<td>로봇 앞쪽 <strong>공용 장착부</strong>에 모듈을 바꿔 단다: <strong>모듈 A = 극세사 밀대(4주 필수)</strong>, 모듈 B = 제설 날(<strong>확장</strong> — 4주 필수 범위·일정은 늘리지 않음). 여름~가을 체육관, 겨울 출입로 제설 = 연중 사용 (6-9)</td>
+<td>로봇 앞쪽 <strong>공용 장착부</strong>에 모듈을 바꿔 단다: <strong>모듈 A = 사선 가이드 + 흡입 + 뒤 패드(4주 필수, 6-10)</strong>, 모듈 B = 제설 날(<strong>확장</strong> — 4주 필수 범위·일정은 늘리지 않음). 여름~가을 체육관, 겨울 출입로 제설 = 연중 사용 (6-9)</td>
 </tr>
 <tr>
 <td>분실물</td>
@@ -486,15 +486,15 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>먼지·바닥 흙먼지·먼지 뭉치</td>
 <td>잘다</td>
 <td>코트 전체</td>
-<td>극세사 패드 (모터 없음)</td>
-<td><strong>필수</strong> (커버리지로 판정)</td>
+<td>사선 가이드로 모아 흡입 + 뒤 패드 (6-10)</td>
+<td><strong>필수</strong> (커버리지 + 흡입 수거율)</td>
 </tr>
 <tr>
 <td><strong>대상 1 (주)</strong></td>
 <td>배드민턴 셔틀콕 깃털 조각</td>
 <td>가볍고 작다 (수 cm, 가정)</td>
 <td><strong>코트 위</strong> (회고)</td>
-<td>패드가 붙이거나 줄 끝으로 민다 (가정)</td>
+<td>사선 가이드로 모아 흡입 (가정)</td>
 <td><strong>필수</strong> (시뮬: 판정 점, 실물: 깃털 시험 — 11장)</td>
 </tr>
 <tr>
@@ -1070,11 +1070,11 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </thead>
 <tbody>
 <tr>
-<td><strong>A. 극세사 밀대</strong></td>
-<td>패드 + 브래킷, 모터 없음</td>
-<td><strong>필수 (주 기능)</strong></td>
-<td>충돌 없는 판정 영역 (8장)</td>
-<td>출력 브래킷 + 패드</td>
+<td><strong>A. 사선 가이드 + 흡입 + 뒤 패드</strong> (6-10)</td>
+<td>V자 고무 가이드 + 시판 핸디 청소기 덕트 + 뒤 패드</td>
+<td><strong>필수 (주 기능)</strong> — 뒤 회전 패드 실물은 확장</td>
+<td>가이드 충돌 형상 + 흡입구 영역 + 닦인 면적 지표</td>
+<td>가이드·덕트 출력 + 청소기 고정 + 수동 패드</td>
 </tr>
 <tr>
 <td><strong>B. 제설 날 (블레이드)</strong></td>
@@ -1093,6 +1093,126 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </ul>
 <p><strong>제설 현장 후보:</strong> 학교 운동장은 흙·인조잔디라 날이 흙까지 밀어 버린다 → 제외. <strong>포장된 출입로·체육관 앞 통로</strong>를 제설 현장으로 둔다. 건물 관리자의 보도 제설 책임 근거(「자연재해대책법」 제27조, 서울시 조례)는 v1.1 부록 A(커밋 <code>b1f4b6b</code>)에 정리해 두었다.</p>
 <p><strong>사업성 (가설):</strong> 같은 몸체로 <strong>여름~가을은 체육관 밀대, 겨울은 출입로 제설</strong> → 연중 쓰는 장비가 된다. 모듈 교체형 제품은 실외 쪽에 이미 있다(v1.1에서 본 Yarbo: 본체에 제설·잔디 모듈을 바꿔 단다). 체육관 관리자가 겨울 출입로 제설에도 책임이 있는지는 인터뷰에서 과거 사실로 묻는다(확인 필요).</p>
+<h3>6-10. 모듈 A 다시 보기 — 사선 가이드 + 흡입 + 뒤 회전 패드 (주인 아이디어 2026-11-23)</h3>
+<p>주인 아이디어: "밀대를 사선으로 달아 쓰레기·먼지를 안쪽으로 모으고, 안쪽에서 빨아들이자" + "사선 밀대 뒤에 돌아가는 패드를 달아 먼지까지 닦자." 이것을 지금 안(패드만)과 비교했다.</p>
+<figure><img alt="모듈 A 3단 배치 스케치" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3ODAgNDIwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgJ0FwcGxlIFNEIEdvdGhpYyBOZW8nLCAnTm90byBTYW5zIEtSJywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiI+CiAgPHRpdGxlPuuqqOuTiCBBIDPri6gg67Cw7LmYOiDslZ4g7IKs7ISgIOqwgOydtOuTnCDihpIg6rCA7Jq0642wIO2doeyehSDihpIg65KkIO2ajOyghCDtjKjrk5wgMuqwnCwg66qo65OIIEIg7ZWc7Kq9IOyCrOyEoCDrgqAgKOychOyXkOyEnCDrs7gg6re466a8LCDsuZjsiJjripQg6rCA7KCVKTwvdGl0bGU+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9Ijc4MCIgaGVpZ2h0PSI0MjAiIGZpbGw9IiNmYmZhZjciLz4KICA8dGV4dCB4PSIyMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxZDFmMjMiPuuqqOuTiCBBIDPri6gg67Cw7LmYOiDikaAg7JWeIOyCrOyEoCDqsIDsnbTrk5wg4oaSIOKRoSDqsIDsmrTrjbAg7Z2h7J6FIOKGkiDikaIg65KkIO2ajOyghCDtjKjrk5w8L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjQyIiBmaWxsPSIjNzY3Yzg2Ij7snITsl5DshJwg67O4IOq3uOumvCDCtyDsi6TrrLwg7LaV7IaM7YyQIOq4sOykgCDCtyDsuZjsiJjripQg66qo65GQIOqwgOyglSDCtyDsp4Ttlokg67Cp7ZalIOKGkjwvdGV4dD4KCiAgPCEtLSDikaIg65KkIO2ajOyghCDtjKjrk5wgMuqwnCAo67CY64yAIOuwqe2WpSkgLS0+CiAgPGNpcmNsZSBjeD0iOTgiIGN5PSIxNzAiIHI9IjQwIiBmaWxsPSIjZTNmMWVjIiBzdHJva2U9IiMxZjZmNWMiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxjaXJjbGUgY3g9Ijk4IiBjeT0iMjUyIiByPSI0MCIgZmlsbD0iI2UzZjFlYyIgc3Ryb2tlPSIjMWY2ZjVjIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNNzAgMTUwIEEgMzQgMzQgMCAwIDEgMTI2IDE1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY2ZjVjIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMTIwIDE0MyBMMTI3IDE1MSBMMTE3IDE1MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY2ZjVjIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMTI2IDI3MiBBIDM0IDM0IDAgMCAxIDcwIDI3MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY2ZjVjIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNNzYgMjgwIEw2OSAyNzEgTDc5IDI2OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY2ZjVjIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSI4MCIgeT0iMTc0IiBmaWxsPSIjMWY2ZjVjIiBmb250LXNpemU9IjExIj7si5zqs4Q8L3RleHQ+CiAgPHRleHQgeD0iNzYiIHk9IjI1NiIgZmlsbD0iIzFmNmY1YyIgZm9udC1zaXplPSIxMSI+67CY7Iuc6rOEPC90ZXh0PgogIDx0ZXh0IHg9IjIwIiB5PSIzMTgiIGZpbGw9IiMxZjZmNWMiIGZvbnQtd2VpZ2h0PSI3MDAiPuKRoiDrkqQ6IO2ajOyghCDtjKjrk5wgMuqwnCAo6rG07IudKTwvdGV4dD4KICA8dGV4dCB4PSIyMCIgeT0iMzM0IiBmaWxsPSIjMWY2ZjVjIiBmb250LXNpemU9IjExIj7roZzrtIfssq3shozquLAg6rWQ7LK07JqpIOybkO2YlSDqsbjroIgg7J6s7IKs7JqpPC90ZXh0PgogIDx0ZXh0IHg9IjIwIiB5PSIzNDkiIGZpbGw9IiMxZjZmNWMiIGZvbnQtc2l6ZT0iMTEiPuuwmOuMgCDrsKntlqUg7ZqM7KCEIOKGkiDsmIbsnLzroZwg64GM66as64qUIO2emCDsg4Hsh4Q8L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjM2NCIgZmlsbD0iIzFmNmY1YyIgZm9udC1zaXplPSIxMSI+TjIw6riJIOuqqO2EsCAy6rCcICjtmZXsnqUg7LaU7LKcKTwvdGV4dD4KCiAgPCEtLSDssKjssrQgLS0+CiAgPHJlY3QgeD0iMTUwIiB5PSIxMjAiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTgyIiByeD0iMTIiIGZpbGw9IiNlM2UxZGIiIHN0cm9rZT0iIzhhOGY5OCIvPgogIDxyZWN0IHg9IjE2MCIgeT0iMTA0IiB3aWR0aD0iNDQiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSIjNGE0ZjU3Ii8+PHJlY3QgeD0iMzAwIiB5PSIxMDQiIHdpZHRoPSI0NCIgaGVpZ2h0PSIxNiIgcng9IjQiIGZpbGw9IiM0YTRmNTciLz4KICA8cmVjdCB4PSIxNjAiIHk9IjMwMiIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjE2IiByeD0iNCIgZmlsbD0iIzRhNGY1NyIvPjxyZWN0IHg9IjMwMCIgeT0iMzAyIiB3aWR0aD0iNDQiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSIjNGE0ZjU3Ii8+CiAgPHRleHQgeD0iMTYyIiB5PSIyOTAiIGZpbGw9IiM0YTRmNTciIGZvbnQtc2l6ZT0iMTEiPuuplOy5tOuEmCDssKjssrQgKO2PrSDslb0gMC4yMCBtKTwvdGV4dD4KCiAgPCEtLSDikaEg7LKt7IaM6riwICsg642V7Yq4ICsg7Z2h7J6F6rWsIC0tPgogIDxyZWN0IHg9IjE4MCIgeT0iMTUwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNjOWQ4ZjAiIHN0cm9rZT0iIzJhN2RlMSIvPgogIDx0ZXh0IHg9IjE5MCIgeT0iMTc1IiBmaWxsPSIjMWQxZjIzIj7si5ztjJAg7ZW465SUIOyyreyGjOq4sDwvdGV4dD4KICA8dGV4dCB4PSIxNjIiIHk9IjE0MCIgZmlsbD0iIzJhN2RlMSIgZm9udC1zaXplPSIxMSI+7J6Q7LK0IOuwsO2EsOumrCDCtyDroZzrtIcg7KCE7JuQ6rO8IOu2hOumrDwvdGV4dD4KICA8cGF0aCBkPSJNMzAwIDE3MSBMMzQwIDE3MSBMMzQwIDIwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmE3ZGUxIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC43Ii8+CiAgPHJlY3QgeD0iMzMyIiB5PSIxOTkiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyNiIgcng9IjMiIGZpbGw9IiMyYTdkZTEiLz4KICA8dGV4dCB4PSIxNjIiIHk9IjIzMiIgZmlsbD0iIzJhN2RlMSIgZm9udC13ZWlnaHQ9IjcwMCI+4pGhIOqwgOyatOuNsDog7Z2h7J6F6rWsIOKGkjwvdGV4dD4KICA8dGV4dCB4PSIxNjIiIHk9IjI0OCIgZmlsbD0iIzJhN2RlMSIgZm9udC1zaXplPSIxMSI+66qpIO2PrSDslb0gNCBjbSDCtyDrjZXtirggM0Qg7ZSE66aw7Yq4PC90ZXh0PgoKICA8IS0tIOyepeywqe2MkCAtLT4KICA8cmVjdCB4PSIzNTYiIHk9IjEyNiIgd2lkdGg9IjEyIiBoZWlnaHQ9IjE3MCIgZmlsbD0iIzhhOGY5OCIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iNDAwIiBmaWxsPSIjNGE0ZjU3IiBmb250LXNpemU9IjExIj7qs7Xsmqkg7J6l7LCp67aAIChNMyDrs7ztirggNOqwnCwg7Luk64Sl7YSwIOyXhuydjCk8L3RleHQ+CiAgPGxpbmUgeDE9IjM2MiIgeTE9IjI5NiIgeDI9IjMyMCIgeTI9IjM4OCIgc3Ryb2tlPSIjOGE4Zjk4Ii8+CgogIDwhLS0g4pGgIFYg7IKs7ISgIOqwgOydtOuTnCAtLT4KICA8bGluZSB4MT0iNDUyIiB5MT0iMTE4IiB4Mj0iMzU2IiB5Mj0iMjAwIiBzdHJva2U9IiM5YTViMDAiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjQ1MiIgeTE9IjMwNCIgeDI9IjM1NiIgeTI9IjIyNCIgc3Ryb2tlPSIjOWE1YjAwIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSI0NTIiIHkxPSIxMTgiIHgyPSI0MDAiIHkyPSIxMTgiIHN0cm9rZT0iIzlhNWIwMCIgc3Ryb2tlLWRhc2hhcnJheT0iMyAzIi8+CiAgPHBhdGggZD0iTTQyMiAxMTggQSAzMCAzMCAwIDAgMCA0MzAgMTM3IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YTViMDAiLz4KICA8dGV4dCB4PSIzODQiIHk9IjExMiIgZmlsbD0iIzlhNWIwMCIgZm9udC1zaXplPSIxMSI+zrgg4omIIDQwwrA8L3RleHQ+CiAgPHRleHQgeD0iMzkyIiB5PSIzMzAiIGZpbGw9IiM5YTViMDAiIGZvbnQtd2VpZ2h0PSI3MDAiPuKRoCDslZ46IFbsnpAg7IKs7ISgIOqwgOydtOuTnDwvdGV4dD4KICA8dGV4dCB4PSIzOTIiIHk9IjM0NiIgZmlsbD0iIzlhNWIwMCIgZm9udC1zaXplPSIxMSI+6rOg66y0IOuCoCwg67CU64ul7JeQ7IScIDF+MiBtbSDrnYTsm4A8L3RleHQ+CiAgPHRleHQgeD0iMzkyIiB5PSIzNjEiIGZpbGw9IiM5YTViMDAiIGZvbnQtc2l6ZT0iMTEiPuyehSDtj60g7JW9IDAuMjAgbSDihpIg7Z2h7J6F6rWs66GcIOuqqOydjDwvdGV4dD4KICA8bGluZSB4MT0iNDYyIiB5MT0iMTE4IiB4Mj0iNDYyIiB5Mj0iMzA0IiBzdHJva2U9IiM3NjdjODYiIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPgogIDwhLS0g66i87KeAwrfquYPthLggLS0+CiAgPGcgZmlsbD0iIzc2N2M4NiI+PGNpcmNsZSBjeD0iNDQwIiBjeT0iMTUwIiByPSIzIi8+PGNpcmNsZSBjeD0iNDMwIiBjeT0iMjcwIiByPSIzIi8+PGNpcmNsZSBjeD0iNDA1IiBjeT0iMTg1IiByPSIzIi8+PGNpcmNsZSBjeD0iMzk1IiBjeT0iMjQwIiByPSIzIi8+PGNpcmNsZSBjeD0iMzcyIiBjeT0iMjA4IiByPSIzIi8+PC9nPgogIDxwYXRoIGQ9Ik00NDAgMTUwIEw0MDUgMTg1IEwzNzAgMjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiM3NjdjODYiIHN0cm9rZS1kYXNoYXJyYXk9IjIgMyIvPgogIDwhLS0g7KeE7ZaJIOuwqe2WpSAtLT4KICA8bGluZSB4MT0iNDgwIiB5MT0iMjUwIiB4Mj0iNTM1IiB5Mj0iMjUwIiBzdHJva2U9IiMxZjZmNWMiIHN0cm9rZS13aWR0aD0iMyIvPgogIDxwYXRoIGQ9Ik01MjUgMjQzIEw1MzcgMjUwIEw1MjUgMjU3IiBmaWxsPSJub25lIiBzdHJva2U9IiMxZjZmNWMiIHN0cm9rZS13aWR0aD0iMyIvPgogIDx0ZXh0IHg9IjQ3OCIgeT0iMjcyIiBmaWxsPSIjMWY2ZjVjIj7sp4Ttlokg67Cp7ZalPC90ZXh0PgoKICA8IS0tIOuqqOuTiCBCIC0tPgogIDxsaW5lIHgxPSI1NzAiIHkxPSI2MCIgeDI9IjU3MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZTNlMWRiIi8+CiAgPHRleHQgeD0iNTg1IiB5PSI3MCIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFkMWYyMyI+66qo65OIIEIgKO2ZleyepSk6IO2VnOyqvSDsgqzshKAg7KCc7ISkIOuCoDwvdGV4dD4KICA8dGV4dCB4PSI1ODUiIHk9Ijg4IiBmaWxsPSIjNzY3Yzg2IiBmb250LXNpemU9IjExIj7qsJnsnYAg7J6l7LCp67aAIMK3IOqwmeydgCAn7IKs7ISgIOqwgeuPhCcg6rCc64WQPC90ZXh0PgogIDxyZWN0IHg9IjYwMCIgeT0iMTcwIiB3aWR0aD0iOTAiIGhlaWdodD0iMTEwIiByeD0iMTAiIGZpbGw9IiNlM2UxZGIiIHN0cm9rZT0iIzhhOGY5OCIvPgogIDx0ZXh0IHg9IjYyNSIgeT0iMjMwIiBmaWxsPSIjNGE0ZjU3Ij7ssKjssrQ8L3RleHQ+CiAgPHJlY3QgeD0iNjkwIiB5PSIxODAiIHdpZHRoPSIxMCIgaGVpZ2h0PSI5MCIgZmlsbD0iIzhhOGY5OCIvPgogIDxsaW5lIHgxPSI3MTUiIHkxPSIxNDAiIHgyPSI3NDgiIHkyPSIzMTAiIHN0cm9rZT0iIzlhNWIwMCIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSI2MDAiIHk9IjEzMCIgZmlsbD0iIzlhNWIwMCIgZm9udC1zaXplPSIxMSI+7ZWc7Kq9IOyCrOyEoCDrgqAgKM64IOKJiCAzMMKwKTwvdGV4dD4KICA8cGF0aCBkPSJNNzQ1IDMxMiBMNzYyIDM0MCIgc3Ryb2tlPSIjNzY3Yzg2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNNzUzIDMzMyBMNzYyIDM0MCBMNzYzIDMyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzY3Yzg2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSI1OTAiIHk9IjM2NiIgZmlsbD0iIzc2N2M4NiIgZm9udC1zaXplPSIxMSI+64iI7J2EIO2VnOyqvSDsmIbsnLzroZwg67CA7Ja064OEICjtnaHsnoXCt+2MqOuTnCDsl4bsnYwpPC90ZXh0Pgo8L3N2Zz4K" /><figcaption>그림 3. 모듈 A 3단 배치(위에서 본 그림, 치수는 모두 가정): ① 앞 V자 사선 가이드가 먼지·깃털을 가운데로 모으고 → ② 가운데 흡입구(시판 핸디 청소기 + 3D 프린트 덕트)가 빨아들이고 → ③ 뒤 회전 패드 2개(건식, 반대 방향)가 남은 고운 먼지를 닦는다. 오른쪽은 같은 장착부에 다는 모듈 B(한쪽 사선 제설 날).</figcaption></figure>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>기준</th>
+<th>(1) 극세사 패드만 (v1.3까지)</th>
+<th>(2) 사선 가이드 + 흡입구 + 먼지통</th>
+<th><strong>(3) 사선 가이드 + 흡입 + 뒤 회전 패드 2개 (건식)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>먼지·흙먼지</td>
+<td>패드가 닦는다. 먼지가 패드에 쌓인다</td>
+<td>가이드로 모아 빨아들인다. 가이드 아래로 빠지는 고운 먼지는 남는다 (가정)</td>
+<td>흡입 + <strong>회전 패드가 남은 고운 먼지를 닦는다</strong></td>
+</tr>
+<tr>
+<td>셔틀콕 깃털</td>
+<td>패드에 붙거나 앞으로 밀려 흩어질 수 있다 (K-13)</td>
+<td>가볍고 흡입에 잘 빨린다 (가정). 깃털 대 같은 긴 조각은 목에 걸릴 수 있다</td>
+<td>(2)와 같음</td>
+</tr>
+<tr>
+<td>구겨진 과자 봉지</td>
+<td>밀려서 줄 끝에 모인다</td>
+<td>흡입구 목(약 4 cm, 가정)보다 크면 <strong>목에 걸려 막힌다</strong> → 집게(모드 1)가 먼저 치운다는 전제</td>
+<td>(2)와 같음</td>
+</tr>
+<tr>
+<td>패드 포화</td>
+<td><strong>먼지가 쌓여 자주 털고 갈아야 한다</strong></td>
+<td>패드 없음. 청소기 먼지통을 비운다</td>
+<td>흡입이 대부분 가져가 패드 부담이 작다. 그래도 털고 교체</td>
+</tr>
+<tr>
+<td>소음 (대관 사이 사람이 있을 때)</td>
+<td>거의 없음</td>
+<td>핸디 청소기는 약 70~80 dB(제조사 자료, 측정 방식이 제각각 [34]) → <strong>사람이 3 m 안(가정)이면 흡입을 끄는 '조용한 운행'</strong></td>
+<td>(2) + 작은 모터 소리</td>
+</tr>
+<tr>
+<td>배터리·전류</td>
+<td>0</td>
+<td><strong>청소기 자체 배터리 → 로봇 전원과 분리</strong>, 로봇 부담 0. 대신 무게가 는다(핸디 약 0.5~1 kg, 가정 → 메카넘 하중 확인 필요)</td>
+<td>(2) + N20급 모터 2개: 무부하 수십 mA, <strong>멈출 때(정지 전류) 0.64~1.5 A</strong> [36] → 드라이버 전류 한계·배터리 여유 필요</td>
+</tr>
+<tr>
+<td>실물 제작</td>
+<td>브래킷 1개 + 패드 (약 1만 원, 가정)</td>
+<td><strong>시판 핸디·차량용 청소기를 사서</strong> 흡입구만 덕트로 연결: 국내 2만 원대 제품(14,500 Pa 표기 [32]), 더 싼 8,900원 제품도 있다(4,500 Pa 표기, 품질 확인 필요 [33]). 가이드·덕트 출력 1~2일 (가정)</td>
+<td>(2) + 로봇청소기 교체용 원형 걸레 재사용(예: LG 회전형 물걸레 4개 28,300원 할인 전 표시가, 호환품 8개 9,900원 [35]) + N20 2개(약 1만 원 [36]) + 드라이버 + 허브 출력 → <strong>2~3일 더</strong> (가정)</td>
+</tr>
+<tr>
+<td>회전 반작용</td>
+<td>—</td>
+<td>—</td>
+<td>한 원판만 돌면 로봇이 옆으로 끌린다 → <strong>두 원판을 반대 방향으로 돌려 상쇄</strong>(로봇 물걸레 청소기와 같은 방식). 남는 끌림은 직진 오차로 잰다</td>
+</tr>
+<tr>
+<td>마루 영향</td>
+<td>마른 극세사</td>
+<td>가이드는 고무 날, 바닥에서 1~2 mm 띄움 → 긁힘 없음 (가정)</td>
+<td>회전 패드 누름·회전이 코팅을 닳게 하는지 확인 필요. 건식만</td>
+</tr>
+<tr>
+<td>시뮬 단순화</td>
+<td>판정 영역(닦인 면적)</td>
+<td><strong>가이드 = 충돌 형상</strong>(물체를 실제로 밀어 모음) + <strong>흡입 = '흡입구 영역에 들어오면 수거'</strong>(예전 정화로봇 입 영역과 같은 방식) + 먼지 = 작은 입자 300개(시험 띠) / 닦인 면적(코트 전체)</td>
+<td>(2) + <strong>회전 패드 = '패드가 지나간 면적 = 닦인 면적' 지표.</strong> 회전 원판 마찰은 흉내 내지 않는다(v1.1 강체 롤러 실험에서 쓸어 담기가 잘 안 됐다 [37])</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>추천: 제품 개념 = (3). 4주 필수 범위는 시뮬은 (3), 실물은 (2) + 수동 뒤 패드. 회전 패드 실물은 확장.</strong></p>
+<ol>
+<li><strong>시뮬은 (3) 전부를 필수로 둔다.</strong> 패드 판정 영역은 이미 있고, 더할 것은 가이드 충돌 형상과 흡입구 영역뿐이다(+0.5~1일, 가정). 회전 패드는 '닦인 면적' 지표라 추가 일이 없다.</li>
+<li><strong>실물은 '사선 가이드 + 흡입(시판 청소기 + 덕트)'까지 필수.</strong> 팬을 직접 만들지 않고 사서 붙이므로 전기 일이 없고, 청소기 배터리로 따로 돌아 로봇 전원 부담이 없다. 패드 포화(패드만 쓸 때의 가장 큰 약점)와 깃털 흩어짐(K-13)을 함께 줄인다.</li>
+<li><strong>뒤 마무리는 4주 동안 '돌지 않는 극세사 패드'(지금 패드)로 둔다.</strong> 회전 패드는 모터 2개·드라이버·정지 전류·반작용 시험이 한꺼번에 붙어 1인 일정에서 위험이 가장 크다 → <strong>확장</strong>(3주차 K-3·K-14 통과 시, 벤치 시험부터).</li>
+<li><strong>조용한 운행:</strong> 사람이 3 m 안(가정)에 있거나 대기자가 코트에 들어와 있으면 흡입을 끄고 가이드 + 패드만으로 민다. 짧은 모드(6-8)에서 특히 쓴다.</li>
+</ol>
+<p><strong>4주 일정 영향 (가정):</strong> 시뮬 +0.5~1일(2주차: 가이드 형상·흡입 영역·입자 300개 시험), 실물 +1~2일(2주차: 청소기 구입·고정, 가이드·덕트 출력). 회전 패드를 확장으로 빼서 3주차 부담은 늘리지 않는다. 12/09까지 실물 흡입이 안 되면(막힘·하중) 지금의 '패드만'으로 되돌린다(K-14).</p>
+<p><strong>모듈 공통점 (A ↔ B):</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>공통 요소</th>
+<th>모듈 A (밀대·흡입)</th>
+<th>모듈 B (제설 날)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>공용 장착부</td>
+<td>M3 볼트 4개, 커넥터 없음 (6-9)</td>
+<td>같음</td>
+</tr>
+<tr>
+<td>사선 각도 θ (진행 방향 기준)</td>
+<td>V자 양쪽 θ ≈ 40° → 가운데 흡입구로 모음 (가정)</td>
+<td>한쪽 사선 θ ≈ 30° → 한쪽 옆으로 밀어냄 (가정)</td>
+</tr>
+<tr>
+<td>바닥 간격</td>
+<td>고무 가이드 1~2 mm 띄움, 슬롯 ±10 mm</td>
+<td>날 몇 mm 띄움, 같은 슬롯</td>
+</tr>
+<tr>
+<td>전원</td>
+<td>흡입은 청소기 자체 배터리(분리), 회전 패드는 확장</td>
+<td>없음 (수동)</td>
+</tr>
+<tr>
+<td>시뮬 코드</td>
+<td>가이드 = 각도·길이 파라미터 충돌 형상 + 입자 밀기 지표 (먼지 300개)</td>
+<td><strong>같은 코드</strong>로 날 각도만 바꿈 + 입자 밀기 지표 (눈 1,500개 이하)</td>
+</tr>
+</tbody>
+</table></div>
 
 <h2 id="s9">7. 유저 시나리오 (요약)</h2>
 <p>전문은 <a href="#scenario">01-유저시나리오.md</a>에 있다.</p>
@@ -1152,8 +1272,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td><code>gym_v0</code>에 Stretch 3, 로봇에 실은 바구니(weld), 극세사 패드 판정 영역을 더한다. <strong>v1.3 추가:</strong> 구겨진 과자 봉지 2개(강체 상자 8 × 6 × 4 cm, 5 g), 셔틀콕 깃털·먼지 판정 점 200개(물리 없음), 분실물 대역 1개(교복 — 납작한 넓은 상자 40 × 30 × 3 cm), 물이 남은 병 1개 (모두 가정). 쓰레기 수·배치는 12/01 현장 평균에 맞추고 시드별 무작위</td>
 </tr>
 <tr>
-<td>패드</td>
-<td>베이스 앞 아래에 <strong>폭 0.30 m × 길이 0.10 m 판정 영역</strong>(충돌 없음, 가정). 로봇이 움직일 때 이 영역이 지나간 5 cm 격자 칸을 '닦음'으로 칠한다. 먼지 입자는 흉내 내지 않는다</td>
+<td>모듈 A (6-10)</td>
+<td><strong>① 사선 가이드:</strong> 베이스 앞에 V자 판 2장(충돌 있음, θ ≈ 40°, 입 폭 0.30 m, 가정) — 물체를 실제로 밀어 모은다. <strong>② 흡입구:</strong> 가이드 목 뒤 4 × 4 cm 영역(가정)에 들어온 작은 물체는 '수거'로 지운다(예전 정화로봇 입 영역 방식). <strong>③ 뒤 패드:</strong> 폭 0.30 m × 길이 0.10 m 판정 영역(충돌 없음) — 지나간 5 cm 격자 칸을 '닦음'으로 칠한다(회전 원판 물리는 흉내 내지 않음). <strong>먼지:</strong> 코트 전체는 '닦인 면적' 지표, 가이드 시험 띠(1 m × 2 m)에는 작은 입자 300개(반지름 5 mm, 0.2 g, 가정 — 예전 실측상 400개도 실시간의 4배 넘게 빠름 [31])</td>
 </tr>
 <tr>
 <td>모드 1</td>
@@ -1205,8 +1325,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>3D 프린트 집게 + 들기 관절 = 서보 2개. 바닥만 (창문틀은 범위 밖)</td>
 </tr>
 <tr>
-<td>밀대 패드 (모듈 A)</td>
-<td>극세사 패드(시판 밀대 교체용을 잘라 씀, 가정) + 출력 브래킷. <strong>모터 없음.</strong> 바퀴 앞에 둔다(밀대 선행). 폭 약 0.20 m (가정). <strong>공용 장착부(M3 볼트 4개, 6-9)</strong>에 단다</td>
+<td>모듈 A (6-10)</td>
+<td><strong>① V자 사선 가이드</strong>(고무 날, 바닥에서 1~2 mm, 입 폭 약 0.20 m, 가정) + <strong>② 흡입:</strong> 시판 핸디·차량용 청소기(1~3만 원대 [32][33])를 차체 위에 고정하고 흡입구만 3D 프린트 덕트로 연결 — <strong>청소기 자체 배터리로 따로 돌린다(로봇 전원과 분리)</strong> + <strong>③ 뒤 패드:</strong> 돌지 않는 극세사 패드(4주). 바퀴 앞에 가이드·흡입이 있어 바퀴가 치운 바닥을 밟는다. <strong>공용 장착부(M3 볼트 4개, 6-9)</strong>에 단다</td>
+</tr>
+<tr>
+<td>뒤 회전 패드 (확장)</td>
+<td>로봇청소기 교체용 원형 걸레 2장(건식) + N20 모터 2개(반대 방향) + 2채널 드라이버 + 출력 허브 [35][36]</td>
 </tr>
 <tr>
 <td>제설 날 (모듈 B, 확장)</td>
@@ -1275,14 +1399,24 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>(가정, 가격 확인 필요)</td>
 </tr>
 <tr>
+<td>핸디·차량용 무선 청소기</td>
+<td>0.9~3만 원</td>
+<td>국내 판매 페이지·가이드 [32][33], 품질·시점 확인 필요</td>
+</tr>
+<tr>
+<td>(확장) 회전 패드: 교체용 원형 걸레 + N20 2개 + 드라이버</td>
+<td>약 2~4만 원</td>
+<td>[35][36], 가정</td>
+</tr>
+<tr>
 <td>전원·배선·볼트</td>
 <td>1~2만 원</td>
 <td>(가정)</td>
 </tr>
 <tr>
-<td><strong>합계</strong></td>
-<td><strong>약 5만 ~ 24만 원</strong></td>
-<td>보유 부품에 따라</td>
+<td><strong>합계 (필수)</strong></td>
+<td><strong>약 6만 ~ 27만 원</strong></td>
+<td>보유 부품에 따라 (확장 회전 패드 제외)</td>
 </tr>
 </tbody>
 </table></div>
@@ -1416,6 +1550,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>모드 2</td>
+<td>가이드·흡입</td>
+<td>1 m × 2 m 시험 띠에 먼지 입자 300개를 뿌리고 한 번 지나간 뒤 <strong>흡입구 영역 수거율 80% 이상</strong> (가정 기준), 가이드에 걸려 남은 입자 위치를 기록</td>
+<td>입자 수거 로그</td>
+</tr>
+<tr>
+<td>모드 2</td>
 <td>떨어진 쓰레기</td>
 <td>줄 위의 캔 앞 <strong>0.30 ± 0.10 m에서 멈추고</strong> 위치를 기록 (밀어내지 않음)</td>
 <td>거리·위치 로그</td>
@@ -1470,8 +1610,13 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td><strong>깃털 시험 (주 기능)</strong></td>
-<td>2 m × 2 m에 셔틀콕 깃털 조각 20개를 뿌리고 패드로 1회 훑은 뒤, <strong>구역 안에 흩어져 남은 조각 5개 이하</strong> (나머지는 패드에 붙었거나 줄 끝에 모임, 가정 기준)</td>
+<td>2 m × 2 m에 셔틀콕 깃털 조각 20개를 뿌리고 <strong>가이드 + 흡입 + 뒤 패드</strong>로 1회 훑은 뒤, <strong>구역 안에 흩어져 남은 조각 5개 이하</strong> (나머지는 청소기 통·패드에, 가정 기준)</td>
 <td>사람이 세고 사진</td>
+</tr>
+<tr>
+<td>흡입 소음 — <strong>보고 항목</strong></td>
+<td>1 m 거리에서 휴대폰 소음계 앱으로 dB 측정, 5회 평균 (조용한 운행 규칙의 근거)</td>
+<td>앱</td>
 </tr>
 <tr>
 <td>수거 (모드 1, 보조)</td>
@@ -1552,7 +1697,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p><strong>확장 (시간 남을 때):</strong> 모듈 B(제설 날) — 시뮬 2 m × 1 m·입자 1,500개 이하 밀어내기 영상 1개, 실물 날 출력·장착까지(6-9) / 창문틀 2개 중 1개 이상 집기(현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만, K-7) / 모드 2 중 떨어진 캔을 집고 줄로 복귀 / 코트 라인 카메라 위치 보정 / 흰 천 전후 무게로 먼지 제거량 정량화 / 실물 우회.</p>
+<p><strong>확장 (시간 남을 때):</strong> 뒤 회전 패드 2개 실물(반대 방향, 건식) — 벤치 시험 후 직진 오차·전류 측정(6-10) / 모듈 B(제설 날) — 시뮬 2 m × 1 m·입자 1,500개 이하 밀어내기 영상 1개, 실물 날 출력·장착까지(6-9) / 창문틀 2개 중 1개 이상 집기(현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만, K-7) / 모드 2 중 떨어진 캔을 집고 줄로 복귀 / 코트 라인 카메라 위치 보정 / 흰 천 전후 무게로 먼지 제거량 정량화 / 실물 우회.</p>
 <p><strong>기준 재조정 폭:</strong> 12/01(화) 현장 검증 결과로 조정하더라도 <strong>수거율 70~90%, 커버리지 90~98%, 짧은 모드 240~480 s, 모드 1 시간 300~600 s, 모드 2 시간 400~900 s</strong> 안에서만 움직인다. 이 폭을 벗어나야 하면 기준을 바꾸지 않고 '실패'로 기록한다.</p>
 
 <h2 id="s14">12. 위험과 중단 기준</h2>
@@ -1644,7 +1789,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td><strong>K-13</strong></td>
 <td>패드가 셔틀콕 깃털·먼지 뭉치를 모으지 못하고 흩뜨린다</td>
-<td>실물 깃털 시험 5회 평균에서 구역 안에 남은 조각이 10개 넘으면(20개 중) → 패드 앞에 얇은 가림판(가정)을 시험하고, 그래도 안 되면 '깃털은 사람 수거'로 범위를 줄이고 밀대 효과는 먼지(흰 천)로만 말한다</td>
+<td>실물 깃털 시험 5회 평균에서 구역 안에 남은 조각이 10개 넘으면(20개 중) → 사선 가이드·흡입(6-10)으로 바꿨는데도 그러면, 그래도 안 되면 '깃털은 사람 수거'로 범위를 줄이고 밀대 효과는 먼지(흰 천)로만 말한다</td>
+</tr>
+<tr>
+<td><strong>K-14</strong></td>
+<td>실물 흡입이 막히거나 차체가 무거워진다</td>
+<td>12/09까지 청소기 장착 차가 직진 오차 ±10 cm를 못 맞추거나 5회 중 2회 이상 흡입구가 막히면 → 실물은 (1) 패드만으로 되돌리고, 흡입은 시뮬로만 보인다</td>
 </tr>
 <tr>
 <td>K-11</td>
@@ -1873,8 +2023,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>2</td>
 <td>11/30 ~ 12/04</td>
 <td>04</td>
-<td>L1: <strong>한 줄 밀기 커버리지 계산</strong> / 벤치 구역 1개(병 또는 봉지)를 참값 위치로 집어 바구니에. <strong>12/04 K-2·K-8</strong></td>
-<td>집게·패드 출력·조립, 원격 조종 집기, 한 줄 직진 오차 측정(K-1d)</td>
+<td>L1: <strong>한 줄 밀기 커버리지 계산 + 사선 가이드 충돌 형상·흡입구 영역·입자 300개 시험</strong> / 벤치 구역 1개(병 또는 봉지)를 참값 위치로 집어 바구니에. <strong>12/04 K-2·K-8</strong></td>
+<td>집게·<strong>사선 가이드·덕트</strong> 출력·조립, <strong>청소기 구입·고정</strong>, 원격 조종 집기, 한 줄 직진 오차 측정(K-1d)</td>
 <td>단위 테스트, 개발 기록</td>
 </tr>
 <tr>
@@ -1928,6 +2078,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td><strong>밀대 = 주, 집게 = 보조로 바꿀까? (v1.3)</strong></td>
 <td>A. 바꾼다(추천안) / B. v1.2처럼 둘 다 같은 무게 / C. 집게를 확장으로 내리고 밀대 전용</td>
 <td><strong>A</strong> — 회고상 사람 시간의 절반 이상이 밀대이고 큰 쓰레기는 경기당 2~3개뿐. 11/30 계수로 다시 본다 (6-2, K-1)</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>모듈 A를 '사선 가이드 + 흡입 + 뒤 패드'로 바꿀까? (6-10)</strong></td>
+<td>(1) 패드만 / (2) 가이드 + 흡입 / (3) 가이드 + 흡입 + 뒤 회전 패드</td>
+<td><strong>(3)을 제품 개념으로, 4주는 시뮬 (3) + 실물 (2) + 수동 뒤 패드, 회전 패드 실물은 확장</strong></td>
 </tr>
 <tr>
 <td>5</td>
@@ -2034,6 +2190,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <li>Microsoft, BeachBot (TechTics) — https://news.microsoft.com/source/emea/features/cigarette-butts-are-poisoning-shoreline-animals-this-beach-rover-may-help-clean-all-that-up/</li>
 <li>Angsa Robotics 회사 소개 자료 (EU Joinup, 2024) — https://joinup.ec.europa.eu/sites/default/files/document/2024-06/Angsa_Startup%20Presentation.pdf</li>
 <li>눈 입자 시뮬 비용 실험 (직접 측정: 입자 2,025개에서 실시간의 약 0.73~0.75배) — <a href="../logs/2026-11-23_snow_particles.md">logs/2026-11-23_snow_particles.md</a></li>
+<li>초이스몬, 차량용 청소기 고르기 (2만 원대 14,500 Pa 표기 제품, 2만~10만 원대 가격대) — https://choicemon.com/car-vacuum-cleaner/ (가이드 글, 시점 확인 필요) · 다나와 기획전(샤오미 미지아 차량용 21,000 Pa 등) — https://plan.danawa.com/info/index.php?nPlanSeq=2782</li>
+<li>쿠팡, 차량용 무선 청소기 (8,900원, 4,500 Pa 표기 — 검색으로 찾은 판매 페이지, 상품·시점 확인 필요) — https://www.coupang.com/np/categories/521985</li>
+<li>핸디 청소기 소음: Wyze Handheld Vacuum 73.8 dB(A) — https://support.wyze.com/hc/en-us/articles/360055060852-How-loud-is-Wyze-Handheld-Vacuum · 제조사 블로그(핸디 70~80 dB) — https://www.eufy.com/uk/blogs/robovac/vacuum-cleaner-decibels-levels (측정 방식이 제각각이라 우리가 직접 잰다)</li>
+<li>LG전자 회전형 물걸레 교체용 4개 (할인 전 28,300원 표시) — https://www.lge.co.kr/product/care-accessories/robotic-vacuum-cleaner/ebz64750401 · 쿠팡 로보락 호환 물걸레 8개 9,900원 — https://www.coupang.com/vp/products/9623268217 (모두 판매 페이지, 품번·호환·시점 확인 필요)</li>
+<li>N20 기어모터: DFRobot 1:150 ($3.40, 6 V 133 rpm, 작동 전류 32 mA) — https://www.dfrobot.com/product-3176.html · Gravity N20(무부하 50 mA, 정지 640 mA) — https://vctec.co.kr/product/n20-마이크로-기어-모터-3v-6v-1150133rpm-드라이버-내장-gravity-n20-micro-metal-gear-m/23279/ · Pololu 6 V(무부하 0.10 A, 정지 1.5 A) — https://www.robotscience.kr/goods/view?no=17661</li>
+<li>롤러 솔 단순화 실험 (직접 측정, v1.1: 강체 롤러로 꽁초 10개 중 0~3개만 통에) — <a href="../logs/2026-11-23_roller_brush.md">logs/2026-11-23_roller_brush.md</a></li>
 </ol>
 <h2 id="s20">변경 기록</h2>
 <div class="tbl"><table>
@@ -2048,7 +2210,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>2026-11-23</td>
 <td>v1.3</td>
-<td>주인 회고(n≈10곳, 기억 기반) 반영: 경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분. <strong>밀대 = 주, 집게 = 보조</strong>(6-2), K-1 경계값 명시·집게 대상 합계로 변경, 구겨진 과자 봉지 집게 대상(시뮬 강체 상자)·납작한 봉지 Out, 분실물 규칙(R-17), 짧은/전체 모드와 시간 목표(6-8), <strong>앞 모듈 교체형(모듈 A 밀대 필수 / 모듈 B 제설 날 확장, 6-9 — 주인 제안, 4주 범위·일정 그대로)</strong>, '왜 로봇인가' 회고 숫자로(1-5), 깃털 시험·K-12·K-13, 계수표 품목 추가</td>
+<td>주인 아이디어 반영: 모듈 A를 <strong>① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기 + 덕트, 전원 분리) → ③ 뒤 패드</strong>로 비교·추천(6-10, 그림 3). 4주: 시뮬 (3) 전부, 실물 가이드 + 흡입 + 수동 패드, 회전 패드 실물은 확장. 조용한 운행 규칙, K-14, 모듈 A↔B 공통점. 그 전: 주인 회고(n≈10곳, 기억 기반) 반영: 경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분. <strong>밀대 = 주, 집게 = 보조</strong>(6-2), K-1 경계값 명시·집게 대상 합계로 변경, 구겨진 과자 봉지 집게 대상(시뮬 강체 상자)·납작한 봉지 Out, 분실물 규칙(R-17), 짧은/전체 모드와 시간 목표(6-8), <strong>앞 모듈 교체형(모듈 A 밀대 필수 / 모듈 B 제설 날 확장, 6-9 — 주인 제안, 4주 범위·일정 그대로)</strong>, '왜 로봇인가' 회고 숫자로(1-5), 깃털 시험·K-12·K-13, 계수표 품목 추가</td>
 </tr>
 <tr>
 <td>2026-11-23</td>
@@ -2075,7 +2237,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </blockquote>
 <p><strong>로봇이 움직이는 방식 (기획안 6장)</strong></p>
 <ul>
-<li><strong>주 기능 — 모드 2 직선 훑기:</strong> 앞 아래의 극세사 패드(모터 없음, 앞 모듈 A)로 코트를 직선 줄로 밀어 먼지·흙먼지·셔틀콕 깃털을 민다. 줄 끝에서만 방향을 바꾼다.</li>
+<li><strong>주 기능 — 모드 2 직선 훑기:</strong> 앞 모듈 A(① V자 사선 가이드 → ② 가운데 흡입 → ③ 뒤 패드)로 코트를 직선 줄로 훑어 먼지·흙먼지·셔틀콕 깃털을 모아 빨아들이고 닦는다. 줄 끝에서만 방향을 바꾼다. 사람이 3 m 안(가정)이면 흡입을 끄고 조용히 민다.</li>
 <li><strong>보조 기능 — 모드 1 핫스폿 순회:</strong> 쓰레기가 모이는 곳(<strong>벤치 구역 → 코트 구석</strong>, 확장: → 창문틀)을 돌며 생수병·구겨진 과자 봉지(·캔·컵)를 집는다.</li>
 <li><strong>짧은 모드</strong>(빈 시간이 빠듯할 때: 벤치 구역 집기 + 벤치 앞 띠 밀기) / <strong>전체 모드</strong>(오전 여유·마지막 대관 뒤). 다음 팀이 들어오면 입장을 막지 않고 돌아간다.</li>
 <li><strong>분실물</strong>(옷·수건·물이 찬 병·개인 물건)은 줍지 않고 사진·위치를 관리자에게 알린다.</li>
@@ -2297,6 +2459,16 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>패드에 깃털이 많이 붙음</td>
 <td>결과 보고에 '패드 교체 필요'</td>
 <td>A가 패드 털기·교체</td>
+</tr>
+<tr>
+<td>청소기 먼지통이 참 / 흡입구 막힘</td>
+<td>흡입을 끄고 가이드 + 패드로만 계속, '먼지통 비우기·막힘 확인' 알림</td>
+<td>A가 비우고 확인</td>
+</tr>
+<tr>
+<td>대기자가 코트 안에 있음</td>
+<td>흡입 끄고 조용한 운행</td>
+<td>—</td>
 </tr>
 <tr>
 <td>대관 사이 빈 시간 0분 (바로 이어짐)</td>

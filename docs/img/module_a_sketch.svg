@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 420" font-family="-apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif" font-size="12">
+  <title>모듈 A 3단 배치: 앞 사선 가이드 → 가운데 흡입 → 뒤 회전 패드 2개, 모듈 B 한쪽 사선 날 (위에서 본 그림, 치수는 가정)</title>
+  <rect x="0" y="0" width="780" height="420" fill="#fbfaf7"/>
+  <text x="20" y="24" font-size="14" font-weight="700" fill="#1d1f23">모듈 A 3단 배치: ① 앞 사선 가이드 → ② 가운데 흡입 → ③ 뒤 회전 패드</text>
+  <text x="20" y="42" fill="#767c86">위에서 본 그림 · 실물 축소판 기준 · 치수는 모두 가정 · 진행 방향 →</text>
+
+  <!-- ③ 뒤 회전 패드 2개 (반대 방향) -->
+  <circle cx="98" cy="170" r="40" fill="#e3f1ec" stroke="#1f6f5c" stroke-width="2"/>
+  <circle cx="98" cy="252" r="40" fill="#e3f1ec" stroke="#1f6f5c" stroke-width="2"/>
+  <path d="M70 150 A 34 34 0 0 1 126 150" fill="none" stroke="#1f6f5c" stroke-width="2"/>
+  <path d="M120 143 L127 151 L117 153" fill="none" stroke="#1f6f5c" stroke-width="2"/>
+  <path d="M126 272 A 34 34 0 0 1 70 272" fill="none" stroke="#1f6f5c" stroke-width="2"/>
+  <path d="M76 280 L69 271 L79 269" fill="none" stroke="#1f6f5c" stroke-width="2"/>
+  <text x="80" y="174" fill="#1f6f5c" font-size="11">시계</text>
+  <text x="76" y="256" fill="#1f6f5c" font-size="11">반시계</text>
+  <text x="20" y="318" fill="#1f6f5c" font-weight="700">③ 뒤: 회전 패드 2개 (건식)</text>
+  <text x="20" y="334" fill="#1f6f5c" font-size="11">로봇청소기 교체용 원형 걸레 재사용</text>
+  <text x="20" y="349" fill="#1f6f5c" font-size="11">반대 방향 회전 → 옆으로 끌리는 힘 상쇄</text>
+  <text x="20" y="364" fill="#1f6f5c" font-size="11">N20급 모터 2개 (확장 추천)</text>
+
+  <!-- 차체 -->
+  <rect x="150" y="120" width="210" height="182" rx="12" fill="#e3e1db" stroke="#8a8f98"/>
+  <rect x="160" y="104" width="44" height="16" rx="4" fill="#4a4f57"/><rect x="300" y="104" width="44" height="16" rx="4" fill="#4a4f57"/>
+  <rect x="160" y="302" width="44" height="16" rx="4" fill="#4a4f57"/><rect x="300" y="302" width="44" height="16" rx="4" fill="#4a4f57"/>
+  <text x="162" y="290" fill="#4a4f57" font-size="11">메카넘 차체 (폭 약 0.20 m)</text>
+
+  <!-- ② 청소기 + 덕트 + 흡입구 -->
+  <rect x="180" y="150" width="120" height="42" rx="10" fill="#c9d8f0" stroke="#2a7de1"/>
+  <text x="190" y="175" fill="#1d1f23">시판 핸디 청소기</text>
+  <text x="162" y="140" fill="#2a7de1" font-size="11">자체 배터리 · 로봇 전원과 분리</text>
+  <path d="M300 171 L340 171 L340 205" fill="none" stroke="#2a7de1" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
+  <rect x="332" y="199" width="18" height="26" rx="3" fill="#2a7de1"/>
+  <text x="162" y="232" fill="#2a7de1" font-weight="700">② 가운데: 흡입구 →</text>
+  <text x="162" y="248" fill="#2a7de1" font-size="11">목 폭 약 4 cm · 덕트 3D 프린트</text>
+
+  <!-- 장착판 -->
+  <rect x="356" y="126" width="12" height="170" fill="#8a8f98"/>
+  <text x="200" y="400" fill="#4a4f57" font-size="11">공용 장착부 (M3 볼트 4개, 커넥터 없음)</text>
+  <line x1="362" y1="296" x2="320" y2="388" stroke="#8a8f98"/>
+
+  <!-- ① V 사선 가이드 -->
+  <line x1="452" y1="118" x2="356" y2="200" stroke="#9a5b00" stroke-width="6" stroke-linecap="round"/>
+  <line x1="452" y1="304" x2="356" y2="224" stroke="#9a5b00" stroke-width="6" stroke-linecap="round"/>
+  <line x1="452" y1="118" x2="400" y2="118" stroke="#9a5b00" stroke-dasharray="3 3"/>
+  <path d="M422 118 A 30 30 0 0 0 430 137" fill="none" stroke="#9a5b00"/>
+  <text x="384" y="112" fill="#9a5b00" font-size="11">θ ≈ 40°</text>
+  <text x="392" y="330" fill="#9a5b00" font-weight="700">① 앞: V자 사선 가이드</text>
+  <text x="392" y="346" fill="#9a5b00" font-size="11">고무 날, 바닥에서 1~2 mm 띄움</text>
+  <text x="392" y="361" fill="#9a5b00" font-size="11">입 폭 약 0.20 m → 흡입구로 모음</text>
+  <line x1="462" y1="118" x2="462" y2="304" stroke="#767c86" stroke-dasharray="4 3"/>
+  <!-- 먼지·깃털 -->
+  <g fill="#767c86"><circle cx="440" cy="150" r="3"/><circle cx="430" cy="270" r="3"/><circle cx="405" cy="185" r="3"/><circle cx="395" cy="240" r="3"/><circle cx="372" cy="208" r="3"/></g>
+  <path d="M440 150 L405 185 L370 210" fill="none" stroke="#767c86" stroke-dasharray="2 3"/>
+  <!-- 진행 방향 -->
+  <line x1="480" y1="250" x2="535" y2="250" stroke="#1f6f5c" stroke-width="3"/>
+  <path d="M525 243 L537 250 L525 257" fill="none" stroke="#1f6f5c" stroke-width="3"/>
+  <text x="478" y="272" fill="#1f6f5c">진행 방향</text>
+
+  <!-- 모듈 B -->
+  <line x1="570" y1="60" x2="570" y2="400" stroke="#e3e1db"/>
+  <text x="585" y="70" font-size="13" font-weight="700" fill="#1d1f23">모듈 B (확장): 한쪽 사선 제설 날</text>
+  <text x="585" y="88" fill="#767c86" font-size="11">같은 장착부 · 같은 '사선 각도' 개념</text>
+  <rect x="600" y="170" width="90" height="110" rx="10" fill="#e3e1db" stroke="#8a8f98"/>
+  <text x="625" y="230" fill="#4a4f57">차체</text>
+  <rect x="690" y="180" width="10" height="90" fill="#8a8f98"/>
+  <line x1="715" y1="140" x2="748" y2="310" stroke="#9a5b00" stroke-width="7" stroke-linecap="round"/>
+  <text x="600" y="130" fill="#9a5b00" font-size="11">한쪽 사선 날 (θ ≈ 30°)</text>
+  <path d="M745 312 L762 340" stroke="#767c86" stroke-width="2"/>
+  <path d="M753 333 L762 340 L763 328" fill="none" stroke="#767c86" stroke-width="2"/>
+  <text x="590" y="366" fill="#767c86" font-size="11">눈을 한쪽 옆으로 밀어냄 (흡입·패드 없음)</text>
+</svg>

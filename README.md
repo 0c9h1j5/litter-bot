@@ -19,7 +19,7 @@ litter-bot/
 │   ├── charter.md                D02 팀 차터 v0.3
 │   ├── register.md               D00 산출물 목록
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
-│   └── img/                      그림 (MuJoCo 직접 렌더: gym_v0.png, depth_test.png, 예전 scene_v0.png)
+│   └── img/                      그림 (MuJoCo 직접 렌더: gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg)
 ├── scenes/
 │   ├── gym_v0.xml                MuJoCo 장면 뼈대: 농구 코트 일부 5 m × 3 m + 라인·벤치·창문틀 (4일차에 장면 v1: + Stretch 3)
 │   └── sidewalk_v0.xml           예전 가게 앞 장면 (v1.1, 참고용)

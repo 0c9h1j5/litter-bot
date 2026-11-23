@@ -46,8 +46,9 @@ def embed_images(h: str) -> str:
         if not p.exists():
             return m.group(0)
         b64 = base64.b64encode(p.read_bytes()).decode()
-        return f'src="data:image/png;base64,{b64}"'
-    return re.sub(r'src="(img/[^"]+\.png)"', rep, h)
+        mime = "image/svg+xml" if src.endswith(".svg") else "image/png"
+        return f'src="data:{mime};base64,{b64}"'
+    return re.sub(r'src="(img/[^"]+\.(?:png|svg))"', rep, h)
 
 
 # ---------- SVG 그림 ----------
@@ -217,11 +218,11 @@ def main():
     toc_html += '<li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li>'
 
     cards = [
-        ("주 기능 · 밀기", "모터 없는 극세사 패드로 먼지·흙먼지·셔틀콕 깃털을 직선 줄로 민다. 성과 = 닦은 면적 %"),
+        ("주 기능 · 밀기·흡입", "① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기) → ③ 뒤 패드로 먼지·흙먼지·깃털을 모아 빨아들인다"),
         ("보조 · 집기", "벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림"),
         ("운영 모드", "짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게"),
         ("성공 기준(시뮬)", "커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0"),
-        ("앞 모듈 교체형", "모듈 A 밀대(필수) ↔ 모듈 B 제설 날(확장). 여름~가을 체육관, 겨울 출입로"),
+        ("앞 모듈 교체형", "모듈 A 가이드·흡입·패드(필수, 회전 패드 실물은 확장) ↔ 모듈 B 사선 제설 날(확장)"),
         ("근거·검증", "1차 근거 주인 회고(n≈10곳) → 11/24~30 계수로 확인 · 관리자 1명 이상 시험 운영 동의"),
     ]
     cards_html = "".join(f'<div class="card"><b>{a}</b><span>{b}</span></div>' for a, b in cards)
