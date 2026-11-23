@@ -54,19 +54,19 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </style></head>
 <body><div class="wrap" id="top">
 <header class="hero">
-<div class="kicker">litter-bot · 기획안 v1.0 · 2026-11-23</div>
+<div class="kicker">litter-bot · 기획안 v1.1 · 2026-11-23</div>
 <h1>가게 앞 청소로봇</h1>
-<p class="lede">영업 전 아침, 가게 앞 평평한 보도에 버려진 컵·캔은 집게로 집고 꽁초는 회전 솔로 쓸어 담는다. 이번 4주에는 컵·캔 집기를 MuJoCo(Stretch 3)로 입증하고, 메카넘 축소판으로 실내에서 시연한다.</p>
+<p class="lede">영업 전 아침, 가게 앞 평평한 보도의 컵·캔·페트병 같은 큰 쓰레기부터 집게로 집어 치운다. 이번 4주에는 큰 쓰레기 집기를 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내에서 시연한다. 꽁초를 쓸어 담는 솔은 다음 단계다.</p>
 <div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 + grok 2차 의견 · 숫자 옆 (가정)·(확인 필요)·(실측) 표시를 꼭 함께 읽을 것</div>
-<div class="cards"><div class="card"><b>대상</b><span>컵·캔은 집게, 꽁초는 회전 솔. 비닐·전단지·액체·유리는 안 함</span></div><div class="card"><b>이동 전략</b><span>직선 줄로 훑고 팔이 닿는 것만 멈춰서 집기. 장애물은 우회 뒤 같은 줄로</span></div><div class="card"><b>운행 조건</b><span>건조한 평탄 보도, 경사 1/25 이하, 턱 1 cm 이하, 영업 전 아침 1회</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95%, 10개 중 8개, 720 s, 충돌 0</span></div><div class="card"><b>실물</b><span>메카넘 축소판, 실내 2 m × 2 m, 3개 중 2개, 5분</span></div><div class="card"><b>4주</b><span>11/23 ~ 12/18 · 1주 정하기 → 2주 한 개 → 3주 열 개·측정 → 4주 시연</span></div></div>
+<div class="cards"><div class="card"><b>대상</b><span>4주: 컵·캔·페트병(큰 것)을 집게로 · 다음 단계: 꽁초를 솔로</span></div><div class="card"><b>이동 전략</b><span>직선 줄로 훑고 팔이 닿는 것만 멈춰서 집기. 장애물은 우회 뒤 같은 줄로</span></div><div class="card"><b>운행 조건</b><span>건조한 평탄 보도, 경사 1/25 이하, 턱 1 cm 이하, 영업 전 아침 1회</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95%, 10개 중 8개, 720 s, 충돌 0</span></div><div class="card"><b>실물</b><span>메카넘 축소판, 실내 2 m × 2 m, 3개 중 2개, 5분</span></div><div class="card"><b>4주</b><span>11/23 ~ 12/18 · 1주 정하기 → 2주 한 개 → 3주 열 개·측정 → 4주 시연</span></div></div>
 </header>
-<nav class="toc"><b>목차</b><ol><li><a href="#s1">0. 한 문장</a></li><li><a href="#s2">1. 문제와 근거</a></li><li><a href="#s3">2. 사용자와 현장</a></li><li><a href="#s4">3. 왜 로봇인가</a></li><li><a href="#s5">4. 대상 쓰레기 정의</a></li><li><a href="#s6">5. 운행 조건 (ODD: 로봇이 일하는 조건)</a></li><li><a href="#s7">6. 해결 방식 (설계 선택)</a></li><li><a href="#s8">7. 유저 시나리오 (요약)</a></li><li><a href="#s9">8. 시뮬레이션 계획</a></li><li><a href="#s10">9. 실물 축소판 계획</a></li><li><a href="#s11">10. 비슷한 제품·연구와 차별점</a></li><li><a href="#s12">11. 성공 기준</a></li><li><a href="#s13">12. 위험과 대응, 중단 기준</a></li><li><a href="#s14">13. 현장 검증 계획 (1주, 11/24(화) ~ 11/30(월))</a></li><li><a href="#s15">14. 4주 일정 (수업 스테이지·산출물과 맞춤)</a></li><li><a href="#s16">15. 주인이 정할 것</a></li><li><a href="#s17">16. 확장 검토: 겨울 눈 치우기 (요약)</a></li><li><a href="#s18">부록 A. 겨울 눈 치우기 검토 (전문)</a></li><li><a href="#s19">출처</a></li><li><a href="#s20">변경 기록</a></li><li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li></ol></nav>
+<nav class="toc"><b>목차</b><ol><li><a href="#s1">0. 한 문장</a></li><li><a href="#s2">1. 문제와 근거</a></li><li><a href="#s3">2. 사용자와 현장</a></li><li><a href="#s4">3. 왜 로봇인가</a></li><li><a href="#s5">4. 대상 쓰레기 정의</a></li><li><a href="#s6">5. 운행 조건 (ODD: 로봇이 일하는 조건)</a></li><li><a href="#s7">6. 해결 방식 (설계 선택)</a></li><li><a href="#s8">7. 유저 시나리오 (요약)</a></li><li><a href="#s9">8. 시뮬레이션 계획</a></li><li><a href="#s10">9. 실물 축소판 계획</a></li><li><a href="#s11">10. 비슷한 제품·연구와 차별점</a></li><li><a href="#s12">11. 성공 기준</a></li><li><a href="#s13">12. 위험과 대응, 중단 기준</a></li><li><a href="#s14">13. 현장 검증 계획 (1주, 11/24(화) ~ 11/30(월))</a></li><li><a href="#s15">14. 4주 일정 (수업 스테이지·산출물과 맞춤)</a></li><li><a href="#s16">15. 주인이 정할 것 (1번 결정됨, 2·3번 대기)</a></li><li><a href="#s17">16. 확장 검토: 겨울 눈 치우기 (요약)</a></li><li><a href="#s18">부록 A. 겨울 눈 치우기 검토 (전문)</a></li><li><a href="#s19">출처</a></li><li><a href="#s20">변경 기록</a></li><li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li></ol></nav>
 <main><blockquote>
 <p>읽는 법: 숫자 옆에 <strong>[출처 번호]</strong>가 붙어 있으면 맨 아래 '출처'에 링크가 있다. <strong>(가정)</strong>은 근거 없이 정한 값, <strong>(확인 필요)</strong>는 찾았지만 원문으로 확인하지 못한 값이다. 이런 숫자는 1주 현장 검증(13장)으로 바꾼다. <strong>(실측)</strong>은 이 저장소 <code>logs/</code>에 기록이 있는 직접 측정값이다.</p>
 </blockquote>
 
 <h2 id="s1">0. 한 문장</h2>
-<p><strong>영업 전 아침, 가게 앞 평평한 보도에 버려진 컵·캔은 집게로 집고 꽁초는 회전 솔로 쓸어 담는 청소로봇.</strong> 이번 4주에는 그중 <strong>'컵·캔 집기'를 MuJoCo 시뮬레이션(Hello Robot Stretch 3)으로 입증</strong>하고, 메카넘 바퀴 차에 3D 프린트 집게를 단 축소판으로 실내에서 시연한다. 꽁초용 솔은 시뮬에서는 단순화해 보이고, 실물에서는 벤치 시험까지만 한다. 기간은 4주(2026-11-23 ~ 12-18), 인원은 1명이다.</p>
+<p><strong>영업 전 아침, 가게 앞 평평한 보도에 버려진 컵·캔·페트병 같은 큰 쓰레기부터 집게로 집어 치우는 청소로봇.</strong> 큰 것부터 잡는 것이 1단계 제품이고, 꽁초를 회전 솔로 쓸어 담는 것은 다음 단계다(주인 결정 2026-11-23, 6-8 로드맵). 이번 4주에는 <strong>'큰 쓰레기 집기'를 MuJoCo 시뮬레이션(Hello Robot Stretch 3)으로 입증</strong>하고, 메카넘 바퀴 차에 3D 프린트 집게를 단 축소판으로 실내에서 시연한다. 꽁초용 솔은 시간이 남을 때만 한다(시뮬 단순화, 실물 벤치 시험). 기간은 4주(2026-11-23 ~ 12-18), 인원은 1명이다.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -77,7 +77,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>대상 쓰레기</td>
-<td><strong>컵·캔(집게)</strong> + <strong>꽁초(솔)</strong>. 비닐·전단지·액체·유리·낙엽은 하지 않음</td>
+<td><strong>4주 목표: 컵·캔·페트병(집게)</strong> · 다음 단계: 꽁초(솔) · 비닐·전단지·액체·유리·낙엽은 하지 않음</td>
 </tr>
 <tr>
 <td>이동 전략</td>
@@ -85,10 +85,10 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>이번 4주 필수</td>
-<td>시뮬: Stretch 3가 5 m × 3 m 가게 앞을 훑으며 컵·캔 10개를 집어 통에 넣기 · 실물: 메카넘 축소판이 2 m × 2 m를 훑으며 표적 3개를 집어 차에 실은 통에 넣기</td>
+<td>시뮬: Stretch 3가 5 m × 3 m 가게 앞을 훑으며 컵·캔·페트병 10개를 집어 통에 넣기 · 실물: 메카넘 축소판이 2 m × 2 m를 훑으며 표적 3개를 집어 차에 실은 통에 넣기</td>
 </tr>
 <tr>
-<td>이번 4주 확장</td>
+<td>이번 4주 확장 (시간 남을 때)</td>
 <td>시뮬: 꽁초를 '솔 수거 영역'으로 쓸어 담기 · 실물: 솔 모듈 벤치 시험(직진하며 꽁초 크기 표적 쓸어 담기)</td>
 </tr>
 <tr>
@@ -210,9 +210,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </thead>
 <tbody>
 <tr>
-<td>컵·캔만 (이번 4주 시제품)</td>
-<td>하루 컵·캔 2~5개 × 5~10초 = <strong>약 10~50초</strong>, 그리고 젖은 컵을 손으로 만지는 일</td>
-<td><strong>시간 절약으로는 약하다.</strong> '손대기 싫은 것 빼기'가 가치다</td>
+<td>큰 쓰레기만 (1단계 = 이번 4주 시제품)</td>
+<td>하루 컵·캔·페트병 2~5개 × 5~10초 = <strong>약 10~50초</strong>. 대신 <strong>젖은 컵·남은 음료가 든 캔을 손으로 잡는 일, 그때마다 허리 숙이기</strong>가 사라진다</td>
+<td><strong>시간 절약으로는 약하다.</strong> 가치는 '손대기 싫은 것 빼기'다</td>
 </tr>
 <tr>
 <td>컵·캔 + 꽁초 (제품 개념: 집게 + 솔)</td>
@@ -221,7 +221,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p>결론: <strong>집게만으로는 '왜 로봇인가'가 약하다. 그래서 제품 개념은 집게 + 회전 솔 조합으로 잡고(6-5), 4주 안에는 위험이 큰 집기부터 입증한다.</strong> 이 가설은 현장 검증의 '하루 청소 분'과 '가장 싫은 점'으로 판정한다(12장 K-4·K-5).</p>
+<p>결론(솔직하게): <strong>1단계(큰 쓰레기 집기)만으로는 시간을 크게 줄이지 못한다.</strong> 1단계 제품의 의미는 ① 가장 손대기 싫은 것(젖은 컵, 음료가 남은 캔·페트병)을 사람 손에서 빼고, ② 눈에 가장 잘 띄는 쓰레기를 개점 전에 없애며, ③ 기술적으로 가장 어려운 '찾아서 집기'를 먼저 입증하는 데 있다. 시간까지 줄이는 것은 2단계(솔로 꽁초)에서 하고(6-5, 6-8), 4주는 1단계에 집중한다. 이 가설은 현장 검증의 '하루 청소 분'과 '가장 싫은 점'으로 판정한다(12장 K-4·K-5).</p>
 
 <h2 id="s3">2. 사용자와 현장</h2>
 <p>자세한 하루 흐름은 <a href="#scenario">01-유저시나리오.md</a>에 있고, 여기서는 요약만 한다. 두 사람 모두 <strong>가상 인물</strong>이며, 13장 인터뷰로 검증한다.</p>
@@ -289,7 +289,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p>남는 일은 <strong>'찾아가서 → 집거나 쓸어 담아 → 옮기는' 물리 작업</strong>이라 앱이나 알림으로 대신할 수 없다. 더럽고(Dirty) 매일 반복되는 일이라 로봇이 맡기 좋은 3D 작업이다. 다만 1-3의 계산대로 <strong>컵·캔만 하면 덜어 주는 양이 작다</strong>는 점을 숨기지 않는다.</p>
+<p>남는 일은 <strong>'찾아가서 → 집거나 쓸어 담아 → 옮기는' 물리 작업</strong>이라 앱이나 알림으로 대신할 수 없다. 더럽고(Dirty) 매일 반복되는 일이라 로봇이 맡기 좋은 3D 작업이다. 다만 1-3의 계산대로 <strong>1단계(큰 쓰레기만)는 덜어 주는 시간이 하루 1분이 안 된다</strong>는 점을 숨기지 않는다. 1단계가 파는 것은 시간이 아니라 '젖은 컵·캔을 손으로 잡지 않고, 개점 전에 눈에 띄는 쓰레기가 없는 가게 앞'이다(가설 → 현장 검증 질문 4·9).</p>
 
 <h2 id="s5">4. 대상 쓰레기 정의</h2>
 <p>피드백 ②('대상 정의를 구체적으로')에 대한 답이다. <strong>어떤 방식으로 무엇을 줍는지, 무엇은 안 하는지</strong>를 크기·무게까지 정한다.</p>
@@ -314,6 +314,14 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td><strong>필수</strong> (시뮬 + 실물)</td>
 </tr>
 <tr>
+<td><strong>대상 1</strong></td>
+<td>페트병 (500 mL급)</td>
+<td>약 ø65 × 210 mm, 약 20 g (가정 — 제품마다 다름)</td>
+<td>따로 집계 없음 (확인 필요)</td>
+<td>집게</td>
+<td><strong>필수</strong> (시뮬: 세운 것. 실물: 축소 표적으로 대신)</td>
+</tr>
+<tr>
 <td>대상 1 확장</td>
 <td>누운 컵·캔</td>
 <td>높이 약 33~40 mm</td>
@@ -322,12 +330,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>시뮬, 남는 시간</td>
 </tr>
 <tr>
-<td><strong>대상 2</strong></td>
+<td><strong>대상 2 (다음 단계)</strong></td>
 <td>담배꽁초</td>
 <td>ø8 × 25 mm, 1 g 미만 (가정)</td>
 <td><strong>54%</strong></td>
 <td>회전 솔</td>
-<td><strong>확장 1순위</strong> (시뮬 단순화 + 실물 벤치 시험)</td>
+<td><strong>확장</strong> — 시간 남을 때만 (시뮬 단순화 + 실물 벤치 시험)</td>
 </tr>
 <tr>
 <td>안 함</td>
@@ -363,7 +371,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p><strong>왜 꽁초(54%)를 필수가 아닌 확장 1순위로 두나?</strong></p>
+<p><strong>왜 꽁초(54%)가 아니라 큰 것부터 잡나? (주인 결정 2026-11-23: '큰 것부터 잡는 걸 목표로')</strong></p>
 <ol>
 <li>꽁초는 집게로는 안 된다. Stretch 3 그리퍼 고무 패드는 아래면이 바닥에서 약 1~2 cm 떠 있어, 높이 8 mm인 꽁초를 '집지' 못하고 '긁는다'(실측, <code>logs/2026-11-22_stretch3_measurements.md</code>).</li>
 <li>솔은 MuJoCo로 물리 그대로 흉내 내기 어렵다. 강체 롤러 실험에서 꽁초 10개 중 0~3개만 통에 들어갔다(6-5).</li>
@@ -494,9 +502,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p><strong>추천: 제품 개념 = D(조합), 이번 4주 = A(집게) 필수 + C(솔) 확장.</strong></p>
+<p><strong>결정: 제품 개념 = D(조합), 이번 4주 = A(집게)로 큰 쓰레기에 집중, C(솔)는 시간 남을 때 (주인 결정 2026-11-23).</strong></p>
 <ul>
-<li>근거 1: 1-3 계산대로 컵·캔만으로는 덜어 주는 양이 작다. 꽁초를 함께 해야 '매일 하는 일을 뺀다'가 선다.</li>
+<li>근거 1: 1-3 계산대로 큰 쓰레기만으로는 덜어 주는 시간이 작다. 그래서 제품은 단계적으로 간다: 1단계 큰 것(집게) → 2단계 꽁초(솔) (6-8).</li>
 <li>근거 2: 위험이 가장 큰 것은 집기(시뮬 접촉, 실물 서보 정렬)다. 이것부터 끝내야 4주 안에 '반드시 끝나는 길'이 남는다.</li>
 <li>근거 3: 솔은 로봇청소기 교체용 부품을 그대로 쓸 수 있어 실물 벤치 시험이 싸고 빠르다(6-5).</li>
 </ul>
@@ -936,6 +944,49 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 <figure><svg viewBox="0 0 620 170" role="img" aria-label="고정 장애물 우회 경로" class="diagram"><rect x="270" y="85" width="80" height="50" rx="6" class="obst"/><text x="310" y="115" text-anchor="middle" class="t-small">화분</text><path d="M20 110 L200 110 L230 50 L390 50 L420 110 L600 110" class="path"/><path d="M592 105 L600 110 L592 115" class="arrow"/><line x1="20" y1="110" x2="600" y2="110" class="ghost"/><circle cx="200" cy="110" r="5" class="stop"/><text x="200" y="134" text-anchor="middle" class="t-small">① 0.30 m 앞 멈춤</text><text x="310" y="40" text-anchor="middle" class="t-small">② 팔 반대쪽(치운 쪽)으로 비켜 지나감</text><circle cx="420" cy="110" r="5" class="stop"/><text x="440" y="134" text-anchor="middle" class="t-small">③ 끝 + 여유 뒤 같은 줄로 복귀 (±5 cm)</text><text x="20" y="102" class="t-small">원래 줄</text></svg><figcaption>그림. 고정 장애물 우회 규칙 (멈춤 거리 0.30 m, 복귀 오차 ±5 cm는 가정).</figcaption></figure>
 <p>시뮬 성공 기준에 <strong>장애물 충돌 0회</strong>와 <strong>우회 뒤 줄 복귀율</strong>을 넣었다(11장).</p>
+<h3>6-8. 단계적 제품 로드맵</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>무엇을</th>
+<th>방식</th>
+<th>언제</th>
+<th>사용자에게 주는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1단계 (이번 4주)</strong></td>
+<td>컵·캔·페트병 같은 <strong>큰 쓰레기</strong></td>
+<td>집게, 직선 훑기</td>
+<td>시뮬 입증 + 실내 축소판 시연</td>
+<td>젖은 컵·캔을 손으로 잡지 않기, 개점 전 눈에 띄는 쓰레기 없애기</td>
+</tr>
+<tr>
+<td>2단계</td>
+<td><strong>꽁초</strong>(개수 54%)</td>
+<td>앞쪽 회전 솔 + 쓰레받기 (6-5)</td>
+<td>4주 안에는 시간 남을 때 벤치 시험만, 본격적으로는 그다음</td>
+<td>줍는 시간 대부분(하루 약 1~5분, 가정)과 허리 숙이기</td>
+</tr>
+<tr>
+<td>3단계</td>
+<td>실제 보도 운행</td>
+<td>궤도 이동부, 턱 2 cm·경사 1/12 (6-2, 가정)</td>
+<td>로드맵</td>
+<td>실외 보도·젖은 바닥</td>
+</tr>
+<tr>
+<td>4단계</td>
+<td>겨울 눈</td>
+<td>밀대 모듈 교체 (부록 A)</td>
+<td>로드맵</td>
+<td>법적 의무(제설)가 있는 일</td>
+</tr>
+</tbody>
+</table></div>
+<p>이야기 흐름: <strong>'가장 어려운 집기를 큰 것으로 먼저 입증 → 같은 몸체에 솔을 더해 꽁초 → 이동부·모듈로 실외와 겨울'</strong>.</p>
 
 <h2 id="s8">7. 유저 시나리오 (요약)</h2>
 <p>전문은 <a href="#scenario">01-유저시나리오.md</a>에 있다. 시나리오의 로봇은 <strong>제품 개념(집게 + 솔)</strong> 기준이다.</p>
@@ -989,7 +1040,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>장면 v1</td>
-<td><strong>5 m × 3 m 가게 앞 띠</strong>(페르소나 A의 보도 폭 3 m에 맞춤, 가정). 한쪽 긴 변은 가게 벽, 반대쪽은 연석(넘지 않음). 화분·입간판·세워 둔 자전거 역할의 고정 장애물 2~3개, 컵·캔 10개 무작위 배치. 지금 뼈대(<code>sidewalk_v0</code>, 5 m × 5 m)를 줄여서 만든다</td>
+<td><strong>5 m × 3 m 가게 앞 띠</strong>(페르소나 A의 보도 폭 3 m에 맞춤, 가정). 한쪽 긴 변은 가게 벽, 반대쪽은 연석(넘지 않음). 화분·입간판·세워 둔 자전거 역할의 고정 장애물 2~3개, 컵·캔·페트병 10개 무작위 배치. 지금 뼈대(<code>sidewalk_v0</code>, 5 m × 5 m)를 줄여서 만든다</td>
 </tr>
 <tr>
 <td>통</td>
@@ -1322,7 +1373,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>시뮬</td>
 <td>수거 (R-04)</td>
-<td>세운 컵·캔 10개 중 <strong>8개 이상</strong> 통 안 (10회 평균), 최저 회도 6개 이상</td>
+<td>세운 컵·캔·페트병 10개 중 <strong>8개 이상</strong> 통 안 (10회 평균), 최저 회도 6개 이상</td>
 <td>자동: 에피소드 끝에 쓰레기 중심이 통 영역 안</td>
 </tr>
 <tr>
@@ -1607,7 +1658,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>1</td>
 <td>11/23(월) ~ 11/27(금)</td>
 <td>01 Discovery → 02 Requirements → 03 Design</td>
-<td>장면 v1 (5 m × 3 m, Stretch + 컵·캔 10개 + 로봇 위 통)</td>
+<td>장면 v1 (5 m × 3 m, Stretch + 컵·캔·페트병 10개 + 로봇 위 통)</td>
 <td>부품 확인·주문(월~화), 집게 설계</td>
 <td>1일 D02 차터·목록 + 기획안·유저 시나리오 / 2일 D01 문제 정의 / 3일 D03 요구사항 + 판정 함수 / 4일 D06·D07·D08 + 장면 v1 / 5일 D04·D05 · 관문 G1~G2</td>
 </tr>
@@ -1650,7 +1701,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <li>실제 가게 앞에 로봇을 두는 파일럿은 하지 않는다. 06 Pilot은 '영상 + 인터뷰'로 대신한다.</li>
 </ul>
 
-<h2 id="s16">15. 주인이 정할 것</h2>
+<h2 id="s16">15. 주인이 정할 것 (1번 결정됨, 2·3번 대기)</h2>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -1664,18 +1715,18 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>1</td>
 <td>솔(꽁초)을 4주 안에 어디까지 하나?</td>
-<td>A. 집게 필수 + 솔은 시뮬 수거 영역·실물 벤치 시험(조건부) / B. 집게만, 솔은 로드맵 / C. 솔 우선(꽁초 중심), 집게는 축소</td>
-<td><strong>A</strong> — 위험이 큰 집기를 먼저 끝내고, 솔은 싼 부품으로 확인만. 12/01 현장 검증 결과로 다시 본다(K-4)</td>
+<td>—</td>
+<td><strong>결정됨 (2026-11-23):</strong> 큰 것(컵·캔·페트병)을 집게로 잡는 데 집중한다. 솔은 시간 남을 때만 시뮬 수거 영역·실물 벤치 시험. 12/01 현장 검증(K-4)에서 큰 쓰레기가 거의 없으면 다시 본다</td>
 </tr>
 <tr>
 <td>2</td>
-<td>실물 이동부를 궤도로 바꾸나?</td>
+<td>실물 이동부를 궤도로 바꾸나? <strong>(주인 답 대기 — 지금은 추천안으로 진행)</strong></td>
 <td>A. 4주는 메카넘 유지, 궤도는 제품 개념·로드맵 / B. 지금 궤도로 전환(출력 궤도 + 메카넘 부품 재사용) / C. 4주차에 궤도 한쪽만 출력해 턱 넘기 벤치 시험</td>
 <td><strong>A (+ 여유 있으면 C)</strong> — 측면 이동이 '멈춰서 집기' 정렬에 맞고, 궤도 출력·조립 2~3일이 1인 일정에 크다 (6-2)</td>
 </tr>
 <tr>
 <td>3</td>
-<td>현장 검증 장소</td>
+<td>현장 검증 장소 <strong>(주인 답 대기 — 지금은 추천안으로 진행)</strong></td>
 <td>A. 집 근처 가게 1곳 / B. 학원 근처 상가</td>
 <td><strong>A</strong> — 7일 동안 같은 시각에 갈 수 있는 곳이 우선</td>
 </tr>
@@ -1886,6 +1937,11 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>2026-11-23</td>
+<td>v1.1</td>
+<td>주인 결정 '큰 것부터': 4주 목표를 컵·캔·페트병 집기에 집중, 꽁초(솔)는 시간 남을 때. 단계적 로드맵(6-8), '왜 로봇인가' 솔직하게 다시 씀, 15장 1번 결정됨·2·3번 대기 표시</td>
+</tr>
+<tr>
+<td>2026-11-23</td>
 <td>v1.0</td>
 <td>첫 작성. 예전 기획서(쓰레기 줍는 로봇)를 '가게 앞 청소로봇'으로 다시 짰다. 대상·운행 조건·설계 선택·kill criteria·현장 검증을 넣고, 주인 요청으로 유저 시나리오(01), 회전 솔 조합안(6-5), 눈 치우기 검토(16장·부록 A)를 더했다. 이어서 주인 요청으로 궤도 이동부 비교(6-2), 직선 훑기 전략(6-6), 장애물 처리 규칙(6-7)을 넣고 성공 기준을 커버리지·전략 비교 중심으로 바꿨다. AI 심사위원 리뷰 15개 지적과 grok 2차 의견 5개(줄 바꾸기 회전 시간, 커버리지 분모, 전략 비교 방식, 실물 판정 세부, 3주차 과부하)를 반영했다: 덜어 주는 양 정량화, 시간 기준 통일, 필수 R과 성공 기준 1:1 대응, 실물 기본 목표를 3개로 낮춤, 기준 재조정 폭 고정, 요일·ID 오류 수정</td>
 </tr>
@@ -1893,6 +1949,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 <section class="part" id="scenario"><div class="part-title">부록 B</div><h1 style="font-size:30px">유저 시나리오 전문 (docs/01-유저시나리오.md)</h1><blockquote>
 <p>두 사람은 <strong>가상 인물</strong>이다. 시각·면적·개수는 모두 <strong>(가정)</strong>이며, 기획안 13장 현장 검증(인터뷰 2명, 7일 기록)으로 바꾼다.
+4주 목표는 <strong>큰 쓰레기(컵·캔·페트병) 집기</strong>다(주인 결정 2026-11-23). 꽁초를 쓸어 담는 솔은 다음 단계 기능이다.
 로봇은 <strong>제품 개념</strong>(실외 보도용, 궤도 이동부 + 집게 + 회전 솔 + 앱 알림)으로 그렸다. 이번 4주에 실제로 만드는 부분은 맨 아래 표의 '시뮬'·'실물' 열이다.</p>
 </blockquote>
 <p><strong>로봇이 움직이는 방식 (기획안 6-6·6-7)</strong></p>
@@ -2182,7 +2239,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>R-04</td>
-<td>팔이 닿는 띠 안의 컵·캔을 멈춰서 집어 통에 넣는다. 수거율 80% 이상</td>
+<td>팔이 닿는 띠 안의 컵·캔·페트병(큰 쓰레기)을 멈춰서 집어 통에 넣는다. 수거율 80% 이상</td>
 <td>A·B</td>
 <td>◎ 10개 중 8개</td>
 <td>◎ 3개 중 2개</td>
@@ -2270,7 +2327,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>R-15</td>
-<td>줄을 지나가며 꽁초를 앞쪽 솔로 쓸어 담는다</td>
+<td>(다음 단계) 줄을 지나가며 꽁초를 앞쪽 솔로 쓸어 담는다</td>
 <td>A·B</td>
 <td>○ '솔 수거 영역' 단순화</td>
 <td>○ 솔 벤치 시험 (직진)</td>

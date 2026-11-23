@@ -4,7 +4,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 
 | ID | 산출물 | 실무 명칭 | 스테이지 | 작성 | 검토 | 상태 | 버전 | 파일 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| P00 | 기획안 | Project Proposal | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.0 | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) |
+| P00 | 기획안 | Project Proposal | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.1 | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
 | P01 | 유저 시나리오 | User Scenario | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.0 | [docs/01-유저시나리오.md](01-유저시나리오.md) |
 | D01 | 문제 정의서 | Problem Statement | 01 | 최현준 | 최현준 | 작성 | v1 | docs/problem.md (2일차) |
 | D02 | 팀 차터 | Project Charter | 01 | 최현준 | 최현준 | 작성 | v0.2 | [docs/charter.md](charter.md) |
