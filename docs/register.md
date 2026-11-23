@@ -8,7 +8,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 | P01 | 유저 시나리오 | User Scenario | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.3 | [docs/01-유저시나리오.md](01-유저시나리오.md) |
 | P02 | 현장 계수표 | Field Count Sheet | 01 | 최현준 | 최현준 | 작성 | v1.1 | [docs/02-현장계수표.md](02-현장계수표.md) · CSV `logs/field/field_count_template.csv` |
 | D01 | 문제 정의서 | Problem Statement | 01 | 최현준 | 최현준 | 작성 | v1 | docs/problem.md (2일차) |
-| D02 | 팀 차터 | Project Charter | 01 | 최현준 | 최현준 | 작성 | v0.4 | [docs/charter.md](charter.md) |
+| D02 | 팀 차터 | Project Charter | 01 | 최현준 | 최현준 | 작성 | v0.5 | [docs/charter.md](charter.md) |
 | D03 | 요구사항 명세 | PRD / SRS | 02 | 최현준 | 최현준 | – | – | |
 | D04 | 요구사항 추적표 | Traceability Matrix | 02 | 최현준 | 최현준 | – | – | |
 | D05 | 계획·WBS·위험 목록 | Project Plan / Risk Register | 02 | 최현준 | 최현준 | – | – | |

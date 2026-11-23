@@ -16,7 +16,7 @@
   <text x="20" y="318" fill="#1f6f5c" font-weight="700">③ 뒤: 회전 패드 2개 (건식)</text>
   <text x="20" y="334" fill="#1f6f5c" font-size="11">로봇청소기 교체용 원형 걸레 재사용</text>
   <text x="20" y="349" fill="#1f6f5c" font-size="11">반대 방향 회전 → 옆으로 끌리는 힘 상쇄</text>
-  <text x="20" y="364" fill="#1f6f5c" font-size="11">N20급 모터 2개 (확장 추천)</text>
+  <text x="20" y="364" fill="#1f6f5c" font-size="11">N20급 모터 2개 (4주 필수, 주인 결정)</text>
 
   <!-- 차체 -->
   <rect x="150" y="120" width="210" height="182" rx="12" fill="#e3e1db" stroke="#8a8f98"/>
