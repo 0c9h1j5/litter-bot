@@ -1,0 +1,9 @@
+[project]
+name = "litter-bot"
+version = "0.1.0"
+description = "새싹 팀프로젝트: 쓰레기 줍는 로봇 (MuJoCo)"
+requires-python = ">=3.11"
+dependencies = ["mujoco>=3.3", "numpy"]
+
+[tool.uv]
+package = false

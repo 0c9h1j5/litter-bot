@@ -1,0 +1,19 @@
+<!-- 가게 앞 평평한 바닥 5m x 5m, 쓰레기 3개, 장애물 2개, 쓰레기통 1개 (장면 v0 뼈대, 로봇은 4일차에 추가) -->
+<mujoco model="sidewalk_v0">
+  <option timestep="0.002"/>
+  <visual><headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3"/></visual>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1=".75 .75 .75" rgb2=".65 .65 .65" width="512" height="512"/>
+    <material name="floor" texture="grid" texrepeat="10 10"/>
+  </asset>
+  <worldbody>
+    <light pos="0 0 4" dir="0 0 -1"/>
+    <geom name="floor" type="plane" size="2.5 2.5 0.1" material="floor"/>
+    <body name="bin" pos="-1 0 0.2"><geom type="box" size="0.2 0.2 0.2" rgba=".2 .2 .2 1"/></body>
+    <body name="planter" pos="1 1 0.25"><geom type="box" size="0.25 0.25 0.25" rgba=".5 .5 .55 1"/></body>
+    <body name="bench" pos="0.5 -1.2 0.2"><geom type="box" size="0.6 0.2 0.2" rgba=".5 .5 .55 1"/></body>
+    <body name="can1" pos="1.5 0 0.061"><freejoint/><geom type="cylinder" size="0.033 0.061" mass="0.02" rgba="1 0 0 1"/></body>
+    <body name="cup1" pos="0 1.5 0.05"><freejoint/><geom type="cylinder" size="0.04 0.05" mass="0.01" rgba="0 .7 0 1"/></body>
+    <body name="can2" pos="-1.5 -1.5 0.061"><freejoint/><geom type="cylinder" size="0.033 0.061" mass="0.02" rgba="0 0 1 1"/></body>
+  </worldbody>
+</mujoco>
