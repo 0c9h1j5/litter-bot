@@ -1,0 +1,81 @@
+<!--
+  gym_v0: 실내 체육관 농구 코트 일부 5 m x 3 m (장면 v0 뼈대, 로봇은 4일차 장면 v1에 추가)
+  좌표: x = 코트 긴 방향(+x 쪽이 엔드라인·끝 벽), y = 옆 방향(+y 쪽이 벤치·옆 벽)
+  - 마루 바닥, 흰 라인: 사이드라인 y = 0.6, 엔드라인 x = 2.0 (코트 안 = x < 2.0, y < 0.6)
+  - 옆 벽 y = 1.5 (창문틀 1곳: 높이 1.0 m 가정, 깊이 0.20 m), 끝 벽 x = 2.5
+  - 핫스폿(주인 관찰 2026-11-23): 벤치 구역 / 코트 구석(두 벽이 만나는 곳) / 창문틀
+  - 쓰레기 10개 = 벤치 5 + 구석 3 + 창문틀 2, 코트 안 떨어진 것 1개 (밀대 훑기 중 발견용)
+  - 장애물: 농구공, 가방, 접이식 의자
+  크기·개수·높이는 모두 가정이다 (기획안 v1.2 8장, 현장 검증 13장에서 실측으로 바꾼다).
+-->
+<mujoco model="gym_v0">
+  <option timestep="0.002"/>
+  <visual>
+    <headlight diffuse="0.55 0.55 0.55" ambient="0.35 0.35 0.35"/>
+    <global offwidth="1600" offheight="1000"/>
+  </visual>
+  <asset>
+    <texture name="wood" type="2d" builtin="gradient" rgb1=".80 .62 .40" rgb2=".72 .53 .32" width="256" height="256"/>
+    <material name="maru" texture="wood" texrepeat="12 1" specular="0.3" shininess="0.4"/>
+    <material name="line" rgba="1 1 1 1"/>
+    <material name="wall" rgba=".86 .86 .83 1"/>
+    <material name="sill" rgba=".55 .45 .35 1"/>
+    <material name="bench" rgba=".25 .35 .55 1"/>
+  </asset>
+  <worldbody>
+    <light pos="0 0 5" dir="0 0 -1" diffuse=".7 .7 .7"/>
+    <light pos="-2 -3 4" dir="0.4 0.6 -0.7" diffuse=".3 .3 .3"/>
+
+    <!-- 마루 바닥 5 m x 3 m -->
+    <geom name="floor" type="plane" size="2.5 1.5 0.1" material="maru" friction="0.6 0.005 0.0001"/>
+
+    <!-- 코트 라인 (폭 5 cm, 바닥 위 1 mm, 충돌 없음) -->
+    <geom name="line_side" type="box" pos="-0.225 0.6 0.001" size="2.275 0.025 0.001" material="line" contype="0" conaffinity="0"/>
+    <geom name="line_end" type="box" pos="2.0 -0.45 0.001" size="0.025 1.075 0.001" material="line" contype="0" conaffinity="0"/>
+    <geom name="line_lane" type="box" pos="1.0 -0.9 0.001" size="1.0 0.025 0.001" material="line" contype="0" conaffinity="0"/>
+
+    <!-- 벽: 옆 벽(y=1.5), 끝 벽(x=2.5). 높이 2 m만 둔다 -->
+    <geom name="wall_side" type="box" pos="0 1.55 1.0" size="2.55 0.05 1.0" material="wall"/>
+    <geom name="wall_end" type="box" pos="2.55 0 1.0" size="0.05 1.6 1.0" material="wall"/>
+
+    <!-- 창문틀: 높이 1.0 m(가정), 길이 1.2 m, 깊이 0.20 m -->
+    <geom name="sill" type="box" pos="-0.9 1.4 0.98" size="0.6 0.10 0.02" material="sill"/>
+    <geom name="window" type="box" pos="-0.9 1.495 1.45" size="0.6 0.005 0.45" rgba=".65 .8 .95 .6" contype="0" conaffinity="0"/>
+
+    <!-- 선수 벤치: 길이 2 m, 깊이 0.4 m, 높이 0.45 m -->
+    <body name="obstacle_bench" pos="0.6 1.1 0">
+      <geom type="box" pos="0 0 0.43" size="1.0 0.2 0.02" material="bench"/>
+      <geom type="box" pos="-0.9 0 0.21" size="0.03 0.18 0.21" material="bench"/>
+      <geom type="box" pos="0.9 0 0.21" size="0.03 0.18 0.21" material="bench"/>
+    </body>
+
+    <!-- 장애물: 농구공(r 0.12), 가방, 접이식 의자 -->
+    <body name="obstacle_ball" pos="-1.4 -0.3 0.12"><freejoint/><geom type="sphere" size="0.12" mass="0.6" rgba=".85 .4 .1 1"/></body>
+    <body name="obstacle_bag" pos="-1.8 0.95 0.15"><geom type="box" size="0.25 0.15 0.15" rgba=".15 .15 .15 1"/></body>
+    <body name="obstacle_chair" pos="1.9 1.15 0">
+      <geom type="box" pos="0 0 0.44" size="0.2 0.2 0.02" rgba=".4 .4 .45 1"/>
+      <geom type="box" pos="0 0.18 0.65" size="0.2 0.02 0.2" rgba=".4 .4 .45 1"/>
+      <geom type="cylinder" pos="0.17 -0.17 0.22" size="0.012 0.22" rgba=".3 .3 .3 1"/>
+      <geom type="cylinder" pos="-0.17 -0.17 0.22" size="0.012 0.22" rgba=".3 .3 .3 1"/>
+      <geom type="cylinder" pos="0.17 0.17 0.22" size="0.012 0.22" rgba=".3 .3 .3 1"/>
+      <geom type="cylinder" pos="-0.17 0.17 0.22" size="0.012 0.22" rgba=".3 .3 .3 1"/>
+    </body>
+
+    <!-- 쓰레기 (색은 인식용으로 채도 높게): 생수병 ø65x210 20 g, 캔 ø66x122 20 g, 컵 ø80x100 10 g (가정) -->
+    <!-- 벤치 구역 5개 -->
+    <body name="litter_bottle1" pos="0.1 0.8 0.105"><freejoint/><geom type="cylinder" size="0.0325 0.105" mass="0.02" rgba="0 .6 1 1"/></body>
+    <body name="litter_bottle2" pos="0.9 0.78 0.105"><freejoint/><geom type="cylinder" size="0.0325 0.105" mass="0.02" rgba="0 .6 1 1"/></body>
+    <body name="litter_can1" pos="1.3 1.1 0.061"><freejoint/><geom type="cylinder" size="0.033 0.061" mass="0.02" rgba="1 0 0 1"/></body>
+    <body name="litter_bottle3" pos="0.4 1.12 0.556"><freejoint/><geom type="cylinder" size="0.0325 0.105" mass="0.02" rgba="0 .6 1 1"/></body>
+    <body name="litter_cup1" pos="-0.2 0.85 0.05"><freejoint/><geom type="cylinder" size="0.04 0.05" mass="0.01" rgba="0 .8 0 1"/></body>
+    <!-- 코트 구석 3개 -->
+    <body name="litter_can2" pos="2.3 1.3 0.061"><freejoint/><geom type="cylinder" size="0.033 0.061" mass="0.02" rgba="1 0 0 1"/></body>
+    <body name="litter_bottle4" pos="2.35 0.95 0.105"><freejoint/><geom type="cylinder" size="0.0325 0.105" mass="0.02" rgba="0 .6 1 1"/></body>
+    <body name="litter_cup2" pos="2.25 0.7 0.05"><freejoint/><geom type="cylinder" size="0.04 0.05" mass="0.01" rgba="0 .8 0 1"/></body>
+    <!-- 창문틀 2개 (틀 윗면 1.0 m) -->
+    <body name="litter_ledge_can" pos="-1.2 1.4 1.061"><freejoint/><geom type="cylinder" size="0.033 0.061" mass="0.02" rgba="1 0 0 1"/></body>
+    <body name="litter_ledge_bottle" pos="-0.6 1.4 1.105"><freejoint/><geom type="cylinder" size="0.0325 0.105" mass="0.02" rgba="0 .6 1 1"/></body>
+    <!-- 코트 안에 떨어진 1개 (핫스폿 밖, 밀대 훑기 중 발견) -->
+    <body name="litter_stray_can" pos="0.3 -0.7 0.061"><freejoint/><geom type="cylinder" size="0.033 0.061" mass="0.02" rgba="1 0 0 1"/></body>
+  </worldbody>
+</mujoco>
