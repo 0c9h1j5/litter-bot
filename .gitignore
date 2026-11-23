@@ -2,3 +2,4 @@
 __pycache__/
 logs/*.mp4
 .DS_Store
+.director/
