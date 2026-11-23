@@ -78,7 +78,7 @@ def svg_gym() -> str:
              f'<text x="{X(-2.45)}" y="{Y(0.6)-6}" class="t-small">사이드라인</text>'
              f'<text x="{X(2.0)-6}" y="{Y(-1.0)}" text-anchor="end" class="t-small">엔드라인</text>')
     # 창문틀·벤치·의자·가방·공
-    o.append(f'<rect x="{X(-1.5)}" y="{Y(1.5)}" width="{1.2*s}" height="{0.2*s}" class="sill"><title>창문틀: 윗면 1.0 m (가정), 깊이 0.20 m</title></rect>')
+    o.append(f'<rect x="{X(-1.5)}" y="{Y(1.5)}" width="{1.2*s}" height="{0.2*s}" class="sill"><title>창문틀 (확장): 윗면 1.0 m (가정), 깊이 0.20 m</title></rect>')
     o.append(f'<rect x="{X(-0.4)}" y="{Y(1.3)}" width="{2.0*s}" height="{0.4*s}" rx="3" class="obst"><title>선수 벤치 (길이 2 m, 높이 0.45 m)</title></rect>'
              f'<text x="{X(1.2)}" y="{Y(1.05)+4}" text-anchor="middle" class="t-on">선수 벤치</text>')
     o.append(f'<rect x="{X(1.7)}" y="{Y(1.35)}" width="{0.4*s}" height="{0.4*s}" rx="3" class="obst"><title>접이식 의자 (장애물)</title></rect>')
@@ -93,16 +93,16 @@ def svg_gym() -> str:
     # 순회 경로
     pts = [(-2.2, 0.3), (0.6, 0.3), (0.6, 0.72), (2.1, 0.95), (2.1, 0.47), (-0.9, 0.47), (-0.9, 0.85), (-1.35, 0.62), (-2.2, 0.3)]
     d = "M" + " L".join(f"{X(x):.1f} {Y(y):.1f}" for x, y in pts)
-    o.append(f'<path d="{d}" class="route"><title>모드 1: 출발 → ① 벤치 구역 → ② 구석 → ③ 창문틀 → 복귀 (약 10~12 m, 가정)</title></path>')
+    o.append(f'<path d="{d}" class="route"><title>모드 1: 출발 → ① 벤치 구역 → ② 구석 → 복귀, ③ 창문틀은 확장 (가정)</title></path>')
     for i, (x, y, t) in enumerate([(0.6, 0.72, "벤치 구역"), (2.1, 0.95, "구석"), (-0.9, 0.85, "창문틀")]):
         o.append(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="11" class="hot"/><text x="{X(x):.1f}" y="{Y(y)+4:.1f}" text-anchor="middle" class="t-hot">{i+1}</text>')
     o.append(f'<rect x="{X(-2.2)-9:.1f}" y="{Y(0.3)-9:.1f}" width="18" height="18" rx="3" class="start"><title>출발·충전 자리</title></rect>')
     # 범례
     ly = oy + 3 * s + 34
-    o.append(f'<line x1="{ox}" y1="{ly}" x2="{ox+30}" y2="{ly}" class="route"/><text x="{ox+36}" y="{ly+4}" class="t-small">모드 1 핫스폿 순회 (①벤치 → ②구석 → ③창문틀)</text>'
+    o.append(f'<line x1="{ox}" y1="{ly}" x2="{ox+30}" y2="{ly}" class="route"/><text x="{ox+36}" y="{ly+4}" class="t-small">모드 1 핫스폿 순회 (①벤치 → ②구석, ③창문틀은 확장)</text>'
              f'<line x1="{ox+330}" y1="{ly}" x2="{ox+360}" y2="{ly}" class="mop"/><text x="{ox+366}" y="{ly+4}" class="t-small">모드 2 밀대 직선 훑기 (줄 간격 0.27 m)</text>'
              f'<circle cx="{ox+8}" cy="{ly+24}" r="5" class="litter"/><text x="{ox+20}" y="{ly+28}" class="t-small">병·캔·컵 (장면 배치, 가정)</text>'
-             f'<rect x="{ox+330}" y="{ly+17}" width="24" height="14" class="sill"/><text x="{ox+360}" y="{ly+28}" class="t-small">창문틀 (높이 1.0 m, 가정)</text>')
+             f'<rect x="{ox+330}" y="{ly+17}" width="24" height="14" class="sill"/><text x="{ox+360}" y="{ly+28}" class="t-small">창문틀 (확장, 높이 1.0 m 가정)</text>')
     o.append("</svg>")
     return "".join(o)
 
@@ -184,7 +184,7 @@ def replace_ascii(h: str) -> str:
     blocks = re.findall(r"<pre><code>(.*?)</code></pre>", h, flags=re.S)
     for b in blocks:
         if "gym_v0" in b and "사이드라인" in b:
-            h = h.replace(f"<pre><code>{b}</code></pre>", f"<figure>{svg_gym()}<figcaption>그림. 장면 gym_v0(5 m × 3 m)을 위에서 본 그림. 모드 1은 핫스폿 세 곳을 돌며 집고, 모드 2는 코트 안을 직선 줄로 민다. 위치·줄 간격은 가정. 마우스를 올리면 설명이 나온다.</figcaption></figure>")
+            h = h.replace(f"<pre><code>{b}</code></pre>", f"<figure>{svg_gym()}<figcaption>그림. 장면 gym_v0(5 m × 3 m)을 위에서 본 그림. 모드 1은 핫스폿(벤치·구석, 창문틀은 확장)을 돌며 집고, 모드 2는 코트 안을 직선 줄로 민다. 위치·줄 간격은 가정. 마우스를 올리면 설명이 나온다.</figcaption></figure>")
     return h
 
 
