@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>체육관 정리 로봇</title>
-<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v1.2 — 대관 사이 체육관 정리 로봇 (MuJoCo Stretch 3 시뮬 + 메카넘 축소판)">
+<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v1.3 — 대관 사이 체육관 정리 로봇 (MuJoCo Stretch 3 시뮬 + 메카넘 축소판)">
 <style>
 :root{--bg:#fbfaf7;--surface:#ffffff;--ink:#1d1f23;--ink2:#4a4f57;--muted:#767c86;--line:#e3e1db;--accent:#1f6f5c;--accent-soft:#e3f1ec;--warn:#9a5b00;--warn-soft:#fdf1dc;--bar:#2f7d68;--obst:#8a8f98;--skip:#d9822b;--code:#f3f1ec;--maru:#e6c89c;--maru2:#efd6ae}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171a;--surface:#1d2024;--ink:#eceae4;--ink2:#c4c7cc;--muted:#9aa0a8;--line:#30343a;--accent:#5cc3a3;--accent-soft:#1d3a32;--warn:#f0b35a;--warn-soft:#3a2c17;--bar:#5cc3a3;--obst:#8a8f98;--skip:#e39a4c;--code:#24272c;--maru:#5a4630;--maru2:#6a523a}}
@@ -58,16 +58,17 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </style></head>
 <body><div class="wrap" id="top">
 <header class="hero">
-<div class="kicker">litter-bot · 기획안 v1.2 · 2026-11-23</div>
+<div class="kicker">litter-bot · 기획안 v1.3 · 2026-11-23</div>
 <h1>체육관 정리 로봇</h1>
-<p class="lede">대관과 대관 사이, 코트·벤치 주변의 생수병·캔·컵을 집게로 집고 바닥 먼지를 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 한다. 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
-<div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰) 표시를 꼭 함께 읽을 것</div>
-<div class="cards"><div class="card"><b>기능 1 · 집기</b><span>생수병·캔·컵을 핫스폿 순회(벤치 → 구석 → 창문틀)로 집는다</span></div><div class="card"><b>기능 2 · 밀기</b><span>모터 없는 극세사 패드로 코트를 직선 줄로 민다. 성과 = 닦은 면적 %</span></div><div class="card"><b>운행 조건</b><span>실내 마루, 대관 사이 빈 시간, 코트·벤치 주변. 관람석 Out</span></div><div class="card"><b>성공 기준(시뮬)</b><span>10개 중 8개 · 커버리지 95% · 모드 1 480 s · 모드 2 600 s · 충돌 0</span></div><div class="card"><b>실물</b><span>메카넘 축소판, 실내 마루 2 m × 2 m, 3개 중 2개 + 16칸 중 15칸, 긁힘 0</span></div><div class="card"><b>검증</b><span>11/24~30 체육관 2~3곳 계수·사람 기준선 · 관리자 1명 이상 시험 운영 동의</span></div></div>
+<p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
+<div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(주인 회고) 표시를 꼭 함께 읽을 것</div>
+<div class="cards"><div class="card"><b>주 기능 · 밀기</b><span>모터 없는 극세사 패드로 먼지·흙먼지·셔틀콕 깃털을 직선 줄로 민다. 성과 = 닦은 면적 %</span></div><div class="card"><b>보조 · 집기</b><span>벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림</span></div><div class="card"><b>운영 모드</b><span>짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0</span></div><div class="card"><b>앞 모듈 교체형</b><span>모듈 A 밀대(필수) ↔ 모듈 B 제설 날(확장). 여름~가을 체육관, 겨울 출입로</span></div><div class="card"><b>근거·검증</b><span>1차 근거 주인 회고(n≈10곳) → 11/24~30 계수로 확인 · 관리자 1명 이상 시험 운영 동의</span></div></div>
 </header>
 <nav class="toc"><b>목차</b><ol><li><a href="#s1">이 기획안의 약속</a></li><li><a href="#s2">0. 한 문장</a></li><li><a href="#s3">1. 문제와 근거</a></li><li><a href="#s4">2. 사용자</a></li><li><a href="#s5">3. 로봇 없이 풀리는가 (대안 비교)</a></li><li><a href="#s6">4. 대상 정의</a></li><li><a href="#s7">5. 운행 조건 (ODD: 로봇이 일하는 조건)</a></li><li><a href="#s8">6. 해결 방식</a></li><li><a href="#s9">7. 유저 시나리오 (요약)</a></li><li><a href="#s10">8. 시뮬레이션 계획</a></li><li><a href="#s11">9. 실물 축소판 계획</a></li><li><a href="#s12">10. 비슷한 제품과 차별점</a></li><li><a href="#s13">11. 성공 기준</a></li><li><a href="#s14">12. 위험과 중단 기준</a></li><li><a href="#s15">13. 현장 검증 (1주, 11/24(화) ~ 11/30(월))</a></li><li><a href="#s16">14. 4주 일정</a></li><li><a href="#s17">15. 주인이 정할 것</a></li><li><a href="#s18">16. 로드맵</a></li><li><a href="#s19">출처</a></li><li><a href="#s20">변경 기록</a></li><li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li></ol></nav>
 <main><blockquote>
-<p>읽는 법: 숫자 옆 <strong>[번호]</strong>는 맨 아래 '출처'의 번호다. <strong>(가정)</strong>은 근거 없이 정한 값이고, <strong>(확인 필요)</strong>는 찾았지만 원문으로 확인하지 못한 값이다. <strong>(실측)</strong>은 이 저장소 <code>logs/</code>에 기록이 있는 직접 측정값이고, <strong>(주인 관찰)</strong>은 기획자 본인이 체육관을 다니며 본 것이다. 가정과 주인 관찰은 1주 현장 검증(13장)에서 계수와 인터뷰로 바꾼다.</p>
+<p>읽는 법: 숫자 옆 <strong>[번호]</strong>는 맨 아래 '출처'의 번호다. <strong>(가정)</strong>은 근거 없이 정한 값이고, <strong>(확인 필요)</strong>는 찾았지만 원문으로 확인하지 못한 값이다. <strong>(실측)</strong>은 이 저장소 <code>logs/</code>에 기록이 있는 직접 측정값이고, <strong>(주인 관찰)</strong>은 기획자 본인이 체육관을 다니며 본 것이고, <strong>(주인 회고, n≈10곳)</strong>은 최근 1년 다닌 체육관 약 10곳을 떠올려 비교한 기억 기반 요약이다(직접 센 값 아님). 가정과 주인 관찰은 1주 현장 검증(13장)에서 계수와 인터뷰로 바꾼다.</p>
 <p><strong>v1.2에서 현장을 바꿨다.</strong> 가게 앞 보도(v1.1)에서 <strong>실내 체육관</strong>으로 옮겼다(주인 결정 2026-11-23, "체육관으로 해 보자"). 근거는 현장 비교 조사(같은 브리프로 따로 쓴 두 제안 + 비판 1회 — 독립 확인은 아님)와 주인의 반복 관찰이다(1-1). 가게 앞 버전의 통계·눈 치우기 검토는 v1.1(커밋 <code>b1f4b6b</code>)에 남겨 두었다.</p>
+<p><strong>v1.3에서 우선순위를 바꿨다.</strong> 주인 회고(n≈10곳)에 따르면 경기 1회 뒤 큰 쓰레기는 생수병 1개 + 과자 봉지 2개 수준이고, 사람 정리 시간은 밀대까지 하면 10~20분으로 쓰레기만(5~10분)의 두 배다. 그래서 <strong>밀대(먼지·흙먼지·셔틀콕 깃털) = 주 기능, 집게(생수병·과자 봉지) = 보조</strong>로 바꿨다(6-2). 회고는 11/24~11/30 계수로 확인할 가설이다.</p>
 </blockquote>
 
 <h2 id="s1">이 기획안의 약속</h2>
@@ -87,7 +88,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td><strong>① 직접 센 현장 데이터</strong></td>
 <td>13장 현장 검증, <a href="#field">02-현장계수표.md</a>, <code>logs/field/field_count_template.csv</code> → 1-1(주인 관찰을 숫자로), 4장(대상·위치), 12장(K-1·K-1b·K-1c·K-1e·K-7 판단)</td>
-<td><strong>비어 있음 — 11/24~11/30 주인 계수로 채움.</strong> 지금은 주인 관찰(n = 1)과 가정뿐이다</td>
+<td><strong>1차 근거: 주인 회고(n≈10곳, 기억 기반)</strong> — <code>logs/field/2026-11-23_주인회고.md</code>. 직접 센 계수는 <strong>11/24~11/30 주인 계수로 채움</strong></td>
 </tr>
 <tr>
 <td><strong>② 원본 자료</strong></td>
@@ -97,7 +98,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td><strong>③ 사람·쓰레기통 같은 대안보다 나은 점</strong></td>
 <td><strong>3장 대안 비교</strong>(수거함·대관 규칙·사람 정리·반입 제한·시판 로봇), 10장 차별점, 13-1 사람 기준선(스톱워치), K-1e</td>
-<td>비교 틀은 씀. '사람이 몇 분에 끝내나'는 <strong>11/24~11/30 주인 계수로 채움</strong></td>
+<td>비교 틀은 씀. 사람 시간은 회고로 <strong>쓰레기만 5~10분, 밀대까지 10~20분</strong>(n≈10곳, 기억). 스톱워치 값은 <strong>11/24~11/30 주인 계수로 채움</strong></td>
 </tr>
 <tr>
 <td><strong>④ 4주 안 시뮬·실물 숫자 기준</strong></td>
@@ -108,7 +109,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 
 <h2 id="s2">0. 한 문장</h2>
-<p><strong>대관과 대관 사이, 코트·벤치 주변의 생수병·캔·컵을 집게로 집고, 바닥 먼지를 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하는 체육관 정리 로봇.</strong></p>
+<p><strong>대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고, 벤치 쪽에 남은 생수병·과자 봉지는 집게로 집는 체육관 정리 로봇.</strong> (v1.3: 밀대가 주, 집게가 보조)</p>
 <p>이번 4주에는 두 기능을 <strong>MuJoCo 시뮬레이션(Hello Robot Stretch 3)으로 입증</strong>하고, 메카넘 바퀴 차에 3D 프린트 집게와 극세사 패드를 단 축소판으로 <strong>실내 마루 바닥에서 시연</strong>한다. 체육관은 실내 마루라서 <strong>체육관 마루와 비슷한 실내 평탄 바닥에서 시연하면 현장과 가까운 조건</strong>이 된다(집 바닥은 코팅 마루와 다를 수 있다). 4주는 시뮬과 실내 시연까지이고, 실제 체육관 운행은 <strong>시설 관리 주체의 동의와 안전 확인을 전제</strong>로 한다(5장). 기간은 4주(2026-11-23 ~ 12-18), 인원은 1명이다.</p>
 <div class="tbl"><table>
 <thead>
@@ -119,12 +120,24 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </thead>
 <tbody>
 <tr>
-<td>기능 1 (4주 필수)</td>
-<td><strong>병·캔·컵 집기.</strong> 쓰레기가 모이는 바닥 쪽 두 곳(벤치 구역 → 코트 구석)을 정해진 순서로 돌며 집는다(<strong>핫스폿 순회</strong>, 6-3). 창문틀은 <strong>확장</strong>(6-4)</td>
+<td><strong>주 기능 (4주 필수)</strong></td>
+<td><strong>먼지 밀기.</strong> 로봇 앞 아래에 단 극세사 밀대 패드(모터 없음)로 코트를 직선 줄로 훑어 먼지·흙먼지·먼지 뭉치·셔틀콕 깃털을 민다(<strong>직선 훑기</strong>). 성과 = 패드가 닦은 면적 %(커버리지)</td>
 </tr>
 <tr>
-<td>기능 2 (4주 필수)</td>
-<td><strong>먼지 밀기.</strong> 로봇 앞 아래에 단 극세사 밀대 패드(모터 없음)로 코트를 직선 줄로 훑는다(<strong>직선 훑기</strong>). 성과 = 패드가 닦은 면적 %(커버리지)</td>
+<td><strong>보조 기능 (4주 필수, 범위 작게)</strong></td>
+<td><strong>병·봉지 집기.</strong> 쓰레기가 모이는 벤치 구역(→ 코트 구석)을 돌며 생수병·구겨진 과자 봉지(·캔·컵)를 집는다(<strong>핫스폿 순회</strong>, 6-3). 창문틀은 <strong>확장</strong>(6-4)</td>
+</tr>
+<tr>
+<td>앞 모듈 교체형</td>
+<td>로봇 앞쪽 <strong>공용 장착부</strong>에 모듈을 바꿔 단다: <strong>모듈 A = 극세사 밀대(4주 필수)</strong>, 모듈 B = 제설 날(<strong>확장</strong> — 4주 필수 범위·일정은 늘리지 않음). 여름~가을 체육관, 겨울 출입로 제설 = 연중 사용 (6-9)</td>
+</tr>
+<tr>
+<td>분실물</td>
+<td>옷(교복)·수건·물이 찬 병·개인 물건은 <strong>줍지 않고 사진·위치만 남겨 관리자에게 알림</strong> (R-17)</td>
+</tr>
+<tr>
+<td>운영 모드</td>
+<td><strong>짧은 모드</strong>(빈 시간이 빠듯할 때: 벤치 구역 집기 + 벤치 앞 띠 밀기) / <strong>전체 모드</strong>(오전 여유·마지막 대관 뒤: 핫스폿 + 코트 전체 밀기). 목표: <strong>다음 팀 입장 전에 끝, 사람 5~20분보다 짧게</strong> (6-8)</td>
 </tr>
 <tr>
 <td>순서</td>
@@ -140,7 +153,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>시뮬 (필수)</td>
-<td>농구 코트 일부 5 m × 3 m 장면(라인·벤치, 창문틀은 장면에만 있음). 벤치·구석 8개 중 수거율 80%, 코트 밀대 커버리지 95%</td>
+<td>농구 코트 일부 5 m × 3 m 장면(라인·벤치, 창문틀은 장면에만 있음). 코트 밀대 커버리지 95% · 핫스폿 병·봉지 수거율 80% · 짧은 모드 360 s 이하 · 분실물 집기 0회</td>
 </tr>
 <tr>
 <td>실물 (필수)</td>
@@ -160,13 +173,13 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>4주</td>
-<td>1주 정하기·현장 검증 → 2주 한 개 집기·한 줄 밀기 → 3주 핫스폿 순회·전체 훑기·3전략 비교·측정 → 4주 시연·발표</td>
+<td>1주 정하기·현장 검증 → 2주 한 줄 밀기·한 개 집기 → 3주 전체 훑기·핫스폿 순회·짧은/전체 모드·3전략 비교·측정 → 4주 시연·발표</td>
 </tr>
 </tbody>
 </table></div>
 
 <h2 id="s3">1. 문제와 근거</h2>
-<h3>1-1. 1차 근거: 주인 관찰 (n = 1 관찰자)</h3>
+<h3>1-1. 1차 근거: 주인 관찰과 주인 회고 (n≈10곳)</h3>
 <p>기획자(주인)는 <strong>학교 체육관, 구민체육관, 사설 체육관</strong>에서 자주 농구를 한다. 그때 본 것을 이 기획의 1차 근거로 적는다. 한 사람의 관찰이라는 한계가 있어 13장에서 계수와 인터뷰로 확인한다.</p>
 <div class="tbl"><table>
 <thead>
@@ -178,7 +191,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>경기 뒤 <strong>생수병·캔이 남는 편</strong>이고, 치운다고 해도 쉽지 않다</td>
-<td>기능 1 (집기)</td>
+<td>보조 기능 (집기)</td>
 </tr>
 <tr>
 <td>쓰레기는 <strong>코트의 벤치 쪽, 구석, 창문틀</strong>에 많이 남는다</td>
@@ -186,7 +199,44 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td><strong>마루 바닥이 먼지 때문에 많이 미끄럽다</strong></td>
-<td>기능 2 (밀대)</td>
+<td>주 기능 (밀대)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>주인 회고 (2026-11-23, n≈10곳, 기억 기반 — 직접 센 값 아님)</strong> — 최근 1년 다닌 체육관 약 10곳(학교·구민·사설)을 비교한 요약. 원문: <code>logs/field/2026-11-23_주인회고.md</code>. 11/24~11/30 계수로 확인할 <strong>가설</strong>이다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>주인 회고</th>
+<th>이 기획에서 쓰는 곳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>경기 1회 뒤 평균</td>
+<td><strong>생수병 1개, 과자 봉지 2개</strong>, 먼지 뭉치, 바닥 흙먼지, 배드민턴 셔틀콕 깃털 조각, 학생 교복(분실물) 등. 관리가 아주 잘 된 곳을 빼면 대체로 비슷</td>
+<td>우선순위(6-2), 대상(4장), K-1 경계값</td>
+</tr>
+<tr>
+<td>위치</td>
+<td>쓰레기는 주로 <strong>벤치 쪽</strong>. 셔틀콕 깃털은 <strong>코트 위</strong>에 많음</td>
+<td>핫스폿 = 벤치 구역 우선, 깃털 = 밀대</td>
+</tr>
+<tr>
+<td>쓰레기통</td>
+<td>보통 <strong>입구 쪽</strong>(벤치와 떨어져 있음)</td>
+<td>로봇에 통 싣기 유지(6-8), 대안 비교(3장)</td>
+</tr>
+<tr>
+<td>다음 대관까지</td>
+<td>사설: 오후 빠듯, 오전 여유 · 학교: 수업에 따라 다름 · 구민: <strong>다음 대기자가 일찍 와서 기다림</strong> · 구청 시설: 비교적 관리가 잘 되지만 큰 쓰레기가 있을 때가 있음</td>
+<td>짧은/전체 모드(6-8)</td>
+</tr>
+<tr>
+<td>사람 정리 시간</td>
+<td><strong>쓰레기만 5~10분, 밀대까지 10~20분</strong></td>
+<td>왜 로봇인가(1-5), 사람 기준선(13-1), 시간 목표</td>
 </tr>
 </tbody>
 </table></div>
@@ -270,32 +320,48 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tbody>
 </table></div>
 <p><strong>솔직한 한계:</strong> "먼지 때문에 미끄러져 다친 비율"을 직접 보여 주는 국내 통계는 찾지 못했다. 그래서 이 기획은 <strong>'먼지 → 미끄럼'은 업계 지식 + 주인 관찰</strong>, <strong>'농구 → 부상이 흔함'은 통계</strong>로 나눠 말하고, 둘을 잇는 인과는 주장하지 않는다. 13장의 <strong>흰 천 1 m 먼지 사진</strong>과 관리자 인터뷰(미끄럼 민원 여부)로 현장 근거를 더한다.</p>
-<h3>1-5. 로봇이 덜어 주는 것 (가정)</h3>
+<h3>1-5. 왜 로봇인가 — 회고 숫자로 다시 쓰기</h3>
 <div class="tbl"><table>
 <thead>
 <tr>
-<th>일</th>
-<th>지금</th>
-<th>로봇이 하면</th>
+<th>항목</th>
+<th>값</th>
 <th>표시</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>병·캔·컵 줍기</td>
-<td>경기 뒤 대관 팀이 대충 줍거나 남긴다. 벤치 아래·구석·창문틀은 잘 안 보인다(주인 관찰)</td>
-<td>정해진 핫스폿을 매번 같은 순서로 돈다. 못 집은 것은 사진·위치로 남긴다</td>
-<td>개수는 가정 → 13장 계수</td>
+<td>경기 1회 뒤 사람 정리 시간</td>
+<td>쓰레기만 <strong>5~10분</strong>, 밀대까지 <strong>10~20분</strong></td>
+<td>주인 회고(n≈10곳)</td>
 </tr>
 <tr>
-<td>바닥 먼지 밀기</td>
-<td>관리 권장은 하루 여러 번·경기 전후 [9]. 실제 빈도는 모름</td>
-<td>대관 사이마다 코트를 줄로 훑는다. <strong>닦은 면적 %를 숫자로 남긴다</strong></td>
-<td>관리자 인터뷰로 확인</td>
+<td>그중 밀대 몫</td>
+<td>약 <strong>5~10분</strong> (두 값의 차이) — 쓰레기 줍기와 비슷하거나 크다</td>
+<td>회고에서 계산</td>
+</tr>
+<tr>
+<td>하루 대관 횟수 N</td>
+<td><strong>4회</strong> (예: 평일 저녁 2시간 × 2 + 오후·오전 2)</td>
+<td><strong>가정</strong> → 인터뷰 질문 4·관리자 일정표로 확인</td>
+</tr>
+<tr>
+<td>하루 정리 시간</td>
+<td>10~20분 × 4회 = <strong>하루 40~80분</strong></td>
+<td>가정(N)과 회고의 곱</td>
+</tr>
+<tr>
+<td>한 달 (30일, 가정)</td>
+<td><strong>약 20~40시간</strong></td>
+<td>같음</td>
 </tr>
 </tbody>
 </table></div>
-<p>시간 절약보다 <strong>"다음 팀이 깨끗하고 덜 미끄러운 바닥에서 시작한다"</strong>가 가치다. 덜어 주는 시간이 작다는 v1.1의 교훈을 그대로 가져와, 시간이 아니라 <strong>'매 대관 사이에 빠짐없이, 기록이 남게'</strong>를 판다(가설 → 인터뷰 질문 5·10, 사람 기준선 13-1).</p>
+<ul>
+<li><strong>지금은 이 시간을 매번 쓰지 않는다(가정, 주인 관찰과 맞음).</strong> 대관 팀은 철수 시간 안에 쓰레기만 대충 가져가고, 밀대질은 건너뛰거나 마지막 대관 뒤로 미룬다. 그래서 로봇이 주는 것은 두 가지다: ① <strong>건너뛰던 밀대질을 매 대관 사이에 한다</strong>(다음 팀이 덜 미끄러운 바닥에서 시작), ② 사람이 하던 날에는 <strong>그 10~20분을 다른 일에 쓴다</strong>.</li>
+<li><strong>밀대가 주 기능인 이유가 여기서 나온다.</strong> 사람 시간의 절반 이상이 밀대 몫이고, 미끄럼(안전)과 바로 이어진다. 병·봉지는 경기당 2~3개 수준이라(회고) 사람이 1~2분이면 줍는다(가정) — 집게는 '덤'이다.</li>
+<li>숫자 N과 '얼마나 건너뛰나'는 13장 인터뷰(과거 사실)로 바꾼다. 사람이 매번 밀대질을 하고 있다면 로봇의 가치는 '시간'뿐이다(K-1e).</li>
+</ul>
 <h3>1-6. 왜 체육관인가 — 현장 비교 요지 [21]</h3>
 <ul>
 <li>두 제안은 '쓰레기가 가장 많은 곳'이 아니라 <strong>'로봇이 다닐 수 있고, 구역과 돈 내는 사람이 정해진 곳'</strong>을 기준으로 후보(가게 앞 보도, 아파트 단지, 상가·오피스 건물 1층 출입구 앞 평탄부, 캠퍼스 등)를 비교했고, 둘 다 <strong>건물 1층 평탄부</strong>를 1위로 골랐다.</li>
@@ -350,7 +416,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 
 <h2 id="s5">3. 로봇 없이 풀리는가 (대안 비교)</h2>
-<p>먼저 <strong>로봇 없이도 풀리는지</strong>에 정면으로 답한다. 결론부터: <strong>병·캔은 로봇 없이도 꽤 풀릴 수 있다. 로봇이 꼭 필요한 근거는 '매 대관 사이 빠짐없는 밀대질'과 '기록'에 더 있다.</strong> 이것을 현장에서 확인하는 것이 13장의 일이다.</p>
+<p>먼저 <strong>로봇 없이도 풀리는지</strong>에 정면으로 답한다. 결론부터: <strong>병·봉지는 로봇 없이도 꽤 풀릴 수 있다(벤치 옆 수거함 하나로도). 로봇이 꼭 필요한 근거는 '매 대관 사이 빠짐없는 밀대질'(사람 시간의 절반 이상, 회고)과 '기록'에 있다.</strong> 그래서 v1.3에서 밀대를 주 기능으로 올렸다. 이것을 현장에서 확인하는 것이 13장의 일이다.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -364,7 +430,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td><strong>벤치 옆 수거함·쓰레기통 배치</strong></td>
-<td>버릴 곳이 가까우면 병·캔 상당수가 통으로 간다 (가정)</td>
+<td>지금 쓰레기통은 보통 <strong>입구 쪽</strong>이라 벤치에서 멀다(주인 회고). 벤치 옆에 두면 병·봉지 상당수가 통으로 간다 (가정)</td>
 <td>벤치 아래·구석·창문틀에 '놓고 가는' 것 (주인 관찰). <strong>먼지는 그대로</strong></td>
 <td>싸다. 통 비우기는 사람 일</td>
 <td><strong>가장 싼 대안이라 1순위로 비교한다.</strong> 이미 수거함이 있는데도 병이 남는지 사진으로 본다</td>
@@ -400,7 +466,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tbody>
 </table></div>
 <p><strong>로봇이 나은 점 (가설):</strong> ① <strong>매 대관 사이에 빠짐없이</strong> 같은 수준으로 한다(사람·규칙은 바쁜 날 빠진다). ② <strong>무엇을 했는지 숫자로 남긴다</strong> — 수거 수, 닦은 면적 %, 못 한 구역. 관리자가 대관 팀마다 확인할 필요가 줄어든다. ③ 병·캔 집기와 밀대질을 <strong>한 대가 한 번에</strong> 한다. 시판 로봇은 밀대만 한다.</p>
-<p><strong>로봇이 나쁜 점 (솔직하게):</strong> 사람이 몇 분(5분 안쪽으로 가정 — 13-1 스톱워치로 확인)에 끝낼 일을 시뮬 로봇은 13~18분 걸린다(7장). 수거함 + 규칙으로 병·캔이 거의 안 남는 체육관이라면 기능 1의 가치는 약하다 → K-1, K-1e로 판단한다.</p>
+<p><strong>로봇이 나쁜 점 (솔직하게):</strong> 사람이 5~20분(주인 회고)에 끝낼 일을 시뮬 로봇은 5 m × 3 m 장면에서도 13~18분 걸린다(7장, 시뮬 도구 속도). 제품은 다음 팀 입장 전에 끝나야 의미가 있다(6-8). 수거함 + 규칙으로 병·캔이 거의 안 남는 체육관이라면 집게(보조)의 가치는 약하다 → K-1, K-1e로 판단한다.</p>
 
 <h2 id="s6">4. 대상 정의</h2>
 <div class="tbl"><table>
@@ -409,59 +475,67 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <th>구분</th>
 <th>품목</th>
 <th>크기·무게 (시뮬 모델 값)</th>
-<th>어디에 (주인 관찰)</th>
+<th>어디에 (주인 관찰·회고)</th>
 <th>방식</th>
 <th>이번 4주</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>대상 1</strong></td>
-<td>생수병 (500 mL급, 빈 병)</td>
-<td>ø65 × 210 mm, 20 g (가정)</td>
-<td>벤치 구역, 구석 (창문틀은 확장)</td>
-<td>집게</td>
-<td><strong>필수</strong></td>
-</tr>
-<tr>
-<td><strong>대상 1</strong></td>
-<td>캔</td>
-<td>ø66 × 122 mm, 20 g (가정)</td>
-<td>벤치 구역, 구석 (창문틀은 확장)</td>
-<td>집게</td>
-<td><strong>필수</strong></td>
-</tr>
-<tr>
-<td><strong>대상 1</strong></td>
-<td>일회용 컵</td>
-<td>ø80 × 100 mm, 10 g (가정)</td>
-<td>벤치 구역</td>
-<td>집게</td>
-<td><strong>필수</strong></td>
-</tr>
-<tr>
-<td><strong>대상 1</strong></td>
-<td>벤치 위 병</td>
-<td>(위와 같음) 벤치 윗면 0.45 m 위</td>
-<td>벤치 위</td>
-<td>집게</td>
-<td><strong>필수</strong> (시뮬. 장면 10개 중 1개)</td>
-</tr>
-<tr>
-<td>대상 1 확장</td>
-<td>누운 병·캔</td>
-<td>높이 약 65 mm(누운 병 지름)</td>
-<td>벤치 아래, 코트</td>
-<td>집게</td>
-<td>시뮬, 남는 시간</td>
-</tr>
-<tr>
-<td><strong>대상 2</strong></td>
-<td>바닥 먼지</td>
+<td><strong>대상 1 (주)</strong></td>
+<td>먼지·바닥 흙먼지·먼지 뭉치</td>
 <td>잘다</td>
 <td>코트 전체</td>
 <td>극세사 패드 (모터 없음)</td>
 <td><strong>필수</strong> (커버리지로 판정)</td>
+</tr>
+<tr>
+<td><strong>대상 1 (주)</strong></td>
+<td>배드민턴 셔틀콕 깃털 조각</td>
+<td>가볍고 작다 (수 cm, 가정)</td>
+<td><strong>코트 위</strong> (회고)</td>
+<td>패드가 붙이거나 줄 끝으로 민다 (가정)</td>
+<td><strong>필수</strong> (시뮬: 판정 점, 실물: 깃털 시험 — 11장)</td>
+</tr>
+<tr>
+<td><strong>대상 2 (보조)</strong></td>
+<td>생수병 (500 mL급, 빈 병)</td>
+<td>ø65 × 210 mm, 20 g (가정)</td>
+<td>벤치 쪽 (회고), 구석</td>
+<td>집게</td>
+<td><strong>필수</strong></td>
+</tr>
+<tr>
+<td><strong>대상 2 (보조)</strong></td>
+<td><strong>구겨진</strong> 과자 봉지</td>
+<td>시뮬: 강체 상자 8 × 6 × 4 cm, 5 g로 단순화 (가정)</td>
+<td>벤치 쪽 (회고)</td>
+<td>집게</td>
+<td><strong>필수</strong> (6-2)</td>
+</tr>
+<tr>
+<td><strong>대상 2 (보조)</strong></td>
+<td>캔·일회용 컵</td>
+<td>ø66 × 122 mm 20 g / ø80 × 100 mm 10 g (가정)</td>
+<td>벤치 쪽</td>
+<td>집게</td>
+<td>필수 (회고에선 적음)</td>
+</tr>
+<tr>
+<td>대상 2 확장</td>
+<td>벤치 위 병, 누운 병·캔</td>
+<td>벤치 윗면 0.45 m 위 / 높이 약 65 mm</td>
+<td>벤치 위·아래</td>
+<td>집게</td>
+<td>시뮬, 남는 시간</td>
+</tr>
+<tr>
+<td>안 함 (4주)</td>
+<td><strong>납작한</strong> 과자 봉지</td>
+<td>두께 1 cm 미만</td>
+<td>벤치 쪽</td>
+<td>—</td>
+<td><strong>Out</strong> — 그리퍼 패드 아래면이 바닥에서 1~2 cm 떠 있어 못 집는다(실측 2026-11-22). 패드에 밀리면 줄 끝에 모이고, 결과 보고에 '사람 수거'로 남긴다</td>
 </tr>
 <tr>
 <td>안 함</td>
@@ -477,21 +551,21 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>액체</td>
 <td>—</td>
 <td>—</td>
-<td><strong>Out</strong> — 물기가 보이면 그 칸을 건너뛰고 '사람 확인 필요'로 기록 (젖은 패드가 바닥을 더 미끄럽게 할 수 있음, 가정)</td>
+<td><strong>Out</strong> — 물기 칸은 건너뛰고 '사람 확인 필요'로 기록 (젖은 패드가 바닥을 더 미끄럽게 할 수 있음, 가정)</td>
 </tr>
 <tr>
-<td>안 함</td>
-<td>가방·옷·공·물이 남은 병</td>
+<td><strong>분실물 (줍지 않음)</strong></td>
+<td>옷(학생 교복 등)·수건·<strong>물이 찬 병</strong>·가방·신발·공·개인 물건</td>
 <td>소지품</td>
+<td>코트·벤치 (회고: 교복)</td>
 <td>—</td>
-<td>—</td>
-<td><strong>Out</strong> — 버린 것인지 판단할 수 없다. <strong>물이 남은(무거운) 병은 집지 않고 기록</strong> (쏟음 위험. 기준 0.1 kg, 가정)</td>
+<td><strong>줍지 않고 사진·위치를 남겨 관리자에게 '분실물 의심' 알림 (R-17).</strong> 패드 경로에 있으면 그 칸을 건너뛴다. 물이 찬 병 기준 0.1 kg (가정)</td>
 </tr>
 </tbody>
 </table></div>
 <blockquote>
-<p><strong>쓰레기가 모이는 곳 = 벤치 구역 · 코트 구석 · 창문틀</strong>(주인 관찰 2026-11-23). 창문틀은 바닥이 아니라 <strong>높은 선반 면</strong>이다. Stretch 3는 팔이 기둥을 타고 오르내려 바닥 근처부터 약 1.2 m까지 닿는다(실측, 6-4). 다만 실제 창문틀이 너무 높을 수 있어(주인 판단 2026-11-23) <strong>창문틀 집기는 4주 필수에서 빼고 확장</strong>으로 둔다. 현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만 시뮬 확장으로 시도한다. 실물 축소판은 바닥만 한다.</p>
-<p>현장 계수에서 경기 1회당 병·캔·컵이 평균 1개 미만이면 기능 1(집게)의 가치를 버리고 밀대 중심으로 다시 쓴다 → 중단 기준 K-1.</p>
+<p><strong>쓰레기가 모이는 곳 = 벤치 구역(회고: 주로 여기) · 코트 구석 · 창문틀</strong>(주인 관찰 2026-11-23). 창문틀은 바닥이 아니라 <strong>높은 선반 면</strong>이다. Stretch 3는 팔이 기둥을 타고 오르내려 바닥 근처부터 약 1.2 m까지 닿는다(실측, 6-4). 다만 실제 창문틀이 너무 높을 수 있어(주인 판단 2026-11-23) <strong>창문틀 집기는 4주 필수에서 빼고 확장</strong>으로 둔다. 현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만 시뮬 확장으로 시도한다. 실물 축소판은 바닥만 한다.</p>
+<p><strong>K-1은 경계값이다.</strong> 회고 평균은 생수병 1개 — 병·캔·컵만 세면 'K-1: 경기당 1개 미만'과 거의 같다. 과자 봉지(회고 2개)를 넣으면 경기당 약 3개다. 그래서 v1.3은 K-1을 '집게 대상(병·캔·컵·구겨진 봉지) 합계'로 세고, 1개 미만이면 집게를 확장으로 내려 <strong>밀대 전용 + 분실물 알림</strong> 로봇으로 간다(12장).</p>
 </blockquote>
 
 <h2 id="s7">5. 운행 조건 (ODD: 로봇이 일하는 조건)</h2>
@@ -563,50 +637,105 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </thead>
 <tbody>
 <tr>
-<td><strong>모드 1: 핫스폿 순회</strong></td>
-<td>병·캔·컵 집기</td>
+<td><strong>모드 1: 핫스폿 순회</strong> (보조)</td>
+<td>병·봉지 집기</td>
 <td>벤치 구역 → 코트 구석(확장: → 창문틀), 정해진 지점을 순서대로 돌며 그 주변만 카메라로 보고 집는다</td>
 <td>수거 수, 시간</td>
 </tr>
 <tr>
-<td><strong>모드 2: 직선 훑기</strong></td>
-<td>먼지 밀기</td>
+<td><strong>모드 2: 직선 훑기</strong> (주)</td>
+<td>먼지·흙먼지·깃털 밀기</td>
 <td>코트를 직선 줄로 훑는다(지그재그). 줄 끝에서만 방향을 바꾼다</td>
 <td><strong>패드가 지나간 면적 %(커버리지)</strong>, 시간</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>순서는 모드 1 → 모드 2.</strong> 패드는 로봇 앞 아래에 있어 병·캔을 밀어낼 수 있다. 그래서 먼저 핫스폿의 쓰레기를 치우고, 그다음 코트를 민다. 모드 2 중 앞에 병·캔이 보이면 <strong>0.30 m 앞에서 멈추고 위치를 기록</strong>한다(필수). 그 자리에서 집고 줄로 돌아오는 것은 확장이다.</p>
-<h3>6-2. 기능 2(밀대)를 4주 필수로 넣는 이유</h3>
+<p><strong>주 기능은 모드 2지만, 순서는 모드 1 → 모드 2다.</strong> 패드는 로봇 앞 아래에 있어 병·봉지를 밀어낼 수 있다. 그래서 먼저 핫스폿의 쓰레기를 치우고, 그다음 코트를 민다. 모드 2 중 앞에 병·캔이 보이면 <strong>0.30 m 앞에서 멈추고 위치를 기록</strong>한다(필수). 그 자리에서 집고 줄로 돌아오는 것은 확장이다.</p>
+<h3>6-2. 우선순위 재검토 (v1.3): 밀대 = 주, 집게 = 보조</h3>
+<p><strong>근거 (주인 회고, n≈10곳 — 가설):</strong></p>
 <div class="tbl"><table>
 <thead>
 <tr>
-<th>질문</th>
+<th>근거</th>
+<th>내용</th>
 <th>판단</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>일이 얼마나 늘어나나</td>
-<td>작다. 실물은 <strong>모터 없는 극세사 패드</strong>를 앞 아래에 붙이는 출력 브래킷 1개다. 시뮬은 패드를 <strong>충돌 없는 판정 영역</strong>으로 두고, 커버리지 계산은 v1.1에서 이미 계획한 격자 칠하기를 그대로 쓴다</td>
+<td>큰 쓰레기 양</td>
+<td>경기당 생수병 1개 + 과자 봉지 2개 수준</td>
+<td>집게가 할 일이 경기당 2~3개뿐이다. 사람이 1~2분이면 줍는다(가정)</td>
 </tr>
 <tr>
-<td>빼면 무엇을 잃나</td>
-<td>체육관에서 '왜 로봇인가'의 절반(미끄럼 = 안전)을 잃는다. 경기 1회당 병·캔이 적게 나오면(K-1) 기능 1만으로는 이야기가 무너진다</td>
+<td>사람 시간</td>
+<td>쓰레기만 5~10분 → 밀대까지 10~20분</td>
+<td><strong>밀대 몫이 사람 시간의 절반 이상</strong>이다</td>
 </tr>
 <tr>
-<td>무엇으로 아끼나</td>
-<td>집기를 코트 전체 지그재그 대신 <strong>핫스폿 순회</strong>로 바꿔(6-3) 집기 쪽 일을 줄였다</td>
+<td>바닥 쓰레기</td>
+<td>먼지 뭉치·흙먼지·셔틀콕 깃털(코트 위)</td>
+<td>모두 패드 대상이다</td>
 </tr>
 <tr>
-<td>정직하게 못 보이는 것</td>
-<td>시뮬은 먼지를 흉내 내지 않는다. <strong>'닦은 면적'은 보이지만 '먼지가 얼마나 닦였나'는 못 보인다.</strong> 이것은 실물 패드 아래면 사진과 현장 흰 천 사진으로만 보인다</td>
+<td>안전</td>
+<td>마루가 먼지로 미끄럽다(주인 관찰), 미끄럼 대부분이 먼지(업계 기사 [8])</td>
+<td>밀대가 '왜 로봇인가'의 중심</td>
+</tr>
+<tr>
+<td>대안</td>
+<td>병·봉지는 벤치 옆 수거함으로도 줄일 수 있다(3장)</td>
+<td>집게만으로는 대안에 진다</td>
 </tr>
 </tbody>
 </table></div>
-<p>결론: <strong>기능 2는 '패드 장착 + 직선 훑기 커버리지'까지 필수</strong>, '먼지 제거량 정량 측정'은 확장이다.</p>
-<h3>6-3. 전략 비교: 병·캔은 핫스폿 순회, 밀대는 직선 훑기</h3>
-<p>주인 관찰(쓰레기가 벤치·구석·창문틀에 모임)에 따라 병·캔 집기 전략 세 가지를 비교했다. 숫자는 시뮬 장면(5 m × 3 m, Stretch 3 0.097 m/s, 실측) 기준 <strong>예상</strong>이다. 직선 훑기(지그재그, boustrophedon)는 커버리지 경로 계획의 대표 방식이다[25].</p>
+<p><strong>결정(추천, 주인 확인 필요): 밀대 = 주 기능, 집게 = 보조 기능.</strong> 둘 다 4주 필수로 두되 무게를 바꾼다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>무엇이 바뀌나</th>
+<th>v1.2</th>
+<th><strong>v1.3</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한 문장·발표 순서</td>
+<td>집기 → 밀기</td>
+<td><strong>밀기 → 집기</strong> (운행 순서는 여전히 집기 먼저, 6-1)</td>
+</tr>
+<tr>
+<td>성공 기준</td>
+<td>수거 먼저</td>
+<td><strong>커버리지·짧은 모드 시간 먼저</strong>, 수거는 보조 기준 (11장)</td>
+</tr>
+<tr>
+<td>집게 범위</td>
+<td>벤치·구석 병·캔·컵 8개</td>
+<td>벤치 쪽 <strong>생수병·구겨진 과자 봉지</strong> 위주, 장면 쓰레기 수는 12/01 현장 평균에 맞춤</td>
+</tr>
+<tr>
+<td>실물</td>
+<td>표적 3개 집기 + 패드</td>
+<td><strong>패드 훑기 + 깃털 시험이 먼저</strong>, 표적 집기 3개 중 2개 유지</td>
+</tr>
+<tr>
+<td>일정 위험 시</td>
+<td>실물을 멈추고 시뮬 집중</td>
+<td><strong>집게부터 줄인다</strong> (K-3: 실물 집게 → 원격 조종, 밀대는 자율 유지)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>과자 봉지를 집게 대상에 넣나?</strong></p>
+<ul>
+<li>봉지는 가볍고(수 g) 모양이 변한다. 구겨진 봉지는 높이가 수 cm라 집게로 잡을 수 있지만, 납작한 봉지는 그리퍼 패드 아래면이 바닥에서 1~2 cm 떠 있어 못 잡는다(실측 2026-11-22).</li>
+<li><strong>판단: 구겨진 봉지(높이 4 cm 이상, 가정)만 집게 대상, 납작한 봉지는 4주 Out</strong>(패드에 밀리면 줄 끝에 모이고 '사람 수거'로 기록).</li>
+<li><strong>시뮬 단순화:</strong> MuJoCo로 얇은 막(봉지)을 물리 그대로 흉내 내는 것은 4주 범위 밖이다. 구겨진 봉지는 <strong>가벼운 강체 상자(8 × 6 × 4 cm, 5 g, 마찰 높게 — 모두 가정)</strong>로 둔다. 발표에 '봉지는 강체로 단순화'라고 밝힌다. 실물에서는 진짜 과자 봉지를 구겨 표적으로 쓴다.</li>
+<li>깊이 돌출 규칙(6-7)에서 구겨진 봉지는 '원기둥'이 아니라 '불규칙 덩어리(위에서 본 5~15 cm, 높이 3~8 cm)'로 받는다.</li>
+</ul>
+<p><strong>셔틀콕 깃털·먼지 뭉치는 시뮬에서 어떻게?</strong> 물리로 흉내 내지 않는다. 코트 위에 <strong>판정 점 200개(위치만, 가정)</strong>를 깔고, 패드 판정 영역이 지나가면 '치움'으로 지운다 → 남은 비율 = 1 − 커버리지와 같은 값이다. 실제로 패드가 깃털을 붙이는지·밀어 흩뜨리는지는 <strong>실물 깃털 시험</strong>으로만 본다(11-2).</p>
+<h3>6-3. 전략 비교: 병·봉지는 핫스폿 순회, 밀대는 직선 훑기</h3>
+<p>주인 관찰·회고(쓰레기는 주로 벤치 쪽)에 따라 병·봉지 집기 전략 세 가지를 비교했다. 숫자는 시뮬 장면(5 m × 3 m, Stretch 3 0.097 m/s, 실측) 기준 <strong>예상</strong>이다. 직선 훑기(지그재그, boustrophedon)는 커버리지 경로 계획의 대표 방식이다[25].</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -761,6 +890,11 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>좌표</td>
 </tr>
 <tr>
+<td><strong>분실물</strong> (옷·수건·물이 찬 병·개인 물건)</td>
+<td><strong>줍지 않는다.</strong> 0.30 m 앞에서 멈추고 사진을 찍은 뒤 그 칸을 우회한다. 관리자에게 '분실물 의심: 위치·사진' 알림 (R-17)</td>
+<td>사진·좌표</td>
+</tr>
+<tr>
 <td>비상정지</td>
 <td>키 또는 원격 → 1초 안에 멈춤</td>
 <td>정지 시간</td>
@@ -817,6 +951,16 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td><strong>쓰레기 후보</strong> → 집기</td>
 </tr>
 <tr>
+<td>구겨진 과자 봉지</td>
+<td>위에서 본 5~15 cm 불규칙 덩어리, 높이 3~8 cm, 색이 진하고 반사(포장)</td>
+<td><strong>쓰레기 후보</strong> → 집기. 확신 낮으면 기록만</td>
+</tr>
+<tr>
+<td>옷·수건 (분실물)</td>
+<td>위에서 본 넓이가 넓고(&gt; 25 cm) 납작한 천 덩어리(높이 &lt; 10 cm)</td>
+<td><strong>분실물</strong> → 사진·알림, 줍지 않음</td>
+</tr>
+<tr>
 <td>농구공</td>
 <td>지름 약 24 cm의 둥근 덩어리 (위에서 본 지름 &gt; 15 cm)</td>
 <td>장애물 (6-6 공 규칙)</td>
@@ -839,11 +983,116 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>물이 남은 병</td>
 <td>살짝 들어 올릴 때 질량 추정이 기준(<strong>0.1 kg</strong>, 가정 — 빈 500 mL 병은 약 20 g)을 넘음</td>
-<td>내려놓고 기록</td>
+<td>내려놓고 <strong>분실물로 사진·알림</strong></td>
 </tr>
 </tbody>
 </table></div>
 <p>확신이 낮은 후보는 <strong>집지 않고 사진·위치만 기록</strong>한다. 소지품을 쓰레기로 버리는 실수가 쓰레기를 놓치는 실수보다 나쁘기 때문이다.</p>
+<h3>6-8. 운영 시간과 모드 (v1.3)</h3>
+<p><strong>목표 시간:</strong> 로봇은 <strong>다음 팀이 입장하기 전에 끝나야</strong> 하고, <strong>사람이 쓰는 5~20분(주인 회고)보다 짧아야</strong> 한다. 회고에 따르면 대관 사이 여유는 체육관마다 다르다: 사설은 오후에 빠듯하고 오전은 여유, 학교는 수업에 따라 다르고, 구민은 다음 대기자가 일찍 와서 기다린다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>모드</th>
+<th>언제</th>
+<th>하는 일</th>
+<th>제품 목표 시간 (가정)</th>
+<th>시뮬 기준 (5 m × 3 m 장면)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>짧은 모드</strong></td>
+<td>빈 시간이 빠듯할 때 (구민·사설 오후), 또는 관리자가 고름</td>
+<td><strong>벤치 구역 집기 → 벤치 앞 띠(사이드라인 쪽) 밀기</strong></td>
+<td>5분 이하 (사람 '쓰레기만' 5~10분보다 짧게)</td>
+<td><strong>360 s 이하</strong> (벤치 구역 집기 + 벤치 앞 띠 4.5 m × 0.8 m 약 3줄, 예상 약 270 s)</td>
+</tr>
+<tr>
+<td><strong>전체 모드</strong></td>
+<td>오전 여유 시간, 그날 마지막 대관 뒤</td>
+<td>핫스폿 순회(벤치 → 구석) → 코트 전체 밀기</td>
+<td>15분 이하 (사람 '밀대까지' 10~20분보다 짧게)</td>
+<td>모드 1 480 s + 모드 2 600 s</td>
+</tr>
+<tr>
+<td>건너뜀</td>
+<td>빈 시간 0분, 사람이 코트에 남음</td>
+<td>출발 안 함, 다음 빈 시간 또는 마지막 대관 뒤로</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>모드는 대관 일정(다음 대관 시각)으로 자동으로 고르고, 관리자가 바꿀 수 있다. 다음 팀이 들어오면(사람 감지) 하던 줄을 마치지 않고 멈춘 뒤 충전 자리로 돌아간다 — <strong>입장을 막지 않는다.</strong></li>
+<li><strong>통을 로봇에 싣는 설계를 유지한다.</strong> 쓰레기통이 보통 입구 쪽이라 벤치에서 멀다(회고). 병 하나마다 입구까지 왕복하면 짧은 모드 시간을 넘는다. 바구니는 마지막에 관리자가 비우거나, 제품 단계에서 로봇이 입구 쪽 통에 비운다(로드맵).</li>
+<li>제품 목표 시간(5분·15분)은 7장의 제품 개념 사양(패드 1.0 m × 0.5 m/s, 가정)으로 맞출 수 있는지 확인이 필요하다. 시뮬 시간은 Stretch 모델 속도(0.097 m/s)라 제품 시간과 직접 비교하지 않는다.</li>
+</ul>
+<h3>6-9. 앞 모듈 교체형 — 모듈 A 밀대 ↔ 모듈 B 제설 날 (주인 제안 2026-11-23)</h3>
+<p>주인 제안: "앞에 청소하는 부분만 바꿔서 눈도 치우자." <strong>본선(체육관)은 그대로 두고</strong>, 설계만 '앞 모듈 교체형'으로 한다. <strong>4주 필수 범위와 일정은 늘리지 않는다</strong> — 모듈 B는 확장이다.</p>
+<p><strong>공용 장착부 규격 (가정 — 3주차 실물 설계에서 확정)</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>규격</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>고정</td>
+<td>차체 앞면 판에 <strong>M3 볼트 4개</strong>, 구멍 간격 가로 80 mm × 세로 30 mm (가정). 공구 하나로 1분 안에 바꾼다</td>
+</tr>
+<tr>
+<td>전기</td>
+<td><strong>커넥터 없음.</strong> 두 모듈 모두 모터·센서가 없는 수동 모듈이다</td>
+</tr>
+<tr>
+<td>높이</td>
+<td>장착판에 세로 슬롯 ±10 mm — 패드는 바닥에 살짝 눌리게, 날은 바닥에서 몇 mm 띄우게 맞춘다 (가정)</td>
+</tr>
+<tr>
+<td>시뮬</td>
+<td>베이스에 weld로 붙이는 별도 body 1개 (로봇 모델 파일은 고치지 않음). 모듈을 바꿔도 같은 부착 좌표를 쓴다</td>
+</tr>
+</tbody>
+</table></div>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>모듈</th>
+<th>무엇</th>
+<th>이번 4주</th>
+<th>시뮬</th>
+<th>실물</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 극세사 밀대</strong></td>
+<td>패드 + 브래킷, 모터 없음</td>
+<td><strong>필수 (주 기능)</strong></td>
+<td>충돌 없는 판정 영역 (8장)</td>
+<td>출력 브래킷 + 패드</td>
+</tr>
+<tr>
+<td><strong>B. 제설 날 (블레이드)</strong></td>
+<td>비스듬한 날 1장 (출력)</td>
+<td><strong>확장</strong></td>
+<td>2 m × 1 m 구역, 눈 입자 <strong>1,500개 이하</strong>를 날로 밀어내는 짧은 영상 1개. 예전 실측에서 입자 약 2,000개부터 실시간보다 느려졌다(<code>logs/2026-11-23_snow_particles.md</code> [31])</td>
+<td>날을 3D 프린트로 출력해 <strong>장착부에 끼우는 것까지</strong>. 실제 눈 시험은 눈이 오면(보장 없음)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>정직하게 말할 것</strong></p>
+<ul>
+<li>시뮬 입자는 뭉치거나 다져지지 않는 구슬이다. 보일 수 있는 것은 '날 경로와 밀어낸 비율'뿐이다.</li>
+<li>눈을 미는 힘은 차체 무게·출력이 정한다. Stretch 3(가반하중 2 kg급)와 메카넘 축소판은 실제 출입로 눈을 밀 힘이 없다(가정 — v1.1 부록 A의 추정: 폭 1 m × 6 m, 5 cm 눈이면 약 30 kg). <strong>제설 실용화에는 더 큰 차체가 필요하다</strong> → 로드맵.</li>
+<li>메카넘 롤러는 눈·물기에서 미끄러지고, 전기부 방수도 없다. 실물 축소판은 실외에 나가지 않는다(5장).</li>
+</ul>
+<p><strong>제설 현장 후보:</strong> 학교 운동장은 흙·인조잔디라 날이 흙까지 밀어 버린다 → 제외. <strong>포장된 출입로·체육관 앞 통로</strong>를 제설 현장으로 둔다. 건물 관리자의 보도 제설 책임 근거(「자연재해대책법」 제27조, 서울시 조례)는 v1.1 부록 A(커밋 <code>b1f4b6b</code>)에 정리해 두었다.</p>
+<p><strong>사업성 (가설):</strong> 같은 몸체로 <strong>여름~가을은 체육관 밀대, 겨울은 출입로 제설</strong> → 연중 쓰는 장비가 된다. 모듈 교체형 제품은 실외 쪽에 이미 있다(v1.1에서 본 Yarbo: 본체에 제설·잔디 모듈을 바꿔 단다). 체육관 관리자가 겨울 출입로 제설에도 책임이 있는지는 인터뷰에서 과거 사실로 묻는다(확인 필요).</p>
 
 <h2 id="s9">7. 유저 시나리오 (요약)</h2>
 <p>전문은 <a href="#scenario">01-유저시나리오.md</a>에 있다.</p>
@@ -858,7 +1107,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>19:00~20:50 대관 1팀 경기</td>
-<td>벤치 쪽·구석·창문틀에 생수병·캔이 쌓인다</td>
+<td>벤치 쪽에 생수병·과자 봉지, 코트 위에 셔틀콕 깃털·흙먼지가 남는다 (회고)</td>
 <td>같음. 로봇은 코트 밖 충전 자리에서 대기</td>
 </tr>
 <tr>
@@ -867,14 +1116,14 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>1팀은 짐만 챙긴다. 관리자가 '정리 시작'을 누른다</td>
 </tr>
 <tr>
-<td>20:55~21:09 대관 사이 (빈 시간 10분 가정)</td>
+<td>20:55~21:00 대관 사이 (구민: 2팀이 일찍 와서 기다림, 회고)</td>
 <td>2팀이 들어와 남은 병을 치우고, 미끄러운 바닥을 신발로 문지른다</td>
-<td>로봇이 벤치 → 구석을 돌며 병·캔을 집고(모드 1), <strong>벤치 쪽 반 코트</strong>를 줄로 민다(모드 2). 사람이 들어오면 멈춘다</td>
+<td><strong>짧은 모드:</strong> 벤치 구역의 병·봉지를 집고, 벤치 앞 띠를 민다. 교복 한 벌은 줍지 않고 사진·알림. 2팀이 들어오면 멈추고 돌아간다</td>
 </tr>
 <tr>
-<td>21:10 대관 2팀 시작</td>
+<td>21:00 대관 2팀 시작</td>
 <td>덜 치운 채 시작</td>
-<td>'완료: 병 5, 캔 3, 컵 1 · 못 집은 것 1개(사진) · 벤치 쪽 반 코트 밀대 96% · 물기 1곳 확인 필요' 알림. 2팀은 정리된 코트에서 시작</td>
+<td>'짧은 모드 완료: 병 1 · 봉지 2 / 벤치 앞 띠 밀대 97% / 분실물 의심 1(교복, 사진)' 알림. 나머지 코트 밀기는 <strong>마지막 대관 뒤 전체 모드</strong>로 미룬다</td>
 </tr>
 </tbody>
 </table></div>
@@ -900,7 +1149,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>장면 v1 (4일차)</td>
-<td><code>gym_v0</code>에 Stretch 3, 로봇에 실은 바구니(weld), 극세사 패드 판정 영역을 더한다. 쓰레기 배치는 핫스폿 안에서 시드별 무작위</td>
+<td><code>gym_v0</code>에 Stretch 3, 로봇에 실은 바구니(weld), 극세사 패드 판정 영역을 더한다. <strong>v1.3 추가:</strong> 구겨진 과자 봉지 2개(강체 상자 8 × 6 × 4 cm, 5 g), 셔틀콕 깃털·먼지 판정 점 200개(물리 없음), 분실물 대역 1개(교복 — 납작한 넓은 상자 40 × 30 × 3 cm), 물이 남은 병 1개 (모두 가정). 쓰레기 수·배치는 12/01 현장 평균에 맞추고 시드별 무작위</td>
 </tr>
 <tr>
 <td>패드</td>
@@ -928,7 +1177,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>측정</td>
-<td>판정 함수 <code>metrics</code>: 수거 수(필수 8개 / 창문틀 확장 따로), 밀대 커버리지 %, 시뮬 시간(모드별), 장애물 충돌, 사람 대역 앞 정지, 떨어뜨림, 구역 밖 나감, 청소 못 한 구역, 쓰레기 참값 조회 횟수</td>
+<td>판정 함수 <code>metrics</code>: 밀대 커버리지 %(남은 판정 점 비율), 수거 수(필수 / 창문틀 확장 따로), 분실물 집기 횟수·사진 기록, 모드별(짧은·전체) 시간, 시뮬 시간(모드별), 장애물 충돌, 사람 대역 앞 정지, 떨어뜨림, 구역 밖 나감, 청소 못 한 구역, 쓰레기 참값 조회 횟수</td>
 </tr>
 <tr>
 <td>반복</td>
@@ -956,8 +1205,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>3D 프린트 집게 + 들기 관절 = 서보 2개. 바닥만 (창문틀은 범위 밖)</td>
 </tr>
 <tr>
-<td>밀대 패드</td>
-<td>극세사 패드(시판 밀대 교체용을 잘라 씀, 가정) + 출력 브래킷. <strong>모터 없음.</strong> 바퀴 앞에 둔다(밀대 선행). 폭 약 0.20 m (가정)</td>
+<td>밀대 패드 (모듈 A)</td>
+<td>극세사 패드(시판 밀대 교체용을 잘라 씀, 가정) + 출력 브래킷. <strong>모터 없음.</strong> 바퀴 앞에 둔다(밀대 선행). 폭 약 0.20 m (가정). <strong>공용 장착부(M3 볼트 4개, 6-9)</strong>에 단다</td>
+</tr>
+<tr>
+<td>제설 날 (모듈 B, 확장)</td>
+<td>PLA 출력 날 1장, 같은 장착부에 끼우기까지. 실제 눈 시험은 눈이 오면</td>
 </tr>
 <tr>
 <td>시연장</td>
@@ -965,7 +1218,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>표적</td>
-<td>소형 생수병·미니캔·종이컵 또는 출력 표적, 50 g 이하 (가정)</td>
+<td>소형 생수병, <strong>구겨진 과자 봉지</strong>, 미니캔 또는 출력 표적, 50 g 이하 (가정). <strong>셔틀콕 깃털 조각 20개</strong>(헌 셔틀콕을 뜯어 씀)로 패드 시험. 분실물 대역으로 수건 1장</td>
 </tr>
 <tr>
 <td>인식</td>
@@ -1103,10 +1356,11 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <li>국내 체육관에서 바닥 청소 로봇을 쓰는 사례나 국내 가격은 이번에 찾지 못했다(확인 필요).</li>
 <li>스크러버는 <strong>습식</strong>이 많다. 마루 체육관에 물을 쓰는 것이 맞는지는 시설·코팅마다 다르다(확인 필요). 우리는 마른 패드만 쓴다.</li>
 </ul>
+<p><strong>솔직한 점 (v1.3):</strong> 밀대(주 기능)만 놓고 보면 시판 청소 로봇이 이미 한다. 그래서 차별점은 밀대 자체가 아니라 <strong>① 대관 사이 짧은 모드(다음 팀 입장 전 끝), ② 벤치 쪽 병·봉지 집기, ③ 분실물 사진 알림, ④ 무엇을 했는지 기록, ⑤ 체육관 한 곳이 살 수 있는 가격(목표, 범위 밖)</strong>의 묶음이다.</p>
 <p><strong>차별점 한 줄:</strong> 시판 청소 로봇은 <strong>바닥을 닦지만 병·캔을 집지 못하고</strong>, 집게 달린 가정용 로봇은 체육관용이 아니다. 우리는 <strong>대관 사이 짧은 시간에, 쓰레기가 모이는 곳(벤치·구석·창문틀)의 병·캔을 집고 코트 먼지를 밀어, 무엇을 했는지 숫자로 남기는 한 대</strong>를 노린다. "시설이 이것에 돈을 낼까"는 아직 근거가 없다(인터뷰 질문 5 '돈·사람을 쓴 적', 질문 10 '행동 약속').</p>
 
 <h2 id="s13">11. 성공 기준</h2>
-<p><strong>두 모드를 따로 판정한다.</strong> 한쪽만 넘어서는 통과가 아니다.</p>
+<p><strong>두 모드를 따로 판정한다.</strong> 한쪽만 넘어서는 통과가 아니다. v1.3부터 <strong>주 기능(밀대)·짧은 모드 기준을 먼저</strong> 본다.</p>
 <h3>11-1. 시뮬 (10회 평균, 시드 10개)</h3>
 <div class="tbl"><table>
 <thead>
@@ -1119,9 +1373,27 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </thead>
 <tbody>
 <tr>
-<td><strong>모드 1 (핫스폿 순회)</strong></td>
+<td><strong>짧은 모드</strong></td>
+<td>시간</td>
+<td>벤치 구역 집기 + 벤치 앞 띠 밀기 완료까지 <strong>시뮬 시간 360 s 이하</strong> (예상 약 270 s)</td>
+<td><code>data.time</code></td>
+</tr>
+<tr>
+<td>짧은 모드</td>
+<td>결과</td>
+<td>벤치 앞 띠 커버리지 <strong>95% 이상</strong>, 벤치 구역 집게 대상 수거율 <strong>80% 이상</strong></td>
+<td>같은 <code>metrics</code></td>
+</tr>
+<tr>
+<td><strong>분실물</strong></td>
+<td>집기</td>
+<td>분실물 대역(교복)·물이 남은 병을 <strong>집은 횟수 0</strong> (10회 모두), 사진·위치 기록 <strong>10회 모두</strong></td>
+<td>접촉·로그</td>
+</tr>
+<tr>
+<td><strong>모드 1 (핫스폿 순회, 보조)</strong></td>
 <td>수거</td>
-<td>벤치 구역·구석의 병·캔·컵 <strong>8개 중 수거율 80% 이상</strong>(10회 평균 비율), 최저 회도 5개 이상. 창문틀 2개는 세지 않음</td>
+<td>벤치 구역·구석의 집게 대상(병·캔·컵·구겨진 봉지, 장면 v1 기준 10개 — 12/01 현장 평균에 맞춤) <strong>수거율 80% 이상</strong>(10회 평균 비율), 최저 회도 60% 이상. 창문틀은 세지 않음</td>
 <td>에피소드 끝 쓰레기 중심이 바구니 영역 안</td>
 </tr>
 <tr>
@@ -1131,13 +1403,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td><code>data.time</code></td>
 </tr>
 <tr>
-<td>모드 1</td>
-<td>무거운 병</td>
-<td>장면 v1에 넣는 물이 남은 병 1개(질량 0.25 kg, 가정)를 <strong>집지 않고</strong> 위치를 기록 (기준 0.1 kg)</td>
-<td>로그</td>
-</tr>
-<tr>
-<td><strong>모드 2 (직선 훑기)</strong></td>
+<td><strong>모드 2 (직선 훑기, 주)</strong></td>
 <td>커버리지</td>
 <td>코트 안 구역을 5 cm 격자로 나눴을 때 <strong>패드 판정 영역이 한 번 이상 지나간 칸 95% 이상</strong>. 분모 = 전체 칸 − 장애물 칸. 건너뛴 칸은 분모에 남긴다</td>
 <td>패드 궤적으로 격자 칠하기</td>
@@ -1203,8 +1469,13 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </thead>
 <tbody>
 <tr>
-<td>수거 (모드 1)</td>
-<td>'벤치 구역'(테이프 표시) 주변 표적 <strong>3개 중 2개 이상</strong>을 차에 실은 통에 (최저 회도 1개)</td>
+<td><strong>깃털 시험 (주 기능)</strong></td>
+<td>2 m × 2 m에 셔틀콕 깃털 조각 20개를 뿌리고 패드로 1회 훑은 뒤, <strong>구역 안에 흩어져 남은 조각 5개 이하</strong> (나머지는 패드에 붙었거나 줄 끝에 모임, 가정 기준)</td>
+<td>사람이 세고 사진</td>
+</tr>
+<tr>
+<td>수거 (모드 1, 보조)</td>
+<td>'벤치 구역'(테이프 표시) 주변 표적(생수병·구겨진 봉지 포함) <strong>3개 중 2개 이상</strong>을 차에 실은 통에 (최저 회도 1개)</td>
 <td>사람이 세고 영상</td>
 </tr>
 <tr>
@@ -1266,7 +1537,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>사람 기준선</td>
-<td>13장에서 잰 '사람이 정리하는 시간'(병·캔 + 코트 밀대)을 시뮬·실물 결과와 <strong>같은 표에 나란히</strong> 적는다 (시간은 비교 기준. 로봇이 시간으로 이긴다고 주장하지 않는다)</td>
+<td>회고 값(쓰레기만 5~10분, 밀대까지 10~20분)과 13장 스톱워치 값을 시뮬·실물 결과와 <strong>같은 표에 나란히</strong> 적는다 (시간은 비교 기준. 로봇이 시간으로 이긴다고 주장하지 않는다)</td>
 <td>스톱워치</td>
 </tr>
 <tr>
@@ -1281,8 +1552,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p><strong>확장 (시간 남을 때):</strong> 창문틀 2개 중 1개 이상 집기(현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만, K-7) / 모드 2 중 떨어진 캔을 집고 줄로 복귀 / 코트 라인 카메라 위치 보정 / 흰 천 전후 무게로 먼지 제거량 정량화 / 실물 우회.</p>
-<p><strong>기준 재조정 폭:</strong> 12/01(화) 현장 검증 결과로 조정하더라도 <strong>수거율 70~90%, 커버리지 90~98%, 모드 1 시간 300~600 s, 모드 2 시간 400~900 s</strong> 안에서만 움직인다. 이 폭을 벗어나야 하면 기준을 바꾸지 않고 '실패'로 기록한다.</p>
+<p><strong>확장 (시간 남을 때):</strong> 모듈 B(제설 날) — 시뮬 2 m × 1 m·입자 1,500개 이하 밀어내기 영상 1개, 실물 날 출력·장착까지(6-9) / 창문틀 2개 중 1개 이상 집기(현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만, K-7) / 모드 2 중 떨어진 캔을 집고 줄로 복귀 / 코트 라인 카메라 위치 보정 / 흰 천 전후 무게로 먼지 제거량 정량화 / 실물 우회.</p>
+<p><strong>기준 재조정 폭:</strong> 12/01(화) 현장 검증 결과로 조정하더라도 <strong>수거율 70~90%, 커버리지 90~98%, 짧은 모드 240~480 s, 모드 1 시간 300~600 s, 모드 2 시간 400~900 s</strong> 안에서만 움직인다. 이 폭을 벗어나야 하면 기준을 바꾸지 않고 '실패'로 기록한다.</p>
 
 <h2 id="s14">12. 위험과 중단 기준</h2>
 <p>K-1 · K-1b · K-1c · K-1d는 현장 비교 종합의 중단 기준 4개를 그대로 옮겼다.</p>
@@ -1297,8 +1568,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td><strong>K-1</strong></td>
-<td>경기 뒤 병·캔이 생각보다 적다</td>
-<td><strong>경기 1회당 남는 생수병·캔·컵이 평균 1개 미만이면 '집게' 가치를 버리고 먼지 밀대 중심으로 다시 쓰거나, 현장 비교의 2위 후보(상가·오피스 건물 1층 출입구 앞 평탄한 사유지 한 구간)로 돌아간다</strong> (12/01 판단)</td>
+<td>경기 뒤 집게 대상이 생각보다 적다</td>
+<td><strong>경계값 주의:</strong> 회고 평균 생수병 1개는 원래 기준('병·캔·컵 경기당 1개 미만')과 거의 같다. v1.3은 <strong>집게 대상(병·캔·컵·구겨진 과자 봉지) 합계</strong>로 센다(회고로는 약 3개). <strong>합계가 경기당 평균 1개 미만이면 집게를 확장으로 내리고 '밀대 전용 + 분실물 알림' 로봇으로 간다.</strong> 밀대 근거(K-1b)까지 무너지면 현장 비교의 2위 후보(상가·오피스 건물 1층 출입구 앞 평탄한 사유지 한 구간)로 돌아간다 (12/01 판단)</td>
 </tr>
 <tr>
 <td><strong>K-1b</strong></td>
@@ -1323,7 +1594,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>K-3</td>
 <td>실물 집게·메카넘 제어가 늦다</td>
-<td>12/09(수)까지 정지 표적 5번 중 3번을 못 집으면 → 실물은 '원격 조종 집기 + 자율 밀대 훑기'로 축소, 자율 집기는 시뮬로만 주장</td>
+<td>12/09(수)까지 정지 표적 5번 중 3번을 못 집으면 → 실물은 '원격 조종 집기 + 자율 밀대 훑기'로 축소, 자율 집기는 시뮬로만 주장. <strong>일정이 밀리면 집게(보조)부터 줄이고 밀대(주)는 지킨다</strong></td>
 </tr>
 <tr>
 <td>K-4</td>
@@ -1366,6 +1637,16 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>로봇 geom 숨기기, 라인은 높이 0이라 깊이 돌출에서 빠짐, 공·가방·신발은 모양 규칙(6-7). <strong>3주차 10회에서 소지품을 집은 일이 1번이라도 있으면 확신 기준을 올리고 '기록만' 비율을 늘린다</strong></td>
 </tr>
 <tr>
+<td><strong>K-12</strong></td>
+<td>짧은 모드가 다음 팀 입장 전에 못 끝난다</td>
+<td>3주차 10회에서 짧은 모드가 360 s 기준을 넘으면 → 짧은 모드를 '벤치 앞 띠 밀기만'(집게 빼고)으로 줄인다</td>
+</tr>
+<tr>
+<td><strong>K-13</strong></td>
+<td>패드가 셔틀콕 깃털·먼지 뭉치를 모으지 못하고 흩뜨린다</td>
+<td>실물 깃털 시험 5회 평균에서 구역 안에 남은 조각이 10개 넘으면(20개 중) → 패드 앞에 얇은 가림판(가정)을 시험하고, 그래도 안 되면 '깃털은 사람 수거'로 범위를 줄이고 밀대 효과는 먼지(흰 천)로만 말한다</td>
+</tr>
+<tr>
 <td>K-11</td>
 <td>실제 투명 병이 깊이·색 모두에서 안 보인다</td>
 <td>실물 4주는 뚜껑·라벨이 있는 병으로 시연하고, 투명 병 인식은 로드맵(학습형 검출기)으로 둔다</td>
@@ -1375,7 +1656,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <p><strong>근거의 한계 (현장 비교 비판에서 배운 것):</strong> 체육관이라는 결론은 기획자 1명의 관찰과, 같은 브리프로 나온 두 제안의 수렴에 기대고 있다. 두 제안이 같은 답을 낸 것은 독립 확인이 아니다. 그래서 13장의 계수·인터뷰가 이 기획의 첫 관문이다.</p>
 
 <h2 id="s15">13. 현장 검증 (1주, 11/24(화) ~ 11/30(월))</h2>
-<p><strong>목표:</strong> 주인 관찰과 가정을 숫자로 바꾼다. <strong>12/01(화)</strong>에 K-1, K-1b, K-1c, K-1e, K-7을 판단하고 성공 기준을 재조정 폭 안에서 고친다.</p>
+<p><strong>1차 근거: 주인 회고(n≈10곳)</strong> — <code>logs/field/2026-11-23_주인회고.md</code>. 이번 주 계수는 이 회고(경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽, 깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분)를 <strong>확인하거나 뒤집는</strong> 일이다.</p>
+<p><strong>목표:</strong> 주인 관찰·회고와 가정을 숫자로 바꾼다. <strong>12/01(화)</strong>에 K-1, K-1b, K-1c, K-1e, K-7을 판단하고 성공 기준을 재조정 폭 안에서 고친다.</p>
 <h3>13-1. 방법</h3>
 <div class="tbl"><table>
 <thead>
@@ -1407,7 +1689,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td><strong>사람 기준선</strong></td>
-<td>주인이 직접 <strong>스톱워치로</strong> 잰다: ① 벤치·구석·창문틀의 병·캔·컵을 모두 주워 통에 넣는 시간, ② 시설 밀대(있으면)로 코트 반면 또는 정한 구역을 미는 시간과 면적(걸음 수로 추정). 각 2회 이상. 로봇과 비교할 기준이다(11-3, K-1e)</td>
+<td>주인이 직접 <strong>스톱워치로</strong> 잰다(회고 5~10분 / 10~20분과 비교): ① 벤치·구석·창문틀의 병·봉지·캔·컵을 모두 주워 <strong>입구 쪽 통</strong>에 넣는 시간, ② 시설 밀대(있으면)로 코트 반면 또는 정한 구역을 미는 시간과 면적(걸음 수로 추정). 각 2회 이상. 로봇과 비교할 기준이다(11-3, K-1e)</td>
 </tr>
 <tr>
 <td><strong>미끄럼 전후</strong></td>
@@ -1429,7 +1711,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <th>생수병</th>
 <th>캔</th>
 <th>컵</th>
-<th>테이프·밴드</th>
+<th>과자 봉지</th>
 <th>기타</th>
 <th>사진 번호</th>
 </tr>
@@ -1495,6 +1777,16 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td></td>
+<td>경기 전체: 먼지 뭉치(개) · 흙먼지(0~3) · 셔틀콕 깃털(0~3) · 분실물(옷 등, 개·무엇) · 쓰레기통 위치(입구/벤치 옆/없음)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table></div>
 <h3>13-3. 음료 반입 규정 확인</h3>
@@ -1545,7 +1837,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 <ul>
 <li>현장(A)은 시설 동의가 있을 때만 하고, 사람이 없는 시간에 한다.</li>
-<li>이 측정은 '밀대질을 하면 덜 미끄럽다'는 업계 지식[8]을 우리 현장에서 직접 확인하는 것이다. 차이가 없으면 기능 2의 근거를 '먼지 제거(청결)'로만 낮춰 말한다.</li>
+<li>이 측정은 '밀대질을 하면 덜 미끄럽다'는 업계 지식[8]을 우리 현장에서 직접 확인하는 것이다. 차이가 없으면 밀대(주 기능)의 근거를 '먼지 제거(청결)'로만 낮춰 말한다.</li>
 </ul>
 
 <h2 id="s16">14. 4주 일정</h2>
@@ -1581,7 +1873,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>2</td>
 <td>11/30 ~ 12/04</td>
 <td>04</td>
-<td>L1: 벤치 구역 1개를 참값 위치로 집어 바구니에 / 한 줄 밀기 커버리지 계산. <strong>12/04 K-2·K-8</strong></td>
+<td>L1: <strong>한 줄 밀기 커버리지 계산</strong> / 벤치 구역 1개(병 또는 봉지)를 참값 위치로 집어 바구니에. <strong>12/04 K-2·K-8</strong></td>
 <td>집게·패드 출력·조립, 원격 조종 집기, 한 줄 직진 오차 측정(K-1d)</td>
 <td>단위 테스트, 개발 기록</td>
 </tr>
@@ -1589,15 +1881,15 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>3</td>
 <td>12/07 ~ 12/11</td>
 <td>04 → 05</td>
-<td>L2: 핫스폿 순회 전체(벤치·구석) + 코트 전체 훑기 + 깊이 돌출·색 인식 + 장애물·사람 규칙, 10회 측정, 3전략 비교(순회·지그재그·찾아가기). <strong>12/09 K-4·K-5, 12/11 K-9</strong></td>
-<td>벤치 구역 표적 3개 자율 집기 + 2 m × 2 m 패드 훑기, 거리 센서 멈춤. <strong>12/09 K-3</strong></td>
+<td>L2: 코트 전체 훑기 + <strong>짧은 모드·전체 모드</strong> + 핫스폿 순회(벤치·구석) + 분실물 규칙 + 깊이 돌출·색 인식 + 장애물·사람 규칙, 10회 측정, 3전략 비교(순회·지그재그·찾아가기). <strong>12/09 K-4·K-5, 12/11 K-9</strong></td>
+<td>2 m × 2 m 패드 훑기 + <strong>깃털 시험</strong> + 벤치 구역 표적 3개 자율 집기, 거리 센서 멈춤. <strong>12/09 K-3, 12/11 K-12·K-13</strong></td>
 <td>검증 보고(성공 기준 표), 결함 목록, <strong>12/11 영상을 관리자에게 보내 시험 운영 동의 요청</strong></td>
 </tr>
 <tr>
 <td>4</td>
 <td>12/14 ~ 12/18</td>
 <td>06 → 07 → 08</td>
-<td>데모 영상 (모드 1 → 모드 2 한 번에)</td>
+<td>데모 영상 (짧은 모드·전체 모드 각 1개). 확장: 모듈 B 제설 날 입자 영상</td>
 <td>실물 5회 측정·시연 영상</td>
 <td>관리자 <strong>시험 운영 동의(행동 약속)</strong> 결과 기록(06, 11-3), 다른 PC에서 README대로 재현(07), 운영 리포트·백로그(08), 발표</td>
 </tr>
@@ -1632,6 +1924,24 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td><strong>결정됨 (2026-11-23):</strong> 너무 높을 것 같아 확장으로 옮김. 현장 계수에서 윗면 1.1 m 이하인 곳이 있으면 시뮬 확장으로 시도 (K-7)</td>
 </tr>
 <tr>
+<td>4</td>
+<td><strong>밀대 = 주, 집게 = 보조로 바꿀까? (v1.3)</strong></td>
+<td>A. 바꾼다(추천안) / B. v1.2처럼 둘 다 같은 무게 / C. 집게를 확장으로 내리고 밀대 전용</td>
+<td><strong>A</strong> — 회고상 사람 시간의 절반 이상이 밀대이고 큰 쓰레기는 경기당 2~3개뿐. 11/30 계수로 다시 본다 (6-2, K-1)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>과자 봉지를 어디까지 집나?</td>
+<td>A. 구겨진 봉지만(시뮬은 강체 상자) / B. 납작한 봉지까지(흡착·쓸기 등 새 장치 필요) / C. 봉지는 집지 않음</td>
+<td><strong>A</strong> — 납작한 봉지는 그리퍼 높이 때문에 못 잡는다(실측)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>하루 대관 횟수 N(왜 로봇인가 계산)</td>
+<td>가정 4회</td>
+<td>주인이 다니는 체육관 일정표로 실제 값을 알려 주면 1-5를 고친다</td>
+</tr>
+<tr>
 <td>3</td>
 <td>실물 시연을 실제 체육관에서 찍을까?</td>
 <td>A. 실내 바닥만 / B. 시설 동의를 받아 체육관에서 1회</td>
@@ -1639,7 +1949,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p>이미 정한 것(바꾸려면 말해 주면 된다): 현장 = 실내 체육관(주인 결정 2026-11-23), 관람석 Out, 기능 2(밀대) 4주 필수, 병·캔 = 핫스폿 순회 / 밀대 = 직선 훑기, 실물 = 메카넘 유지(궤도는 이 현장에 필요 없음).</p>
+<p>이미 정한 것(바꾸려면 말해 주면 된다): 현장 = 실내 체육관(주인 결정 2026-11-23), 관람석 Out, 밀대·집게 모두 4주 필수, 분실물은 줍지 않고 알림, 로봇에 통 싣기 유지, 병·캔 = 핫스폿 순회 / 밀대 = 직선 훑기, 실물 = 메카넘 유지(궤도는 이 현장에 필요 없음).</p>
 
 <h2 id="s18">16. 로드맵</h2>
 <div class="tbl"><table>
@@ -1653,8 +1963,18 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td><strong>1 (이번 4주)</strong></td>
-<td>코트·벤치 주변 병·캔·컵 집기 + 코트 먼지 밀기, 시뮬 + 실내 시연</td>
+<td>코트 먼지·흙먼지·깃털 밀기(주) + 벤치 쪽 병·봉지 집기(보조) + 분실물 알림, 짧은/전체 모드, 시뮬 + 실내 시연</td>
 <td>대관 사이 정리</td>
+</tr>
+<tr>
+<td><strong>1+ 모듈 B (겨울)</strong></td>
+<td><strong>포장된 출입로·체육관 앞 통로 제설</strong> — 같은 몸체에 제설 날 모듈. 실용화에는 더 큰 차체가 필요</td>
+<td>여름~가을 체육관 + 겨울 제설 = <strong>연중 사용</strong> (6-9)</td>
+</tr>
+<tr>
+<td>1+</td>
+<td>바구니를 입구 쪽 쓰레기통에 스스로 비우기, 납작한 봉지(흡착·쓸어 담기)</td>
+<td>쓰레기통이 입구 쪽(회고)</td>
 </tr>
 <tr>
 <td>2</td>
@@ -1678,7 +1998,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p><strong>눈 치우기는 이번 기획에서 뺐다.</strong> 실내 체육관과 관계가 없다. 검토 기록(법 근거, 입자 시뮬 비용 실측)은 v1.1 부록 A와 <code>logs/2026-11-23_snow_particles.md</code>에 그대로 남아 있다.</p>
+<p><strong>눈 치우기는 본선이 아니라 '앞 모듈 B' 확장·로드맵으로 돌아왔다(6-9).</strong> 본선은 체육관이다. 검토 기록(법 근거, 입자 시뮬 비용 실측)은 v1.1 부록 A와 <code>logs/2026-11-23_snow_particles.md</code>에 그대로 있다.</p>
 
 <h2 id="s19">출처</h2>
 <p><strong>원본 우선 원칙:</strong> 법령·표준·로봇 모델·시뮬 도구는 원문(국가법령정보센터, ISO, Menagerie XML, MuJoCo 문서)에 링크했다. 체육시설 통계(문체부 현황 원자료)와 구민체육관 조례·대관 약관은 이번에 원문 파일을 열어 보지 못해 <strong>검색으로 찾은 안내·보도에 '확인 필요'</strong>를 붙였다. 1주차(현장 검증 주간)에 원자료로 바꾼다.</p>
@@ -1713,6 +2033,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <li>MuJoCo Menagerie, Hello Robot Stretch 3 모델 XML (리프트 관절 <code>range="0.0 1.1"</code>, 커밋 370c439) — https://github.com/google-deepmind/mujoco_menagerie/blob/main/hello_robot_stretch_3/stretch.xml</li>
 <li>Microsoft, BeachBot (TechTics) — https://news.microsoft.com/source/emea/features/cigarette-butts-are-poisoning-shoreline-animals-this-beach-rover-may-help-clean-all-that-up/</li>
 <li>Angsa Robotics 회사 소개 자료 (EU Joinup, 2024) — https://joinup.ec.europa.eu/sites/default/files/document/2024-06/Angsa_Startup%20Presentation.pdf</li>
+<li>눈 입자 시뮬 비용 실험 (직접 측정: 입자 2,025개에서 실시간의 약 0.73~0.75배) — <a href="../logs/2026-11-23_snow_particles.md">logs/2026-11-23_snow_particles.md</a></li>
 </ol>
 <h2 id="s20">변경 기록</h2>
 <div class="tbl"><table>
@@ -1724,6 +2045,11 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>2026-11-23</td>
+<td>v1.3</td>
+<td>주인 회고(n≈10곳, 기억 기반) 반영: 경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분. <strong>밀대 = 주, 집게 = 보조</strong>(6-2), K-1 경계값 명시·집게 대상 합계로 변경, 구겨진 과자 봉지 집게 대상(시뮬 강체 상자)·납작한 봉지 Out, 분실물 규칙(R-17), 짧은/전체 모드와 시간 목표(6-8), <strong>앞 모듈 교체형(모듈 A 밀대 필수 / 모듈 B 제설 날 확장, 6-9 — 주인 제안, 4주 범위·일정 그대로)</strong>, '왜 로봇인가' 회고 숫자로(1-5), 깃털 시험·K-12·K-13, 계수표 품목 추가</td>
+</tr>
 <tr>
 <td>2026-11-23</td>
 <td>v1.2</td>
@@ -1742,14 +2068,17 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tbody>
 </table></div>
 <section class="part" id="scenario"><div class="part-title">부록 B</div><h1 style="font-size:30px">유저 시나리오 전문 (docs/01-유저시나리오.md)</h1><blockquote>
-<p>세 사람은 <strong>가상 인물</strong>이다. C는 기획자(주인)의 관찰을 바탕으로 만들었다. 시각·분·개수는 모두 <strong>(가정)</strong>이며, 기획안 13장 현장 검증(체육관 2~3곳 계수, 관리자 인터뷰, 사람 기준선 스톱워치)으로 바꾼다.
+<p>쓰레기 종류·위치·사람 시간은 <strong>주인 회고(n≈10곳, 기억 기반)</strong>를 따른다(<code>logs/field/2026-11-23_주인회고.md</code>): 경기당 생수병 1 + 과자 봉지 2, 먼지 뭉치·흙먼지·셔틀콕 깃털·분실물(교복), 쓰레기는 벤치 쪽, 쓰레기통은 입구 쪽, 사람 5~10분 / 밀대까지 10~20분.
+세 사람은 <strong>가상 인물</strong>이다. C는 기획자(주인)의 관찰을 바탕으로 만들었다. 시각·분·개수는 모두 <strong>(가정)</strong>이며, 기획안 13장 현장 검증(체육관 2~3곳 계수, 관리자 인터뷰, 사람 기준선 스톱워치)으로 바꾼다.
 로봇은 <strong>제품 개념</strong>(실제 크기 로봇, 집게 팔 + 극세사 밀대 패드 + 앱 알림)으로 그렸다. 이번 4주에 실제로 만드는 부분은 맨 아래 표의 '시뮬'·'실물' 열이다.
 4주는 시뮬레이션과 실내 시연이다. 실제 체육관 운행은 <strong>시설 관리 주체의 동의와 안전 확인을 전제</strong>로 한다.</p>
 </blockquote>
 <p><strong>로봇이 움직이는 방식 (기획안 6장)</strong></p>
 <ul>
-<li><strong>모드 1 — 핫스폿 순회:</strong> 쓰레기가 모이는 곳(<strong>벤치 구역 → 코트 구석</strong>, 확장: → 창문틀)을 정해진 순서로 돌며, 그 주변의 생수병·캔·컵만 집는다.</li>
-<li><strong>모드 2 — 직선 훑기:</strong> 앞 아래의 극세사 패드(모터 없음)로 코트를 직선 줄로 민다. 줄 끝에서만 방향을 바꾼다.</li>
+<li><strong>주 기능 — 모드 2 직선 훑기:</strong> 앞 아래의 극세사 패드(모터 없음, 앞 모듈 A)로 코트를 직선 줄로 밀어 먼지·흙먼지·셔틀콕 깃털을 민다. 줄 끝에서만 방향을 바꾼다.</li>
+<li><strong>보조 기능 — 모드 1 핫스폿 순회:</strong> 쓰레기가 모이는 곳(<strong>벤치 구역 → 코트 구석</strong>, 확장: → 창문틀)을 돌며 생수병·구겨진 과자 봉지(·캔·컵)를 집는다.</li>
+<li><strong>짧은 모드</strong>(빈 시간이 빠듯할 때: 벤치 구역 집기 + 벤치 앞 띠 밀기) / <strong>전체 모드</strong>(오전 여유·마지막 대관 뒤). 다음 팀이 들어오면 입장을 막지 않고 돌아간다.</li>
+<li><strong>분실물</strong>(옷·수건·물이 찬 병·개인 물건)은 줍지 않고 사진·위치를 관리자에게 알린다.</li>
 <li>순서는 <strong>모드 1 → 모드 2</strong> (패드가 병을 밀어내지 않게). 모드 2 중 병이 보이면 0.30 m 앞에서 멈추고 기록한다.</li>
 <li>공·가방·의자는 <strong>우회</strong>하고, <strong>사람이 1 m 안에 오면 멈춘다</strong>. 소지품(가방·신발·공)은 절대 집지 않는다.</li>
 <li>관람석(계단식)은 가지 않는다.</li>
@@ -1780,9 +2109,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>쓰레기·먼지</td>
-<td>벤치 쪽·구석·창문틀의 생수병·캔, 마루 먼지 (주인 관찰)</td>
-<td>팀원이 두고 간 병·캔</td>
-<td>앞 팀이 남긴 병, 미끄러운 바닥</td>
+<td>벤치 쪽 생수병·과자 봉지, 코트 위 셔틀콕 깃털·흙먼지, 분실물 교복 (회고)</td>
+<td>팀원이 두고 간 병·봉지</td>
+<td>앞 팀이 남긴 병·봉지, 미끄러운 바닥</td>
 </tr>
 <tr>
 <td>한 줄 바람</td>
@@ -1812,13 +2141,13 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>19:00~20:50</td>
-<td><strong>B(1팀)</strong> 경기. 팀원들이 생수병·캔을 벤치 위·아래, 구석, 창문틀에 둔다</td>
+<td><strong>B(1팀)</strong> 경기. 벤치 쪽에 생수병 1·과자 봉지 2가 남고, 코트 위엔 셔틀콕 깃털·흙먼지 (회고 평균)</td>
 <td>—</td>
 </tr>
 <tr>
 <td>20:50~21:00</td>
-<td><strong>B</strong>가 철수하며 눈에 띄는 병만 줍는다. 벤치 아래·창문틀은 놓친다</td>
-<td>철수 시간이 대관 시간에 들어간다</td>
+<td><strong>B</strong>가 철수하며 눈에 띄는 병만 줍는다. 쓰레기통이 <strong>입구 쪽</strong>이라 들고 가야 한다(회고). 밀대질은 하지 않는다</td>
+<td>쓰레기만 5~10분, 밀대까지면 10~20분(회고) — 철수 시간에 다 못 한다</td>
 </tr>
 <tr>
 <td>21:00</td>
@@ -1826,9 +2155,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>대관마다 들어가기 어렵다</td>
 </tr>
 <tr>
-<td>21:00~21:10</td>
-<td><strong>C(2팀)</strong> 입장. 남은 병을 모아 버리고, 미끄러운 곳을 신발 바닥으로 문지른다</td>
-<td>남이 남긴 것을 치운다. 몸 풀 시간이 줄어든다</td>
+<td>20:50~21:00</td>
+<td><strong>C(2팀)</strong>가 일찍 와서 기다린다(구민, 회고). 들어가자마자 남은 병·봉지를 치우고, 미끄러운 곳을 신발 바닥으로 문지른다. 코트에 교복 한 벌이 있다</td>
+<td>남이 남긴 것을 치운다. 분실물을 누구에게 줄지 모른다</td>
 </tr>
 <tr>
 <td>21:10</td>
@@ -1858,34 +2187,39 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>—</td>
 </tr>
 <tr>
-<td>20:55</td>
-<td><strong>A</strong>가 사무실에서 '정리 시작'을 누른다 (또는 대관 종료 시각에 예약 출발)</td>
+<td>20:52</td>
+<td>다음 대관까지 8분 — 로봇이 <strong>짧은 모드</strong>를 고른다 (A가 바꿀 수 있음)</td>
 <td>코트에 사람이 없는지 확인하고 출발</td>
 </tr>
 <tr>
-<td>20:55~21:02</td>
+<td>20:52~20:55</td>
 <td>—</td>
-<td><strong>모드 1:</strong> 벤치 구역 → 구석(제품 개념에서는 창문틀까지)을 돌며 병 5, 캔 3, 컵 1을 집어 바구니에 넣는다. 벤치 아래 가방 옆 캔은 확신이 낮아 <strong>사진만 기록</strong></td>
+<td><strong>모드 1(보조):</strong> 벤치 구역에서 생수병 1, 구겨진 과자 봉지 2를 집어 로봇에 실은 바구니에. 납작한 봉지 1장은 못 집어 '사람 수거'로 기록. 교복 한 벌은 <strong>줍지 않고 사진 → A에게 '분실물 의심' 알림</strong></td>
 </tr>
 <tr>
-<td>21:02~21:09</td>
-<td>C(2팀)가 일찍 들어와 벤치 쪽으로 걸어온다</td>
-<td><strong>모드 2:</strong> 벤치 쪽 반 코트를 줄로 민다(제품 개념: 패드 1.0 m × 0.5 m/s, 가정). C가 1 m 안에 들어오자 <strong>멈추고</strong>, C가 벤치에 앉자 3초 뒤 다시 간다</td>
+<td>20:55~20:58</td>
+<td>C(2팀)가 들어와 벤치 쪽으로 걸어온다</td>
+<td><strong>모드 2(주):</strong> 벤치 앞 띠를 줄로 민다(셔틀콕 깃털·흙먼지). C가 1 m 안에 들어오자 <strong>멈추고</strong>, 3초 비면 다시 간다. 경기 시작 직전에는 하던 줄을 멈추고 충전 자리로 돌아간다</td>
 </tr>
 <tr>
-<td>21:09</td>
+<td>20:58</td>
 <td>—</td>
-<td>충전 자리로 돌아온다. 알림: <strong>'완료: 병 5 · 캔 3 · 컵 1 / 확인 필요 1(사진) / 벤치 쪽 반 코트 밀대 96% / 물기 1곳 건너뜀'</strong></td>
+<td>알림: <strong>'짧은 모드 완료: 병 1 · 봉지 2 / 사람 수거 1(납작한 봉지) / 벤치 앞 띠 밀대 97% / 분실물 의심 1(교복, 사진)'</strong></td>
 </tr>
 <tr>
-<td>21:10</td>
-<td><strong>C</strong> 경기 시작. <strong>A</strong>는 알림의 '확인 필요' 사진과 물기 위치만 보고 가서 처리한다</td>
+<td>21:00</td>
+<td><strong>C</strong> 경기 시작. <strong>A</strong>는 교복 사진을 보고 분실물함에 옮긴다</td>
 <td>—</td>
 </tr>
 <tr>
-<td>마지막 대관 뒤</td>
-<td><strong>A</strong>가 바구니를 비운다. 패드를 교체·세탁한다</td>
-<td>다음 날 예약 확인</td>
+<td>마지막 대관 뒤 (또는 다음 날 오전 여유)</td>
+<td><strong>A</strong>가 바구니를 입구 쪽 통에 비운다. 패드를 교체·세탁한다</td>
+<td><strong>전체 모드:</strong> 핫스폿 순회 + 코트 전체 밀기</td>
+</tr>
+<tr>
+<td>겨울 (로드맵, 모듈 B)</td>
+<td>A가 앞 모듈을 제설 날로 바꿔 단다(볼트 4개)</td>
+<td>체육관 앞 포장 통로의 눈을 민다 — 실용화에는 더 큰 차체 필요</td>
 </tr>
 </tbody>
 </table></div>
@@ -1946,8 +2280,23 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>대관 사이 시간이 짧음</td>
-<td>모드 1만 하고 모드 2는 '다음 빈 시간'으로 미룸, 알림</td>
+<td><strong>짧은 모드</strong>(벤치 구역 집기 + 벤치 앞 띠 밀기). 그래도 모자라면 밀기만 하고 나머지는 마지막 대관 뒤 전체 모드로 미룸</td>
 <td>—</td>
+</tr>
+<tr>
+<td>분실물 (옷·수건·개인 물건)</td>
+<td>줍지 않음. 0.30 m 앞에서 멈추고 사진 → 그 칸 우회 → '분실물 의심' 알림</td>
+<td>A가 분실물함으로</td>
+</tr>
+<tr>
+<td>납작한 과자 봉지</td>
+<td>집지 못함 → 패드에 밀리면 줄 끝에 모임, '사람 수거'로 기록</td>
+<td>A가 줍기</td>
+</tr>
+<tr>
+<td>패드에 깃털이 많이 붙음</td>
+<td>결과 보고에 '패드 교체 필요'</td>
+<td>A가 패드 털기·교체</td>
 </tr>
 <tr>
 <td>대관 사이 빈 시간 0분 (바로 이어짐)</td>
@@ -1993,8 +2342,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>R-04</td>
-<td>생수병·캔·컵을 집어 로봇에 실은 바구니에 넣는다</td>
-<td>기능 1</td>
+<td>생수병·캔·컵을 집어 로봇에 실은 바구니에 넣는다 (쓰레기통이 입구 쪽이라 로봇에 싣는다)</td>
+<td>보조 기능</td>
 <td>시뮬·실물 필수</td>
 </tr>
 <tr>
@@ -2005,9 +2354,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>R-06</td>
-<td>극세사 패드로 코트를 직선 줄로 밀고 닦은 면적 %를 계산한다</td>
-<td>기능 2</td>
-<td>시뮬·실물 필수</td>
+<td>극세사 패드로 코트를 직선 줄로 밀고 닦은 면적 %를 계산한다 (먼지·흙먼지·셔틀콕 깃털)</td>
+<td><strong>주 기능</strong></td>
+<td>시뮬·실물 필수 (실물 깃털 시험)</td>
 </tr>
 <tr>
 <td>R-07</td>
@@ -2035,7 +2384,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>R-11</td>
-<td>물이 남은 병(0.1 kg 초과, 가정)은 집지 않고 기록한다</td>
+<td>물이 남은 병(0.1 kg 초과, 가정)은 집지 않고 분실물로 사진·알림한다 (R-17)</td>
 <td>쏟음</td>
 <td>시뮬 필수</td>
 </tr>
@@ -2069,6 +2418,30 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>범위</td>
 <td>시뮬 필수(구역 밖 0회)</td>
 </tr>
+<tr>
+<td><strong>R-17</strong></td>
+<td><strong>분실물</strong>(옷·수건·물이 찬 병·개인 물건)은 줍지 않고 사진·위치를 남겨 관리자에게 알린다. 패드 경로에 있으면 그 칸을 건너뛴다</td>
+<td>주인 회고(교복), 소지품 보호</td>
+<td>시뮬 필수(분실물 집기 0회, 사진 기록 100%)</td>
+</tr>
+<tr>
+<td><strong>R-18</strong></td>
+<td>다음 대관까지 남은 시간으로 <strong>짧은 모드 / 전체 모드</strong>를 고르고, 다음 팀 입장 전에 끝내거나 멈추고 돌아간다</td>
+<td>회고: 구민은 대기자가 기다림</td>
+<td>시뮬 필수(짧은 모드 360 s 이하)</td>
+</tr>
+<tr>
+<td><strong>R-19</strong></td>
+<td>구겨진 과자 봉지를 집는다 (납작한 봉지는 기록만)</td>
+<td>회고: 경기당 봉지 2개</td>
+<td>시뮬 필수(강체 상자로 단순화), 실물 표적 1개</td>
+</tr>
+<tr>
+<td>R-20</td>
+<td>앞 공용 장착부에 모듈 A(밀대)·모듈 B(제설 날)를 바꿔 단다</td>
+<td>주인 제안: 연중 사용</td>
+<td>모듈 A 필수, 모듈 B 확장</td>
+</tr>
 </tbody>
 </table></div>
 <h3>시뮬에서 재현할 것 / 실물로 시연할 것</h3>
@@ -2092,9 +2465,24 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>하지 않음</td>
 </tr>
 <tr>
-<td>직선 훑기</td>
+<td>직선 훑기 (주)</td>
 <td>코트 안 4.5 m × 2.1 m, 커버리지 95%</td>
-<td>10 cm 격자 90%, 직진 오차 ±10 cm</td>
+<td>10 cm 격자 90%, 직진 오차 ±10 cm, <strong>깃털 20개 중 남은 것 ≤ 5</strong></td>
+</tr>
+<tr>
+<td>짧은 모드</td>
+<td>벤치 구역 집기 + 벤치 앞 띠, 360 s 이하</td>
+<td>—</td>
+</tr>
+<tr>
+<td>분실물</td>
+<td>교복 대역 집기 0회, 사진 기록</td>
+<td>수건 1장 앞에서 멈춤</td>
+</tr>
+<tr>
+<td>모듈 B (확장)</td>
+<td>2 m × 1 m, 눈 입자 1,500개 이하 밀어내기 영상</td>
+<td>제설 날 출력·장착까지</td>
 </tr>
 <tr>
 <td>사람 멈춤</td>
@@ -2123,7 +2511,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div></section>
-<section class="part" id="field"><div class="part-title">부록 C</div><h1 style="font-size:30px">현장 계수표 (docs/02-현장계수표.md)</h1><p><strong>규칙:</strong> 경기 1회마다 아래 한 장(= CSV 한 줄). 체육관 2~3곳 × 경기 직후 3회 이상. 사진에 <strong>사람 얼굴·이름표·차량번호가 나오지 않게</strong>. 시설 안 촬영은 관리자에게 먼저 묻는다. 이름·연락처는 적지 않는다.</p>
+<section class="part" id="field"><div class="part-title">부록 C</div><h1 style="font-size:30px">현장 계수표 (docs/02-현장계수표.md)</h1><p><strong>1차 근거: 주인 회고(n≈10곳, 기억 기반)</strong> — <code>logs/field/2026-11-23_주인회고.md</code>. 회고 요지: 경기당 생수병 1 + 과자 봉지 2, 먼지 뭉치·흙먼지·셔틀콕 깃털·분실물(교복), 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 밀대까지 10~20분. 이 표는 그 회고를 <strong>확인하거나 뒤집는</strong> 계수다.</p>
+<p><strong>규칙:</strong> 경기 1회마다 아래 한 장(= CSV 한 줄). 체육관 2~3곳 × 경기 직후 3회 이상. 사진에 <strong>사람 얼굴·이름표·차량번호가 나오지 않게</strong>. 시설 안 촬영은 관리자에게 먼저 묻는다. 이름·연락처는 적지 않는다.</p>
 
 <p><strong>1. 언제·어디</strong></p>
 <ul>
@@ -2131,9 +2520,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <li>체육관 종류: ☐ 학교 ☐ 구민 ☐ 사설  · 체육관 기호(A/B/C): ____</li>
 <li>경기 끝난 시각: ____ : ____  · 센 시각: ____ : ____</li>
 <li>다음 대관까지 빈 시간: ____ 분 (모르면 비움)</li>
-<li>벤치 옆 수거함·쓰레기통: ☐ 있음 ☐ 없음</li>
+<li>벤치 옆 수거함·쓰레기통: ☐ 있음 ☐ 없음 · 쓰레기통 위치: ☐ 입구 쪽 ☐ 벤치 옆 ☐ 없음</li>
 </ul>
-<p><strong>2. 위치별 개수</strong> (빈 병·캔·컵만. 물이 찬 병은 맨 아래 칸)</p>
+<p><strong>2. 위치별 개수</strong> (빈 병·캔·컵·과자 봉지. 물이 찬 병은 아래 칸)</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -2141,6 +2530,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <th>생수병</th>
 <th>캔</th>
 <th>컵</th>
+<th>과자 봉지 (구겨짐 / 납작)</th>
 <th>기타</th>
 </tr>
 </thead>
@@ -2150,6 +2540,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td></td>
 <td></td>
 <td></td>
+<td>__ / __</td>
 <td></td>
 </tr>
 <tr>
@@ -2157,6 +2548,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td></td>
 <td></td>
 <td></td>
+<td>__ / __</td>
 <td></td>
 </tr>
 <tr>
@@ -2164,6 +2556,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td></td>
 <td></td>
 <td></td>
+<td>__ / __</td>
 <td></td>
 </tr>
 <tr>
@@ -2171,6 +2564,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td></td>
 <td></td>
 <td></td>
+<td>__ / __</td>
 <td></td>
 </tr>
 <tr>
@@ -2178,6 +2572,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td></td>
 <td></td>
 <td></td>
+<td>__ / __</td>
 <td></td>
 </tr>
 <tr>
@@ -2186,14 +2581,42 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>—</td>
 <td>—</td>
 <td>—</td>
+<td>—</td>
 </tr>
 </tbody>
 </table></div>
-<p>기타 예: 테이프·밴드, 휴지, 과자 봉지 (적은 품목을 메모에)</p>
+<p>기타 예: 테이프·밴드, 휴지 (적은 품목을 메모에)</p>
+<p><strong>2-b. 바닥 상태·분실물</strong> (경기 전체)</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>기록</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>먼지 뭉치</td>
+<td>____ 개 (눈에 띄는 것)</td>
+</tr>
+<tr>
+<td>바닥 흙먼지</td>
+<td>☐ 0 없음 ☐ 1 조금 ☐ 2 보통 ☐ 3 많음</td>
+</tr>
+<tr>
+<td>셔틀콕 깃털 조각</td>
+<td>☐ 0 없음 ☐ 1 조금 ☐ 2 보통 ☐ 3 많음 · 주로 어디: ☐ 코트 위 ☐ 벤치 쪽</td>
+</tr>
+<tr>
+<td>분실물 (옷·수건·개인 물건)</td>
+<td>____ 개 · 무엇: ________ (사진만, 줍지 않음)</td>
+</tr>
+</tbody>
+</table></div>
 <p><strong>3. 잰 것</strong></p>
 <ul>
-<li>사람 정리 시간 (병·캔·컵 전부 주워 통에 넣기, 스톱워치): ______ 초</li>
-<li>사람 밀대 시간 (했으면, 민 구역 대략 ___ m × ___ m): ______ 초</li>
+<li>사람 정리 시간 (병·캔·컵·봉지 전부 주워 <strong>입구 쪽</strong> 통에 넣기, 스톱워치 — 회고 5~10분): ______ 초</li>
+<li>사람 밀대 시간 (했으면, 민 구역 대략 ___ m × ___ m — 회고: 쓰레기 포함 10~20분): ______ 초</li>
 <li>창문틀 높이 (바닥 → 윗면, 줄자): ______ cm · 깊이 ______ cm</li>
 <li>흰 천 1 m 먼지 사진: ☐ 코트 중앙 ☐ 벤치 앞 · 사진 번호 ______</li>
 <li>미끄럼 당김 (했으면, 13-5 A): 밀대 전 ______ / 후 ______ (kgf, 5회 평균)</li>
@@ -2224,12 +2647,20 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>경기 끝난 시각, 센 시각, 다음 대관까지 분</td>
 </tr>
 <tr>
-<td>bin_near_bench</td>
-<td>벤치 옆 수거함 y/n</td>
+<td>bin_near_bench, bin_location</td>
+<td>벤치 옆 수거함 y/n, 쓰레기통 위치(entrance/bench/none)</td>
 </tr>
 <tr>
 <td>bench_* / corner_* / sill_* / court_* / elsewhere_*</td>
-<td>위치별(elsewhere = 로비·관람석 아래 등) bottle(생수병)·can·cup·other 개수</td>
+<td>위치별(elsewhere = 로비·관람석 아래 등) bottle(생수병)·can·cup·bag_crumpled(구겨진 봉지)·bag_flat(납작한 봉지)·other 개수</td>
+</tr>
+<tr>
+<td>dust_clump, grit_level, feather_level, feather_where</td>
+<td>먼지 뭉치 개수, 흙먼지 0~3, 셔틀콕 깃털 0~3, 깃털 주로 어디(court/bench)</td>
+</tr>
+<tr>
+<td>lost_items, lost_items_what</td>
+<td>분실물 개수, 무엇(예: 교복) — 사진만</td>
 </tr>
 <tr>
 <td>full_bottle</td>
