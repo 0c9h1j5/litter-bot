@@ -61,14 +61,14 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <div class="kicker">litter-bot · 기획안 v1.3 · 2026-11-23</div>
 <h1>체육관 정리 로봇</h1>
 <p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
-<div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(주인 회고) 표시를 꼭 함께 읽을 것</div>
-<div class="cards"><div class="card"><b>주 기능 · 밀기·흡입</b><span>① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기) → ③ 뒤 패드로 먼지·흙먼지·깃털을 모아 빨아들인다</span></div><div class="card"><b>보조 · 집기</b><span>벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림</span></div><div class="card"><b>운영 모드</b><span>짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0</span></div><div class="card"><b>앞 모듈 교체형</b><span>모듈 A 가이드·흡입·회전 패드 2개(실물까지 필수) ↔ 모듈 B 사선 제설 날(확장)</span></div><div class="card"><b>근거·검증</b><span>1차 근거 주인 회고(n≈10곳) → 11/24~30 계수로 확인 · 관리자 1명 이상 시험 운영 동의</span></div></div>
+<div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(현장 관찰 기반 추정) 표시를 꼭 함께 읽을 것</div>
+<div class="cards"><div class="card"><b>주 기능 · 밀기·흡입</b><span>① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기) → ③ 뒤 패드로 먼지·흙먼지·깃털을 모아 빨아들인다</span></div><div class="card"><b>보조 · 집기</b><span>벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림</span></div><div class="card"><b>운영 모드</b><span>짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게</span></div><div class="card"><b>성공 기준(시뮬)</b><span>커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0</span></div><div class="card"><b>앞 모듈 교체형</b><span>모듈 A 가이드·흡입·회전 패드 2개(실물까지 필수) ↔ 모듈 B 사선 제설 날(확장)</span></div><div class="card"><b>현장 데이터 (실측 + 추정)</b><span>실측 0건 · 추정 3건(체육관 약 10곳·1년 직접 이용 관찰) — 실측 보강 진행 중(11/24~)</span></div></div>
 </header>
-<nav class="toc"><b>목차</b><ol><li><a href="#s1">이 기획안의 약속</a></li><li><a href="#s2">0. 한 문장</a></li><li><a href="#s3">1. 문제와 근거</a></li><li><a href="#s4">2. 사용자</a></li><li><a href="#s5">3. 로봇 없이 풀리는가 (대안 비교)</a></li><li><a href="#s6">4. 대상 정의</a></li><li><a href="#s7">5. 운행 조건 (ODD: 로봇이 일하는 조건)</a></li><li><a href="#s8">6. 해결 방식</a></li><li><a href="#s9">7. 유저 시나리오 (요약)</a></li><li><a href="#s10">8. 시뮬레이션 계획</a></li><li><a href="#s11">9. 실물 축소판 계획</a></li><li><a href="#s12">10. 비슷한 제품과 차별점</a></li><li><a href="#s13">11. 성공 기준</a></li><li><a href="#s14">12. 위험과 중단 기준</a></li><li><a href="#s15">13. 현장 검증 (1주, 11/24(화) ~ 11/30(월))</a></li><li><a href="#s16">14. 4주 일정</a></li><li><a href="#s17">15. 주인이 정할 것</a></li><li><a href="#s18">16. 로드맵</a></li><li><a href="#s19">출처</a></li><li><a href="#s20">변경 기록</a></li><li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li></ol></nav>
+<nav class="toc"><b>목차</b><ol><li><a href="#s1">이 기획안의 약속</a></li><li><a href="#s2">0. 한 문장</a></li><li><a href="#s3">1. 문제와 근거</a></li><li><a href="#s4">2. 사용자</a></li><li><a href="#s5">3. 로봇 없이 풀리는가 (대안 비교)</a></li><li><a href="#s6">4. 대상 정의</a></li><li><a href="#s7">5. 운행 조건 (ODD: 로봇이 일하는 조건)</a></li><li><a href="#s8">6. 해결 방식</a></li><li><a href="#s9">7. 유저 시나리오 (요약)</a></li><li><a href="#s10">8. 시뮬레이션 계획</a></li><li><a href="#s11">9. 실물 축소판 계획</a></li><li><a href="#s12">10. 비슷한 제품과 차별점</a></li><li><a href="#s13">11. 성공 기준</a></li><li><a href="#s14">12. 위험과 중단 기준</a></li><li><a href="#s15">13. 현장 검증 (1주, 11/24(화) ~ 11/30(월))</a></li><li><a href="#s16">14. 4주 일정</a></li><li><a href="#s17">15. 주인이 정할 것</a></li><li><a href="#s18">16. 로드맵</a></li><li><a href="#s19">출처</a></li><li><a href="#s20">변경 기록</a></li><li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li><li><a href="#data">부록 D. 현장 데이터 (실측 + 추정) 요약</a></li></ol></nav>
 <main><blockquote>
-<p>읽는 법: 숫자 옆 <strong>[번호]</strong>는 맨 아래 '출처'의 번호다. <strong>(가정)</strong>은 근거 없이 정한 값이고, <strong>(확인 필요)</strong>는 찾았지만 원문으로 확인하지 못한 값이다. <strong>(실측)</strong>은 이 저장소 <code>logs/</code>에 기록이 있는 직접 측정값이고, <strong>(주인 관찰)</strong>은 기획자 본인이 체육관을 다니며 본 것이고, <strong>(주인 회고, n≈10곳)</strong>은 최근 1년 다닌 체육관 약 10곳을 떠올려 비교한 기억 기반 요약이다(직접 센 값 아님). 가정과 주인 관찰은 1주 현장 검증(13장)에서 계수와 인터뷰로 바꾼다.</p>
+<p>읽는 법: 숫자 옆 <strong>[번호]</strong>는 맨 아래 '출처'의 번호다. <strong>(가정)</strong>은 근거 없이 정한 값이고, <strong>(확인 필요)</strong>는 찾았지만 원문으로 확인하지 못한 값이다. <strong>(실측)</strong>은 이 저장소 <code>logs/</code>에 기록이 있는 직접 측정값이고, <strong>(주인 관찰)</strong>은 기획자 본인이 체육관을 다니며 본 것이고, <strong>(현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용))</strong>은 기획자가 최근 1년 동안 체육관 약 10곳을 직접 이용하며 관찰한 것을 정리한 값이다 — 실측(현장 계수)과 나눠 적는다. 가정과 주인 관찰은 1주 현장 검증(13장)에서 계수와 인터뷰로 바꾼다.</p>
 <p><strong>v1.2에서 현장을 바꿨다.</strong> 가게 앞 보도(v1.1)에서 <strong>실내 체육관</strong>으로 옮겼다(주인 결정 2026-11-23, "체육관으로 해 보자"). 근거는 현장 비교 조사(같은 브리프로 따로 쓴 두 제안 + 비판 1회 — 독립 확인은 아님)와 주인의 반복 관찰이다(1-1). 가게 앞 버전의 통계·눈 치우기 검토는 v1.1(커밋 <code>b1f4b6b</code>)에 남겨 두었다.</p>
-<p><strong>v1.3에서 우선순위를 바꿨다.</strong> 주인 회고(n≈10곳)에 따르면 경기 1회 뒤 큰 쓰레기는 생수병 1개 + 과자 봉지 2개 수준이고, 사람 정리 시간은 밀대까지 하면 10~20분으로 쓰레기만(5~10분)의 두 배다. 그래서 <strong>밀대(먼지·흙먼지·셔틀콕 깃털) = 주 기능, 집게(생수병·과자 봉지) = 보조</strong>로 바꿨다(6-2). 회고는 11/24~11/30 계수로 확인할 가설이다.</p>
+<p><strong>v1.3에서 우선순위를 바꿨다.</strong> 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용)에 따르면 경기 1회 뒤 큰 쓰레기는 생수병 1개 + 과자 봉지 2개 수준이고, 사람 정리 시간은 밀대까지 하면 10~20분으로 쓰레기만(5~10분)의 두 배다. 그래서 <strong>밀대(먼지·흙먼지·셔틀콕 깃털) = 주 기능, 집게(생수병·과자 봉지) = 보조</strong>로 바꿨다(6-2). 회고는 11/24~11/30 계수로 확인할 가설이다.</p>
 </blockquote>
 
 <h2 id="s1">이 기획안의 약속</h2>
@@ -88,7 +88,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td><strong>① 직접 센 현장 데이터</strong></td>
 <td>13장 현장 검증, <a href="#field">02-현장계수표.md</a>, <code>logs/field/field_count_template.csv</code> → 1-1(주인 관찰을 숫자로), 4장(대상·위치), 12장(K-1·K-1b·K-1c·K-1e·K-7 판단)</td>
-<td><strong>1차 근거: 주인 회고(n≈10곳, 기억 기반)</strong> — <code>logs/field/2026-11-23_주인회고.md</code>. 직접 센 계수는 <strong>11/24~11/30 주인 계수로 채움</strong></td>
+<td><strong>현장 데이터 (실측 + 추정)</strong> — <a href="#data">03-현장데이터-요약.md</a>: <strong>실측 0건 · 추정 3건, 실측 보강 진행 중(11/24~)</strong>. 1차 근거 = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용) (<code>logs/field/2026-11-23_주인회고.md</code>)</td>
 </tr>
 <tr>
 <td><strong>② 원본 자료</strong></td>
@@ -179,7 +179,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 
 <h2 id="s3">1. 문제와 근거</h2>
-<h3>1-1. 1차 근거: 주인 관찰과 주인 회고 (n≈10곳)</h3>
+<h3>1-1. 1차 근거: 현장 데이터 (실측 + 추정)</h3>
+<p><strong>현장 데이터 (실측 + 추정):</strong> 1차 근거 = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용), 실측(현장 계수)이 들어오는 대로 갱신한다. 지금 <strong>실측 0건 · 추정 3건(사설·구민·학교 대표 행) — 실측 보강 진행 중(11/24~)</strong>. 숫자는 <a href="#data">03-현장데이터-요약.md</a>(자동 생성, <code>logs/field/field_estimate_v1.csv</code> + <code>logs/field/field_count.csv</code>)을 따른다. 추정은 실측이라고 부르지 않는다.</p>
 <p>기획자(주인)는 <strong>학교 체육관, 구민체육관, 사설 체육관</strong>에서 자주 농구를 한다. 그때 본 것을 이 기획의 1차 근거로 적는다. 한 사람의 관찰이라는 한계가 있어 13장에서 계수와 인터뷰로 확인한다.</p>
 <div class="tbl"><table>
 <thead>
@@ -203,12 +204,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div>
-<p><strong>주인 회고 (2026-11-23, n≈10곳, 기억 기반 — 직접 센 값 아님)</strong> — 최근 1년 다닌 체육관 약 10곳(학교·구민·사설)을 비교한 요약. 원문: <code>logs/field/2026-11-23_주인회고.md</code>. 11/24~11/30 계수로 확인할 <strong>가설</strong>이다.</p>
+<p><strong>현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용)</strong> (2026-11-23) — 기획자가 최근 1년 동안 학교·구민·사설 체육관 약 10곳을 직접 이용하며 관찰한 것. 원문: <code>logs/field/2026-11-23_주인회고.md</code>. 11/24~11/30 계수로 확인할 <strong>가설</strong>이다.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
 <th>항목</th>
-<th>주인 회고</th>
+<th>현장 관찰 기반 추정</th>
 <th>이 기획에서 쓰는 곳</th>
 </tr>
 </thead>
@@ -333,7 +334,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>경기 1회 뒤 사람 정리 시간</td>
 <td>쓰레기만 <strong>5~10분</strong>, 밀대까지 <strong>10~20분</strong></td>
-<td>주인 회고(n≈10곳)</td>
+<td>현장 관찰 기반 추정 (<a href="#data">03-현장데이터-요약.md</a> 4절)</td>
 </tr>
 <tr>
 <td>그중 밀대 몫</td>
@@ -461,7 +462,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td><strong>벤치 옆 수거함·쓰레기통 배치</strong></td>
-<td>지금 쓰레기통은 보통 <strong>입구 쪽</strong>이라 벤치에서 멀다(주인 회고). 벤치 옆에 두면 병·봉지 상당수가 통으로 간다 (가정)</td>
+<td>지금 쓰레기통은 보통 <strong>입구 쪽</strong>이라 벤치에서 멀다(현장 관찰 기반 추정). 벤치 옆에 두면 병·봉지 상당수가 통으로 간다 (가정)</td>
 <td>벤치 아래·구석·창문틀에 '놓고 가는' 것 (주인 관찰). <strong>먼지는 그대로</strong></td>
 <td>싸다. 통 비우기는 사람 일</td>
 <td><strong>가장 싼 대안이라 1순위로 비교한다.</strong> 이미 수거함이 있는데도 병이 남는지 사진으로 본다</td>
@@ -497,7 +498,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tbody>
 </table></div>
 <p><strong>로봇이 나은 점 (가설):</strong> ① <strong>매 대관 사이에 빠짐없이</strong> 같은 수준으로 한다(사람·규칙은 바쁜 날 빠진다). ② <strong>무엇을 했는지 숫자로 남긴다</strong> — 수거 수, 닦은 면적 %, 못 한 구역. 관리자가 대관 팀마다 확인할 필요가 줄어든다. ③ 병·캔 집기와 밀대질을 <strong>한 대가 한 번에</strong> 한다. 시판 로봇은 밀대만 한다.</p>
-<p><strong>로봇이 나쁜 점 (솔직하게):</strong> 사람이 5~20분(주인 회고)에 끝낼 일을 시뮬 로봇은 5 m × 3 m 장면에서도 13~18분 걸린다(7장, 시뮬 도구 속도). 제품은 다음 팀 입장 전에 끝나야 의미가 있다(6-8). 수거함 + 규칙으로 병·캔이 거의 안 남는 체육관이라면 집게(보조)의 가치는 약하다 → K-1, K-1e로 판단한다.</p>
+<p><strong>로봇이 나쁜 점 (솔직하게):</strong> 사람이 5~20분(현장 관찰 기반 추정)에 끝낼 일을 시뮬 로봇은 5 m × 3 m 장면에서도 13~18분 걸린다(7장, 시뮬 도구 속도). 제품은 다음 팀 입장 전에 끝나야 의미가 있다(6-8). 수거함 + 규칙으로 병·캔이 거의 안 남는 체육관이라면 집게(보조)의 가치는 약하다 → K-1, K-1e로 판단한다.</p>
 
 <h2 id="s6">4. 대상 정의</h2>
 <div class="tbl"><table>
@@ -596,7 +597,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 <blockquote>
 <p><strong>쓰레기가 모이는 곳 = 벤치 구역(회고: 주로 여기) · 코트 구석 · 창문틀</strong>(주인 관찰 2026-11-23). 창문틀은 바닥이 아니라 <strong>높은 선반 면</strong>이다. Stretch 3는 팔이 기둥을 타고 오르내려 바닥 근처부터 약 1.2 m까지 닿는다(실측, 6-4). 다만 실제 창문틀이 너무 높을 수 있어(주인 판단 2026-11-23) <strong>창문틀 집기는 4주 필수에서 빼고 확장</strong>으로 둔다. 현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만 시뮬 확장으로 시도한다. 실물 축소판은 바닥만 한다.</p>
-<p><strong>K-1은 경계값이다.</strong> 회고 평균은 생수병 1개 — 병·캔·컵만 세면 'K-1: 경기당 1개 미만'과 거의 같다. 과자 봉지(회고 2개)를 넣으면 경기당 약 3개다. 그래서 v1.3은 K-1을 '집게 대상(병·캔·컵·구겨진 봉지) 합계'로 세고, 1개 미만이면 집게를 확장으로 내려 <strong>밀대 전용 + 분실물 알림</strong> 로봇으로 간다(12장).</p>
+<p><strong>K-1은 경계값이다.</strong> 회고 평균은 생수병 1개 — 병·캔·컵만 세면 'K-1: 경기당 1개 미만'과 거의 같다. 구겨진 과자 봉지를 넣으면 경기당 약 2개다(추정 데이터셋은 봉지 2개를 구겨짐 1 : 납작 1로 가정 — 납작한 봉지는 가이드·흡입 대상이라 집게 대상에서 뺀다. 현재 값은 <a href="#data">03-현장데이터-요약.md</a> 2절). 그래서 v1.3은 K-1을 '집게 대상(병·캔·컵·구겨진 봉지) 합계'로 세고, 1개 미만이면 집게를 확장으로 내려 <strong>밀대 전용 + 분실물 알림</strong> 로봇으로 간다(12장).</p>
 </blockquote>
 
 <h2 id="s7">5. 운행 조건 (ODD: 로봇이 일하는 조건)</h2>
@@ -683,7 +684,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 <p><strong>주 기능은 모드 2지만, 순서는 모드 1 → 모드 2다.</strong> 패드는 로봇 앞 아래에 있어 병·봉지를 밀어낼 수 있다. 그래서 먼저 핫스폿의 쓰레기를 치우고, 그다음 코트를 민다. 모드 2 중 앞에 병·캔이 보이면 <strong>0.30 m 앞에서 멈추고 위치를 기록</strong>한다(필수). 그 자리에서 집고 줄로 돌아오는 것은 확장이다.</p>
 <h3>6-2. 우선순위 재검토 (v1.3): 밀대 = 주, 집게 = 보조</h3>
-<p><strong>근거 (주인 회고, n≈10곳 — 가설):</strong></p>
+<p><strong>근거 (현장 관찰 기반 추정 — 가설):</strong></p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -1062,7 +1063,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </table></div>
 <p>확신이 낮은 후보는 <strong>집지 않고 사진·위치만 기록</strong>한다. 소지품을 쓰레기로 버리는 실수가 쓰레기를 놓치는 실수보다 나쁘기 때문이다.</p>
 <h3>6-8. 운영 시간과 모드 (v1.3)</h3>
-<p><strong>목표 시간:</strong> 로봇은 <strong>다음 팀이 입장하기 전에 끝나야</strong> 하고, <strong>사람이 쓰는 5~20분(주인 회고)보다 짧아야</strong> 한다. 회고에 따르면 대관 사이 여유는 체육관마다 다르다: 사설은 오후에 빠듯하고 오전은 여유, 학교는 수업에 따라 다르고, 구민은 다음 대기자가 일찍 와서 기다린다.</p>
+<p><strong>목표 시간:</strong> 로봇은 <strong>다음 팀이 입장하기 전에 끝나야</strong> 하고, <strong>사람이 쓰는 5~20분(현장 관찰 기반 추정)보다 짧아야</strong> 한다. 회고에 따르면 대관 사이 여유는 체육관마다 다르다: 사설은 오후에 빠듯하고 오전은 여유, 학교는 수업에 따라 다르고, 구민은 다음 대기자가 일찍 와서 기다린다.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -1815,7 +1816,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>사람 기준선</td>
-<td>회고 값(쓰레기만 5~10분, 밀대까지 10~20분)과 13장 스톱워치 값을 시뮬·실물 결과와 <strong>같은 표에 나란히</strong> 적는다 (시간은 비교 기준. 로봇이 시간으로 이긴다고 주장하지 않는다)</td>
+<td><a href="#data">03-현장데이터-요약.md</a>의 채택값(지금은 추정: 쓰레기만 5~10분, 밀대까지 10~20분)과 13장 스톱워치 값을 시뮬·실물 결과와 <strong>같은 표에 나란히</strong> 적는다 (시간은 비교 기준. 로봇이 시간으로 이긴다고 주장하지 않는다)</td>
 <td>스톱워치</td>
 </tr>
 <tr>
@@ -1831,7 +1832,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tbody>
 </table></div>
 <p><strong>확장 (시간 남을 때):</strong> 모듈 B(제설 날) — 시뮬 2 m × 1 m·입자 1,500개 이하 밀어내기 영상 1개, 실물 날 출력·장착까지(6-9) / 창문틀 2개 중 1개 이상 집기(현장 계수에서 창문틀 윗면이 1.1 m 이하로 재어진 곳이 있을 때만, K-7) / 모드 2 중 떨어진 캔을 집고 줄로 복귀 / 코트 라인 카메라 위치 보정 / 흰 천 전후 무게로 먼지 제거량 정량화 / 실물 우회.</p>
-<p><strong>기준 재조정 폭:</strong> 12/01(화) 현장 검증 결과로 조정하더라도 <strong>수거율 70~90%, 커버리지 90~98%, 짧은 모드 240~480 s, 모드 1 시간 300~600 s, 모드 2 시간 400~900 s</strong> 안에서만 움직인다. 이 폭을 벗어나야 하면 기준을 바꾸지 않고 '실패'로 기록한다.</p>
+<p><strong>기준 재조정 폭:</strong> 12/01(화)에 <a href="#data">03-현장데이터-요약.md</a>의 채택값(실측이 들어오면 자동 갱신)으로 조정하더라도 <strong>수거율 70~90%, 커버리지 90~98%, 짧은 모드 240~480 s, 모드 1 시간 300~600 s, 모드 2 시간 400~900 s</strong> 안에서만 움직인다. 이 폭을 벗어나야 하면 기준을 바꾸지 않고 '실패'로 기록한다.</p>
 
 <h2 id="s14">12. 위험과 중단 기준</h2>
 <p>K-1 · K-1b · K-1c · K-1d는 현장 비교 종합의 중단 기준 4개를 그대로 옮겼다.</p>
@@ -1944,7 +1945,9 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <p><strong>근거의 한계 (현장 비교 비판에서 배운 것):</strong> 체육관이라는 결론은 기획자 1명의 관찰과, 같은 브리프로 나온 두 제안의 수렴에 기대고 있다. 두 제안이 같은 답을 낸 것은 독립 확인이 아니다. 그래서 13장의 계수·인터뷰가 이 기획의 첫 관문이다.</p>
 
 <h2 id="s15">13. 현장 검증 (1주, 11/24(화) ~ 11/30(월))</h2>
-<p><strong>1차 근거: 주인 회고(n≈10곳)</strong> — <code>logs/field/2026-11-23_주인회고.md</code>. 이번 주 계수는 이 회고(경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽, 깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분)를 <strong>확인하거나 뒤집는</strong> 일이다.</p>
+<p><strong>현장 데이터 (실측 + 추정):</strong> 1차 근거 = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용), 실측(현장 계수)이 들어오는 대로 갱신한다. 지금 <strong>실측 0건 · 추정 3건(사설·구민·학교 대표 행) — 실측 보강 진행 중(11/24~)</strong>. 숫자는 <a href="#data">03-현장데이터-요약.md</a>(자동 생성, <code>logs/field/field_estimate_v1.csv</code> + <code>logs/field/field_count.csv</code>)을 따른다. 추정은 실측이라고 부르지 않는다.</p>
+<p><strong>실측 추가 3단계:</strong> ① 경기 1회를 <code>logs/field/field_count.csv</code>에 <strong>한 줄 추가</strong>(<code>source=field_count</code>) → ② <code>uv run python scripts/field_summary.py</code> <strong>실행</strong> → ③ <a href="#data">03-현장데이터-요약.md</a> <strong>요약이 갱신</strong>된다(유형별 실측 3건 이상이면 실측값만, 1~2건이면 추정과 섞어 쓴다). HTML은 <code>uv run --with markdown python docs/build_html.py</code>로 다시 만든다.</p>
+<p>이번 주 계수는 이 회고(경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽, 깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분)를 <strong>확인하거나 뒤집는</strong> 일이다.</p>
 <p><strong>목표:</strong> 주인 관찰·회고와 가정을 숫자로 바꾼다. <strong>12/01(화)</strong>에 K-1, K-1b, K-1c, K-1e, K-7을 판단하고 성공 기준을 재조정 폭 안에서 고친다.</p>
 <h3>13-1. 방법</h3>
 <div class="tbl"><table>
@@ -2348,6 +2351,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <li>LG전자 회전형 물걸레 교체용 4개 (할인 전 28,300원 표시) — https://www.lge.co.kr/product/care-accessories/robotic-vacuum-cleaner/ebz64750401 · 쿠팡 로보락 호환 물걸레 8개 9,900원 — https://www.coupang.com/vp/products/9623268217 (모두 판매 페이지, 품번·호환·시점 확인 필요)</li>
 <li>N20 기어모터: DFRobot 1:150 ($3.40, 6 V 133 rpm, 작동 전류 32 mA) — https://www.dfrobot.com/product-3176.html · Gravity N20(무부하 50 mA, 정지 640 mA) — https://vctec.co.kr/product/n20-마이크로-기어-모터-3v-6v-1150133rpm-드라이버-내장-gravity-n20-micro-metal-gear-m/23279/ · Pololu 6 V(무부하 0.10 A, 정지 1.5 A) — https://www.robotscience.kr/goods/view?no=17661</li>
 <li>롤러 솔 단순화 실험 (직접 측정, v1.1: 강체 롤러로 꽁초 10개 중 0~3개만 통에) — <a href="../logs/2026-11-23_roller_brush.md">logs/2026-11-23_roller_brush.md</a></li>
+<li>현장 데이터 (실측 + 추정) 요약 — <a href="#data">03-현장데이터-요약.md</a> (자동 생성: <code>scripts/field_summary.py</code>, 데이터: <code>logs/field/field_estimate_v1.csv</code>, <code>logs/field/field_count.csv</code>)</li>
 </ol>
 <h2 id="s20">변경 기록</h2>
 <div class="tbl"><table>
@@ -2362,7 +2366,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td>2026-11-23</td>
 <td>v1.3</td>
-<td>주인 결정 반영: 청소 모듈 주·집게 보조 확정, <strong>뒤 회전 패드 실물까지 4주 필수</strong>(위험 4가지·예산 필수로, 일정 압박 사다리, K-15: 12/09까지 반작용·전류·마모를 못 넘으면 고정 패드로), 과자 봉지 처리 개정(구겨진 = 집게/흡입, 납작한 = 가이드·흡입 — 이후 주인 확정, 15장 결정 표 정리). 그 전: 주인 답(대관 시간) 반영: '하루 4회' 가정을 유형별 타임 수(사설 6~9, 구민 3~5, 학교 1~2, 주인 진술 기반 추정)로 바꿔 1-5 계산, 6-8에 타임 사이(짧은 모드)·밤늦게/새벽(전체 모드) 구분. 그 전: 주인 아이디어 반영: 모듈 A를 <strong>① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기 + 덕트, 전원 분리) → ③ 뒤 패드</strong>로 비교·추천(6-10, 그림 3). 4주: 시뮬 (3) 전부, 실물 가이드 + 흡입 + 수동 패드, 회전 패드 실물은 확장. 조용한 운행 규칙, K-14, 모듈 A↔B 공통점. 그 전: 주인 회고(n≈10곳, 기억 기반) 반영: 경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분. <strong>밀대 = 주, 집게 = 보조</strong>(6-2), K-1 경계값 명시·집게 대상 합계로 변경, 구겨진 과자 봉지 집게 대상(시뮬 강체 상자)·납작한 봉지 Out, 분실물 규칙(R-17), 짧은/전체 모드와 시간 목표(6-8), <strong>앞 모듈 교체형(모듈 A 밀대 필수 / 모듈 B 제설 날 확장, 6-9 — 주인 제안, 4주 범위·일정 그대로)</strong>, '왜 로봇인가' 회고 숫자로(1-5), 깃털 시험·K-12·K-13, 계수표 품목 추가</td>
+<td>현장 데이터 (실측 + 추정) 체계: 추정 데이터셋(유형별 3행)·실측 파일·자동 요약(<a href="#data">03-현장데이터-요약.md</a>) 추가, 표기 '현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용)', 실측 추가 3단계. 그 전: 주인 결정 반영: 청소 모듈 주·집게 보조 확정, <strong>뒤 회전 패드 실물까지 4주 필수</strong>(위험 4가지·예산 필수로, 일정 압박 사다리, K-15: 12/09까지 반작용·전류·마모를 못 넘으면 고정 패드로), 과자 봉지 처리 개정(구겨진 = 집게/흡입, 납작한 = 가이드·흡입 — 이후 주인 확정, 15장 결정 표 정리). 그 전: 주인 답(대관 시간) 반영: '하루 4회' 가정을 유형별 타임 수(사설 6~9, 구민 3~5, 학교 1~2, 주인 진술 기반 추정)로 바꿔 1-5 계산, 6-8에 타임 사이(짧은 모드)·밤늦게/새벽(전체 모드) 구분. 그 전: 주인 아이디어 반영: 모듈 A를 <strong>① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기 + 덕트, 전원 분리) → ③ 뒤 패드</strong>로 비교·추천(6-10, 그림 3). 4주: 시뮬 (3) 전부, 실물 가이드 + 흡입 + 수동 패드, 회전 패드 실물은 확장. 조용한 운행 규칙, K-14, 모듈 A↔B 공통점. 그 전: 주인 회고(n≈10곳, 기억 기반) 반영: 경기당 생수병 1 + 과자 봉지 2, 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 10~20분. <strong>밀대 = 주, 집게 = 보조</strong>(6-2), K-1 경계값 명시·집게 대상 합계로 변경, 구겨진 과자 봉지 집게 대상(시뮬 강체 상자)·납작한 봉지 Out, 분실물 규칙(R-17), 짧은/전체 모드와 시간 목표(6-8), <strong>앞 모듈 교체형(모듈 A 밀대 필수 / 모듈 B 제설 날 확장, 6-9 — 주인 제안, 4주 범위·일정 그대로)</strong>, '왜 로봇인가' 회고 숫자로(1-5), 깃털 시험·K-12·K-13, 계수표 품목 추가</td>
 </tr>
 <tr>
 <td>2026-11-23</td>
@@ -2382,7 +2386,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tbody>
 </table></div>
 <section class="part" id="scenario"><div class="part-title">부록 B</div><h1 style="font-size:30px">유저 시나리오 전문 (docs/01-유저시나리오.md)</h1><blockquote>
-<p>쓰레기 종류·위치·사람 시간은 <strong>주인 회고(n≈10곳, 기억 기반)</strong>를 따른다(<code>logs/field/2026-11-23_주인회고.md</code>): 경기당 생수병 1 + 과자 봉지 2, 먼지 뭉치·흙먼지·셔틀콕 깃털·분실물(교복), 쓰레기는 벤치 쪽, 쓰레기통은 입구 쪽, 사람 5~10분 / 밀대까지 10~20분.
+<p>쓰레기 종류·위치·사람 시간은 <strong>현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용)</strong>을 따른다(실측은 11/24~ 보강, <a href="03-현장데이터-요약.md">03-현장데이터-요약.md</a>)(<code>logs/field/2026-11-23_주인회고.md</code>): 경기당 생수병 1 + 과자 봉지 2, 먼지 뭉치·흙먼지·셔틀콕 깃털·분실물(교복), 쓰레기는 벤치 쪽, 쓰레기통은 입구 쪽, 사람 5~10분 / 밀대까지 10~20분.
 세 사람은 <strong>가상 인물</strong>이다. C는 기획자(주인)의 관찰을 바탕으로 만들었다. 시각·분·개수는 모두 <strong>(가정)</strong>이며, 기획안 13장 현장 검증(체육관 2~3곳 계수, 관리자 인터뷰, 사람 기준선 스톱워치)으로 바꾼다.
 로봇은 <strong>제품 개념</strong>(실제 크기 로봇, 집게 팔 + 극세사 밀대 패드 + 앱 알림)으로 그렸다. 이번 4주에 실제로 만드는 부분은 맨 아래 표의 '시뮬'·'실물' 열이다.
 4주는 시뮬레이션과 실내 시연이다. 실제 체육관 운행은 <strong>시설 관리 주체의 동의와 안전 확인을 전제</strong>로 한다.</p>
@@ -2750,7 +2754,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tr>
 <td><strong>R-17</strong></td>
 <td><strong>분실물</strong>(옷·수건·물이 찬 병·개인 물건)은 줍지 않고 사진·위치를 남겨 관리자에게 알린다. 패드 경로에 있으면 그 칸을 건너뛴다</td>
-<td>주인 회고(교복), 소지품 보호</td>
+<td>현장 관찰(교복), 소지품 보호</td>
 <td>시뮬 필수(분실물 집기 0회, 사진 기록 100%)</td>
 </tr>
 <tr>
@@ -2840,7 +2844,8 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </tbody>
 </table></div></section>
-<section class="part" id="field"><div class="part-title">부록 C</div><h1 style="font-size:30px">현장 계수표 (docs/02-현장계수표.md)</h1><p><strong>1차 근거: 주인 회고(n≈10곳, 기억 기반)</strong> — <code>logs/field/2026-11-23_주인회고.md</code>. 회고 요지: 경기당 생수병 1 + 과자 봉지 2, 먼지 뭉치·흙먼지·셔틀콕 깃털·분실물(교복), 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 밀대까지 10~20분. 이 표는 그 회고를 <strong>확인하거나 뒤집는</strong> 계수다.</p>
+<section class="part" id="field"><div class="part-title">부록 C</div><h1 style="font-size:30px">현장 계수표 (docs/02-현장계수표.md)</h1><p><strong>현장 데이터 (실측 + 추정):</strong> 1차 근거 = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용) — <code>logs/field/2026-11-23_주인회고.md</code>, 추정 데이터셋 <code>logs/field/field_estimate_v1.csv</code>. 회고 요지: 경기당 생수병 1 + 과자 봉지 2, 먼지 뭉치·흙먼지·셔틀콕 깃털·분실물(교복), 쓰레기는 벤치 쪽·깃털은 코트 위, 쓰레기통은 입구 쪽, 사람 5~10분 / 밀대까지 10~20분. 이 표는 그 회고를 <strong>확인하거나 뒤집는</strong> 계수다.</p>
+<p><strong>실측 추가 3단계:</strong> ① 경기 1회를 <code>logs/field/field_count.csv</code>에 <strong>한 줄 추가</strong>(<code>source=field_count</code>) → ② <code>uv run python scripts/field_summary.py</code> <strong>실행</strong> → ③ <a href="03-현장데이터-요약.md">03-현장데이터-요약.md</a> <strong>요약이 갱신</strong>된다(유형별 실측 3건 이상이면 실측값만, 1~2건이면 추정과 섞어 쓴다). HTML은 <code>uv run --with markdown python docs/build_html.py</code>로 다시 만든다.</p>
 <p><strong>규칙:</strong> 경기 1회마다 아래 한 장(= CSV 한 줄). 체육관 2~3곳 × 경기 직후 3회 이상. 사진에 <strong>사람 얼굴·이름표·차량번호가 나오지 않게</strong>. 시설 안 촬영은 관리자에게 먼저 묻는다. 이름·연락처는 적지 않는다.</p>
 
 <p><strong>1. 언제·어디</strong></p>
@@ -3019,8 +3024,320 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>manager_note_fact, manager_note_opinion</td>
 <td>관리자 메모: 과거 사실 / 의견·칭찬 (판단에는 사실만 쓴다)</td>
 </tr>
+<tr>
+<td>source</td>
+<td><code>field_count</code> = 실측(현장 계수). 추정 행은 <code>estimate_owner_recall</code> = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용)</td>
+</tr>
+<tr>
+<td>slots_per_day(_min/_max)</td>
+<td>그 체육관 하루 타임 수 (알면)</td>
+</tr>
+<tr>
+<td>*_min / *_max, human_total_sec</td>
+<td>범위값(추정 행이 씀): 다음 대관까지 분, 쓰레기만·밀대 포함 정리 시간(초) — 실측 행은 중앙값 칸만 채워도 된다</td>
+</tr>
+<tr>
+<td>note</td>
+<td>메모</td>
+</tr>
 </tbody>
 </table></div></section>
+<section class="part" id="data"><div class="part-title">부록 D</div><h1 style="font-size:30px">현장 데이터 (실측 + 추정) — 요약 (docs/03-현장데이터-요약.md, 자동 생성)</h1><p><strong>실측 0건 · 추정 3건 — 실측 보강 진행 중(11/24~)</strong></p>
+<p>P03 · 자동 생성 — <code>scripts/field_summary.py</code>가 <code>logs/field/*.csv</code>에서 만든다(손으로 고치지 않는다). 관련: <a href="#top">기획안 1장·13장·11장</a>, <a href="#field">현장 계수표</a></p>
+<blockquote>
+<p><strong>1차 근거 = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용). 실측(현장 계수)이 들어오는 대로 갱신한다.</strong> 출처 구분: <code>field_count</code> = 실측(현장 계수), <code>estimate_owner_recall</code> = 현장 관찰 기반 추정(체육관 약 10곳·1년, 기획자 직접 이용). 추정은 실측이라고 부르지 않는다. 채택값은 유형별 실측이 3행 이상이면 실측만, 1~2행이면 섞고, 0행이면 추정만 쓴다.</p>
+</blockquote>
+<p><strong>갱신 3단계:</strong> ① <code>logs/field/field_count.csv</code>에 경기 1회 = 한 줄 추가(<code>source=field_count</code>) → ② <code>uv run python scripts/field_summary.py</code> → ③ 이 문서가 다시 만들어진다(HTML은 <code>uv run --with markdown python docs/build_html.py</code>).</p>
+<h2>1. 추정 → 실측 비율</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>추정 (현장 관찰 기반)</th>
+<th>실측 (현장 계수)</th>
+<th>채택값의 실측 비중</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사설</td>
+<td>1</td>
+<td>0</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>1</td>
+<td>0</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>1</td>
+<td>0</td>
+<td>0%</td>
+</tr>
+</tbody>
+</table></div>
+<h2>2. 경기 1회당 품목 수 (채택값)</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>생수병</th>
+<th>캔</th>
+<th>컵</th>
+<th>구겨진 봉지</th>
+<th>납작한 봉지</th>
+<th>기타</th>
+<th><strong>집게 대상 합계</strong> (병·캔·컵·구겨진 봉지)</th>
+<th>K-1 (1개 미만이면 집게를 확장으로)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사설</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>통과</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>통과</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>통과</td>
+</tr>
+</tbody>
+</table></div>
+<p>먼지·바닥 (채택값, 단계 0 없음 ~ 3 많음):</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>먼지 뭉치 (개)</th>
+<th>흙먼지 (0~3)</th>
+<th>셔틀콕 깃털 (0~3)</th>
+<th>분실물 (개/경기)</th>
+<th>물이 찬 병</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사설</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table></div>
+<h2>3. 위치 분포 (채택값, 경기당 품목 수 기준)</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>벤치 구역</th>
+<th>코트 구석</th>
+<th>창문틀</th>
+<th>코트 안</th>
+<th>기타</th>
+<th>쓰레기통이 입구 쪽인 비율</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사설</td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table></div>
+<h2>4. 사람 정리 시간과 하루·월 정리 시간 (채택값)</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>쓰레기만 (분, 최소~중앙~최대)</th>
+<th>밀대 포함 (분)</th>
+<th>하루 타임 수</th>
+<th>다음 대관까지 (분, 중앙)</th>
+<th><strong>하루 정리 시간 (분)</strong></th>
+<th><strong>한 달 (시간)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사설</td>
+<td>5~7.5~10</td>
+<td>10~15~20</td>
+<td>6~9</td>
+<td>10</td>
+<td>60~180 (중앙 112)</td>
+<td>30~90 (중앙 56)</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>5~7.5~10</td>
+<td>10~15~20</td>
+<td>3~5</td>
+<td>5</td>
+<td>30~100 (중앙 60)</td>
+<td>15~50 (중앙 30)</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>5~7.5~10</td>
+<td>10~15~20</td>
+<td>1~2</td>
+<td>30</td>
+<td>10~40 (중앙 22)</td>
+<td>4~15 (중앙 8)</td>
+</tr>
+</tbody>
+</table></div>
+<p>한 달 운영일: 사설 30일, 구민 30일, 학교 22일 (가정). 정리 횟수 = 하루 타임 수(각 타임 뒤 1회).</p>
+<h2>5. 출처별 원값 (실측 / 추정 나란히)</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>source</th>
+<th>행</th>
+<th>집게 대상 합계</th>
+<th>과자 봉지 (구겨짐+납작)</th>
+<th>벤치 구역 비율</th>
+<th>쓰레기만 (분)</th>
+<th>밀대 포함 (분)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사설</td>
+<td>추정 (현장 관찰 기반)</td>
+<td>1</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>100%</td>
+<td>7.5</td>
+<td>15.0</td>
+</tr>
+<tr>
+<td>사설</td>
+<td>실측 (현장 계수)</td>
+<td>0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>추정 (현장 관찰 기반)</td>
+<td>1</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>100%</td>
+<td>7.5</td>
+<td>15.0</td>
+</tr>
+<tr>
+<td>구민</td>
+<td>실측 (현장 계수)</td>
+<td>0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>추정 (현장 관찰 기반)</td>
+<td>1</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>100%</td>
+<td>7.5</td>
+<td>15.0</td>
+</tr>
+<tr>
+<td>학교</td>
+<td>실측 (현장 계수)</td>
+<td>0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h2>6. 읽는 법·한계</h2>
+<ul>
+<li>추정 행은 기획자가 최근 1년 동안 체육관 약 10곳(학교·구민·사설)을 <strong>직접 이용하며 관찰한 것</strong>(<code>logs/field/2026-11-23_주인회고.md</code>)을 유형별 대표 행으로 옮긴 것이다. 현장에서 센 계수는 아니므로 실측과 나눠 적는다. 회고에 없는 칸(구겨짐/납작 비율, 먼지 뭉치 개수, 다음 대관까지 분)은 <code>note</code> 칸에 '가정'으로 적었다.</li>
+<li>실측 행이 들어오면 위 표의 채택값과 비율이 자동으로 바뀐다. 기획안 1-5(왜 로봇인가), 4장·K-1(집게 대상), 6-8(운영 모드), 11장(성공 기준 재조정)은 이 문서의 채택값을 따른다.</li>
+</ul></section>
 </main>
 <footer>원본: docs/00-기획안.md, docs/01-유저시나리오.md, docs/02-현장계수표.md · 이 페이지는 docs/build_html.py로 만든다 · 그림 1·2는 MuJoCo 직접 렌더 · 현장 사진은 넣지 않고(얼굴 보호) 출처 링크만 둔다.</footer>
 </div></body></html>

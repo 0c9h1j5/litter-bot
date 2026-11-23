@@ -16,6 +16,7 @@ DOCS = Path(__file__).resolve().parent
 MD_MAIN = DOCS / "00-기획안.md"
 MD_SCEN = DOCS / "01-유저시나리오.md"
 MD_FIELD = DOCS / "02-현장계수표.md"
+MD_DATA = DOCS / "03-현장데이터-요약.md"
 OUT = DOCS / "00-기획안.html"
 
 
@@ -193,9 +194,11 @@ def main():
     main_md = MD_MAIN.read_text()
     scen_md = MD_SCEN.read_text()
     # 시나리오 문서 링크 → 같은 페이지 안 앵커
-    main_md = main_md.replace("(01-유저시나리오.md)", "(#scenario)").replace("(02-현장계수표.md)", "(#field)")
+    main_md = main_md.replace("(01-유저시나리오.md)", "(#scenario)").replace("(02-현장계수표.md)", "(#field)").replace("(03-현장데이터-요약.md)", "(#data)")
     field_md = MD_FIELD.read_text().replace("(00-기획안.md)", "(#top)")
     h_field = md_to_html("\n".join(field_md.split("\n")[3:]))
+    data_md = MD_DATA.read_text().replace("(00-기획안.md)", "(#top)").replace("(02-현장계수표.md)", "(#field)")
+    h_data = md_to_html("\n".join(data_md.split("\n")[1:]))
     scen_md = scen_md.replace("(00-기획안.md)", "(#top)")
 
     # 제목·머리말은 hero로 따로 만든다
@@ -215,7 +218,7 @@ def main():
     h_all = embed_images(h_all)
 
     toc_html = "".join(f'<li><a href="#{i}">{html.escape(t)}</a></li>' for i, t in toc)
-    toc_html += '<li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li>'
+    toc_html += '<li><a href="#scenario">부록 B. 유저 시나리오 전문</a></li><li><a href="#field">부록 C. 현장 계수표</a></li><li><a href="#data">부록 D. 현장 데이터 (실측 + 추정) 요약</a></li>'
 
     cards = [
         ("주 기능 · 밀기·흡입", "① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기) → ③ 뒤 패드로 먼지·흙먼지·깃털을 모아 빨아들인다"),
@@ -223,7 +226,7 @@ def main():
         ("운영 모드", "짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게"),
         ("성공 기준(시뮬)", "커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0"),
         ("앞 모듈 교체형", "모듈 A 가이드·흡입·회전 패드 2개(실물까지 필수) ↔ 모듈 B 사선 제설 날(확장)"),
-        ("근거·검증", "1차 근거 주인 회고(n≈10곳) → 11/24~30 계수로 확인 · 관리자 1명 이상 시험 운영 동의"),
+        ("현장 데이터 (실측 + 추정)", "실측 0건 · 추정 3건(체육관 약 10곳·1년 직접 이용 관찰) — 실측 보강 진행 중(11/24~)"),
     ]
     cards_html = "".join(f'<div class="card"><b>{a}</b><span>{b}</span></div>' for a, b in cards)
 
@@ -237,13 +240,14 @@ def main():
 <div class="kicker">litter-bot · 기획안 v1.3 · 2026-11-23</div>
 <h1>체육관 정리 로봇</h1>
 <p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
-<div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(주인 회고) 표시를 꼭 함께 읽을 것</div>
+<div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(현장 관찰 기반 추정) 표시를 꼭 함께 읽을 것</div>
 <div class="cards">{cards_html}</div>
 </header>
 <nav class="toc"><b>목차</b><ol>{toc_html}</ol></nav>
 <main>{wrap_tables(h_all)}
 <section class="part" id="scenario"><div class="part-title">부록 B</div><h1 style="font-size:30px">유저 시나리오 전문 (docs/01-유저시나리오.md)</h1>{wrap_tables(h_scen)}</section>
 <section class="part" id="field"><div class="part-title">부록 C</div><h1 style="font-size:30px">현장 계수표 (docs/02-현장계수표.md)</h1>{wrap_tables(h_field)}</section>
+<section class="part" id="data"><div class="part-title">부록 D</div><h1 style="font-size:30px">현장 데이터 (실측 + 추정) — 요약 (docs/03-현장데이터-요약.md, 자동 생성)</h1>{wrap_tables(h_data)}</section>
 </main>
 <footer>원본: docs/00-기획안.md, docs/01-유저시나리오.md, docs/02-현장계수표.md · 이 페이지는 docs/build_html.py로 만든다 · 그림 1·2는 MuJoCo 직접 렌더 · 현장 사진은 넣지 않고(얼굴 보호) 출처 링크만 둔다.</footer>
 </div></body></html>"""

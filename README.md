@@ -16,6 +16,7 @@ litter-bot/
 │   ├── 00-기획안.html             P00 발표용 한 파일 페이지 (기획안 + 유저 시나리오, 이미지 포함)
 │   ├── 01-유저시나리오.md          P01 관리자·대관 팀·동호인 × 지금 vs 로봇과 함께, 요구사항 R-01~R-16
 │   ├── 02-현장계수표.md            P02 경기 직후 한 장 (폰으로 채우기)
+│   ├── 03-현장데이터-요약.md        P03 현장 데이터 (실측 + 추정) 요약 — 자동 생성
 │   ├── charter.md                D02 팀 차터 v0.3
 │   ├── register.md               D00 산출물 목록
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
@@ -25,9 +26,12 @@ litter-bot/
 │   └── sidewalk_v0.xml           예전 가게 앞 장면 (v1.1, 참고용)
 ├── src/
 │   └── checks/                   확인용 스크립트 (장면 렌더, Stretch 리프트 높이, 깊이 돌출 검출)
+├── scripts/field_summary.py      현장 데이터 요약 생성 (uv run python scripts/field_summary.py)
 ├── tests/                        테스트 (3일차 판정 테스트부터)
 └── logs/                         실행·실험·현장 기록
-    ├── field/field_count_template.csv        현장 계수 CSV 템플릿 (경기 1회 = 한 줄)
+    ├── field/field_count.csv                 실측(현장 계수) — 경기 1회 = 한 줄 추가
+    ├── field/field_estimate_v1.csv           현장 관찰 기반 추정 (사설·구민·학교 대표 행)
+    ├── field/field_count_template.csv        현장 계수 CSV 템플릿 (예시 줄 포함)
     ├── field/2026-11-23_주인회고.md            주인 회고(체육관 약 10곳, 기억 기반) — 1차 근거
     ├── 2026-11-22_stretch3_measurements.md   Stretch 3 모델 실측값 (속도·회전·패드 높이)
     ├── 2026-11-23_stretch3_lift_reach.md     Stretch 3 리프트별 그리퍼 높이 (창문틀)
