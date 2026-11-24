@@ -143,7 +143,7 @@ def params_markdown():
     y = yaml.safe_load(PARAMS.read_text(encoding="utf-8"))
     L = ["## 7. 우리 로봇 파라미터 (config/robot_params.yaml 전체)", "",
          "`uv run python scripts/product_db.py params`가 [config/robot_params.yaml](../config/robot_params.yaml)에서 만든 표다(손으로 고치지 말고 yaml을 고친 뒤 다시 돌린다). "
-         "`근거` 읽는 법: 제품 id = 그 상용 제품 값(data/products/specs.csv), 계산 = DB 값으로 계산, 주인 결정, 시뮬 = 시뮬 실측, 다른 기록 = 저장소의 다른 기록 파일, 가정 = 근거 없음(실측·주인 확정 뒤 바꿈).", ""]
+         "`근거` 읽는 법: 제품 id = 그 상용 제품 값(data/products/specs.csv), 계산 = DB 값으로 계산, 기획자 결정, 시뮬 = 시뮬 실측, 다른 기록 = 저장소의 다른 기록 파일, 가정 = 근거 없음(실측·기획자 확정 뒤 바꿈).", ""]
     meta = [r for r in _param_rows({"meta": y["meta"]}, "공통")]
     L += ["### 7-0. 축소 비율 (meta)", "", "| 묶음 | 이름 | 값 | 단위 | 근거 | 메모 |", "| --- | --- | --- | --- | --- | --- |"]
     L += [f"| {g} | {k} | {v} | {u} | {s} | {n} |" for g, k, v, u, s, n in meta] + [""]

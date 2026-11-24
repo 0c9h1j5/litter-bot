@@ -4,15 +4,15 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 
 | ID | 산출물 | 실무 명칭 | 스테이지 | 예정 일차 | 작성 | 검토 | 상태 | 버전 | 관련 요구사항 | 파일 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| P00 | 기획안 | Project Proposal | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.8 | R-17·R-19 인용 (정의는 P01) | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
+| P00 | 기획안 | Project Proposal | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.9 | R-17·R-19 인용 (정의는 P01) | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
 | P01 | 유저 시나리오 | User Scenario | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.6 | R-01~R-20 (여기서 정의) | [docs/01-유저시나리오.md](01-유저시나리오.md) |
 | P02 | 현장 계수표 | Field Count Sheet | 01 | 1일차 (11/23~) | 최현준 | 최현준 | 작성 | v1.1 | – | [docs/02-현장계수표.md](02-현장계수표.md) · CSV `logs/field/field_count_template.csv` |
 | P03 | 현장 데이터 (실측 + 추정) 요약 | Field Data Summary | 01 | 1일차 (11/23~) | 자동 생성 | 최현준 | 작성 | v1 | – | [docs/03-현장데이터-요약.md](03-현장데이터-요약.md) · `scripts/field_summary.py` |
 | P04 | 유사 제품 조사 | Competitive Landscape | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v1.1 | – (기획안 10장 보강) | [docs/04-유사제품조사.md](04-유사제품조사.md) |
-| P05 | 제품 파라미터 분석 | Product Parameter Benchmark | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v0.2 | R-04·R-06·R-18 (값 근거) | [docs/05-제품파라미터-분석.md](05-제품파라미터-분석.md) · DB `data/products/specs.csv` · 파라미터 `config/robot_params.yaml` |
+| P05 | 제품 파라미터 분석 | Product Parameter Benchmark | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v0.3 | R-04·R-06·R-18 (값 근거) | [docs/05-제품파라미터-분석.md](05-제품파라미터-분석.md) · DB `data/products/specs.csv` · 파라미터 `config/robot_params.yaml` |
 | D01 | 문제 정의서 | Problem Statement | 01 | 2일차 | 최현준 | 최현준 + AI 리뷰 | 검토 | v2.4 | R-01~R-20 | [docs/problem.md](problem.md) |
 | D02 | 팀 차터 | Project Charter | 01 | 1일차 | 최현준 | 최현준 + AI 코딩 에이전트 리뷰 | 검토 | v1.2 | – | [docs/charter.md](charter.md) · 부속 [decisions.md](decisions.md), [logs/daily.md](../logs/daily.md) |
-| D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v0.8 | R-01~R-32 (여기서 정의, Must 3개 R-04·06·18), C-01~C-32, T-01~T-36 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
+| D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v0.9 | R-01~R-32 (여기서 정의, Must 3개 R-04·06·18), C-01~C-32, T-01~T-36 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
 | D04 | 요구사항 추적표 | Traceability Matrix | 02 | 5일차 | 최현준 | 최현준 | – | – | – | 예정. R↔T 대응은 [requirements.md](requirements.md) ② 표의 '테스트' 칸과 'R ↔ T 대응' 표에서 시작하며, 교안 p15 형식대로 Given/When/Then과 결과 칸을 더한다 |
 | D05 | 계획·WBS·위험 목록 | Project Plan / Risk Register | 02 | 5일차 | 최현준 | 최현준 | – | – | – | |
 | D06 | 시스템 구조 | System Architecture / ICD | 03 | 4일차 | 최현준 | 최현준 | – | – | – | |
