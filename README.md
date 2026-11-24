@@ -4,7 +4,7 @@
 
 **1일차 제출물:**
 - 팀 차터: [docs/charter.md](docs/charter.md) (D02 v1.0, 상태 검토)
-- 산출물 목록: [docs/register.md](docs/register.md) (D00 v0.4)
+- 산출물 목록: [docs/register.md](docs/register.md) (D00 v0.5)
 - 저장소: https://github.com/0c9h1j5/litter-bot
 
 **3일차 제출물:** [docs/requirements.md](docs/requirements.md) (D03 v0.3, 상태 검토), [tests/test_judge.py](tests/test_judge.py), [src/judge.py](src/judge.py) (시그니처만 — 구현 전이라 `uv run pytest -q tests`는 지금 10 failed)
@@ -24,6 +24,7 @@ litter-bot/
 │   ├── 01-유저시나리오.md          P01 관리자·대관 팀·동호인 × 지금 vs 로봇과 함께, 요구사항 R-01~R-20
 │   ├── 02-현장계수표.md            P02 경기 직후 한 장 (폰으로 채우기)
 │   ├── 03-현장데이터-요약.md        P03 현장 데이터 (실측 + 추정) 요약 — 자동 생성
+│   ├── 04-유사제품조사.md          P04 국내외 유사 제품 32개 · 사람이 미는 장비 비교 · 우리 차별점(겹치는 점 포함)
 │   ├── charter.md                D02 팀 차터 v1.0 (검토)
 │   ├── decisions.md              결정 기록 (주인 결정, 날짜·이유·출처)
 │   ├── register.md               D00 산출물 목록 v0.5 (G1 점검표 포함)
