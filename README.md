@@ -53,7 +53,7 @@ litter-bot/
 ├── data/products/                 제품 사양 DB: specs.csv(원본, 21개 제품) · specs.json(자동) · README.md(칸 설명)
 ├── config/robot_params.yaml      우리 로봇 파라미터 (scale_model 축소판·시뮬 / product_concept 제품 개념), 값마다 출처 — build_robot_v2.py가 읽음
 ├── scenes/
-│   ├── robot_v2*.xml             로봇 v2: 기획자 설계 배치(앞 가운데 팔·크래들, 옆솔·밑 흡입·뒤 패드 판정 영역). 기본 robot_v2.xml = 넓은 차체(베이스·위 몸통 폭 = Fusion 213.2 · 183.2 mm) + 팔 옆(바퀴 밖)에 거는 통(wide_side, 넣기 9곳 6/9 — 폭 맞추기 전 7/9), 비교용 wide_side_7cm(얕은 옆 통)·x3·x3b·wide·wide_long(묻힌 통) (scripts/build_robot_v2.py가 생성)
+│   ├── robot_v2*.xml             로봇 v2: 기획자 설계 배치(앞 가운데 팔·크래들, 옆솔·밑 흡입·뒤 패드 판정 영역). 기본 robot_v2.xml = 넓은 차체(베이스·위 몸통 폭 = Fusion 213.2 · 183.2 mm) + 팔 옆(바퀴 밖)에 거는 통(wide_side, 넣기 9곳 9/9 — 손목 가지 고정 전 6/9), 비교용 wide_side_7cm(얕은 옆 통)·x3·x3b·wide·wide_long(묻힌 통) (scripts/build_robot_v2.py가 생성)
 │   ├── gym_v2*.xml               장면 v2: gym_v0 + robot_v2 (차체 안마다 1개)
 │   ├── robot_v1.xml              로봇만: 메카넘 차체(ROSMASTER X3 치수, 단순화) + 청소 모듈 A + SO-101 팔 + 옆 바구니 + 깊이 카메라 자리 (scripts/build_robot_v1.py가 생성)
 │   ├── gym_v1.xml                장면 v1: gym_v0 + robot_v1
@@ -83,6 +83,7 @@ litter-bot/
     ├── 2026-11-24_robot_v2_wide_side_pick.md  기본 차체(넓은 차체 + 팔 옆 통) 넣기 실측: 9곳 7/9 (예전 얕은 통 0/9와 비교)
     ├── 2026-11-24_pad_0.22_sweep.md         뒤 패드 Ø110(폭 0.22 m) 장면 전체 밀기 실측: 줄 끝 메우기 포함 317 s · 커버리지 98.3 %
     ├── 2026-11-24_fusion_width_remeasure.md 베이스·위 몸통 폭을 Fusion 값으로 맞추고 다시 잼: 98.4 % · 317 s · 넣기 6/9 (전 7/9)
+    ├── 2026-11-24_pick_robust.md            옆 통 넣기 안정화: 실패 원인 = 손목 돌림 가지, 고정으로 6/9 → 9/9 (±3 cm·방향 ±15° 포함 36/36, 시드 두 번)
     ├── 2026-11-24_mecanum_so101_measurements.md  메카넘 + SO-101 실측 (속도·팔 닿는 범위·병 집기·토크, Stretch와 비교)
     ├── 2026-11-24_chassis_candidates.md      메카넘 차체 후보 조사 (구매 후보·산업용 청소 로봇 사양, 추천)
     ├── 2026-11-22_stretch3_measurements.md   Stretch 3 모델 실측값 (속도·회전·패드 높이) — 예전 시뮬 로봇, 비교용

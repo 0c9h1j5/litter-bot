@@ -239,11 +239,11 @@ def main():
     page = f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>체육관 정리 로봇</title>
-<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v2.1 — 빈 시간 체육관 정리 로봇 (MuJoCo 메카넘 + SO-101 시뮬 + Fusion 360 축소판 CAD 모델, 만들지 않음)">
+<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v2.2 — 빈 시간 체육관 정리 로봇 (MuJoCo 메카넘 + SO-101 시뮬 + Fusion 360 축소판 CAD 모델, 만들지 않음)">
 <style>{CSS}</style></head>
 <body><div class="wrap" id="top">
 <header class="hero">
-<div class="kicker">litter-bot · 기획안 v2.1 · 2026-11-24</div>
+<div class="kicker">litter-bot · 기획안 v2.2 · 2026-11-24</div>
 <h1>체육관 정리 로봇</h1>
 <p class="lede">사람 없는 빈 시간에 코트의 먼지·흙먼지·셔틀콕 깃털을 마른 극세사 패드로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 로봇팔로 집는다(보조, 유일한 차별점). 4주 동안 MuJoCo(메카넘 + SO-101, robot_v2)로 확인하고 메카넘 축소판(청소 모듈 + SO-ARM101 팔)은 Fusion 360 CAD 모델로 설계를 확인한다(만들지 않음, 실물은 로드맵). 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
 <div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(기획자 관찰)·(현장 관찰 기반 추정) 표시를 꼭 함께 읽을 것</div>

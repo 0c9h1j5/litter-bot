@@ -181,10 +181,14 @@ BEST = dict(plan=dict(gp=(0.0, 0.0, 0.034), tilt=30, zg=0.12),      # 기획안 
 
 
 def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=None, quiet=False,
-         scene="scenes/gym_v1.xml", zone="basket_zone", x_g=0.40, stow=None, smooth_arc=False):
+         scene="scenes/gym_v1.xml", zone="basket_zone", x_g=0.40, stow=None, smooth_arc=False,
+         seed=0, yaw_off=0.0, roll_pref=None):
     """zg = 집는 높이(바닥에서, m). 병 바닥 높이 = zg - (병 바닥에서 집는 점까지).
     smooth_arc=True 면 호 경유점 IK 를 바로 앞 관절값에서만 시작한다(손목 돌림이 π 뒤집혀 병을 던지는 것 막기 —
     robot_v2 wide_side 에서 본 실패, v1 기본값은 그대로).
+    roll_pref(rad) 를 주면 첫 IK(병 위 자세) 해 가운데 손목 돌림이 그 값에 가장 가까운 가지를 고른다 — wide_side 에서
+    +1.62 가지(집게 π 뒤집힘)가 나오면 옮기는 호 후반에 병이 집게에서 빠졌다(logs/2026-11-24_pick_robust.md). 기본 None = 예전 그대로.
+    seed = IK 무작위 시작점 시드, yaw_off = 다가간 차체 방향 어긋남(rad, 시험용).
     scene·zone·x_g·stow 는 다른 차체(예: robot_v2 wide_side, 통 site bin_zone)에 같은 방식을 쓸 때만 바꾼다."""
     stow = STOW if stow is None else np.asarray(stow)
     gp = BEST[bottle]["gp"] if gp is None else gp
@@ -203,7 +207,7 @@ def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=
     out = {}
 
     # (a) 다가가기: 병이 차체 기준 앞 x_g 에 오게. 로봇은 +y(벤치 쪽)를 보게(yaw 90°) — 바구니가 벤치와 부딪히지 않게.
-    yaw_goal = np.pi / 2
+    yaw_goal = np.pi / 2 + yaw_off   # yaw_off: 병 쪽으로 다가간 차체 방향이 어긋난 경우 시험용 (기본 0)
     goal = np.array([bpos[0] - x_g * np.cos(yaw_goal), bpos[1] - x_g * np.sin(yaw_goal)])
     V_APPROACH = 0.3  # 다가가기 속도 상한 m/s (가정: 사람 옆 운행 속도, 최고 속도 아님)
     t0 = d.time
@@ -237,14 +241,19 @@ def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=
     u = bpos[:2] - pan_axis[:2]; u = np.r_[u / np.linalg.norm(u), 0]
     grasp = np.array([bpos[0], bpos[1], zg])
     pre = grasp + np.array([0, 0, 0.14])     # 병 위에서 내려온다
-    rng = np.random.default_rng(0)
+    rng = np.random.default_rng(seed)
     lo = m.jnt_range[[m.joint(P + n).id for n in ARM], 0]; hi = m.jnt_range[[m.joint(P + n).id for n in ARM], 1]
 
     def solve(t, seeds):
         return min((ik(m, d, I, t, q0=s, iters=400, dots=dots, offset=GP) for s in seeds), key=lambda r: r[1])
 
     rand = [rng.uniform(lo, hi) for _ in range(30)]
-    q_pre, e1 = solve(pre, rand)
+    if roll_pref is None:
+        q_pre, e1 = solve(pre, rand)
+    else:   # 손목 돌림(wrist_roll) 가지를 고정: IK 해 가운데 오차 2 mm 안인 것 중 roll_pref 에 가장 가까운 것
+        sols = [ik(m, d, I, pre, q0=s, iters=400, dots=dots, offset=GP) for s in rand + [np.r_[0, -0.5, 0.6, 0.2, roll_pref]]]
+        good = [r for r in sols if r[1] < 0.002] or [min(sols, key=lambda r: r[1])]
+        q_pre, e1 = min(good, key=lambda r: abs(r[0][4] - roll_pref))
 
     def line(a, b, q0, n=10):   # a→b 직선 위 경유점의 관절값
         qs, q, err = [], q0, 0.0
@@ -277,6 +286,7 @@ def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=
     errs = dict(pre=e1, grasp=e2, lift=e3, over=e4, drop=e5)
     say("IK 오차(m, 자세 오차 포함):", {k: round(float(v), 4) for k, v in errs.items()}, "기울기", tilt, "°, 집는 점", GP)
     out["ik_err"] = errs
+    out["q_roll"] = float(q_pre[4])
 
     # (c) 실행
     q_home = np.array([d.qpos[a] for a in I["qadr"]])

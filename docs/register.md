@@ -4,7 +4,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 
 | ID | 산출물 | 실무 명칭 | 스테이지 | 예정 일차 | 작성 | 검토 | 상태 | 버전 | 관련 요구사항 | 파일 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| P00 | 기획안 | Project Proposal | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v2.1 (요약 v1.9) | R-17·R-19 인용 (정의는 P01) | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
+| P00 | 기획안 | Project Proposal | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v2.2 (요약 v2.0) | R-17·R-19 인용 (정의는 P01) | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
 | P01 | 유저 시나리오 | User Scenario | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.7 | R-01~R-20 (여기서 정의) | [docs/01-유저시나리오.md](01-유저시나리오.md) |
 | P02 | 현장 계수표 | Field Count Sheet | 01 | 1일차 (11/23~) | 최현준 | 최현준 | 작성 | v1.1 | – | [docs/02-현장계수표.md](02-현장계수표.md) · CSV `logs/field/field_count_template.csv` |
 | P03 | 현장 데이터 (실측 + 추정) 요약 | Field Data Summary | 01 | 1일차 (11/23~) | 자동 생성 | 최현준 | 작성 | v1 | – | [docs/03-현장데이터-요약.md](03-현장데이터-요약.md) · `scripts/field_summary.py` |
@@ -12,8 +12,8 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 | P06 | CAD 모델 (축소판 설계, 만들지 않음) | Parametric CAD Model | 03 | 2일차 (11/24) | 만들기봇 (Fusion 360) | 최현준 | 작성 | v1 | R-15·R-33~R-35 (CAD 확인) | 저장소 밖: robot-lab 저장소 `builds/so-arm101/chassis/fusion/` — `litter_scale_model_v1.f3d`·`.step`, 그림 `litter_scale_1_3-4.png`·`litter_scale_2_top.png`·`litter_scale_3_side.png` (만드는 스크립트 `builds/so-arm101/chassis/fusion_build_scale_model.py`, 원본은 Fusion 클라우드 'litter-bot 축소판 v1 (매개변수)'). 설명은 [기획안 9장](00-기획안.md#9-cad-모델-설계-확인-만들지-않음) |
 | P05 | 제품 파라미터 분석 | Product Parameter Benchmark | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v0.4 | R-04·R-06·R-18 (값 근거) | [docs/05-제품파라미터-분석.md](05-제품파라미터-분석.md) · DB `data/products/specs.csv` · 파라미터 `config/robot_params.yaml` |
 | D01 | 문제 정의서 | Problem Statement | 01 | 2일차 | 최현준 | 최현준 + AI 리뷰 | 검토 | v2.5 | R-01~R-20 | [docs/problem.md](problem.md) |
-| D02 | 팀 차터 | Project Charter | 01 | 1일차 | 최현준 | 최현준 + AI 코딩 에이전트 리뷰 | 검토 | v1.4 | – | [docs/charter.md](charter.md) · 부속 [decisions.md](decisions.md), [logs/daily.md](../logs/daily.md) |
-| D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v1.1 | R-01~R-35 (여기서 정의, Must 3개 R-04·06·18, CAD R-33~R-35, Won't 실물 R-20~23·29·30), C-01~C-32, T-01~T-39 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
+| D02 | 팀 차터 | Project Charter | 01 | 1일차 | 최현준 | 최현준 + AI 코딩 에이전트 리뷰 | 검토 | v1.5 | – | [docs/charter.md](charter.md) · 부속 [decisions.md](decisions.md), [logs/daily.md](../logs/daily.md) |
+| D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v1.2 | R-01~R-35 (여기서 정의, Must 3개 R-04·06·18, CAD R-33~R-35, Won't 실물 R-20~23·29·30), C-01~C-32, T-01~T-39 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
 | D04 | 요구사항 추적표 | Traceability Matrix | 02 | 5일차 | 최현준 | 최현준 | – | – | – | 예정. R↔T 대응은 [requirements.md](requirements.md) ② 표의 '테스트' 칸과 'R ↔ T 대응' 표에서 시작하며, 교안 p15 형식대로 Given/When/Then과 결과 칸을 더한다 |
 | D05 | 계획·WBS·위험 목록 | Project Plan / Risk Register | 02 | 5일차 | 최현준 | 최현준 | – | – | – | |
 | D06 | 시스템 구조 | System Architecture / ICD | 03 | 4일차 | 최현준 | 최현준 | – | – | – | |
@@ -40,6 +40,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 ## 변경 기록
 | 날짜 | 버전 | 바꾼 것 |
 | --- | --- | --- |
+| 2026-11-24 | v0.9 (3) | 옆 통 넣기 안정화(손목 돌림 가지 고정, 6/9 → 9/9, 늘린 시험 36/36): P00 v2.2·요약 v2.0, D02 v1.5, D03 v1.2 |
 | 2026-11-24 | v0.9 (2) | 시뮬 폭 = Fusion 값, 다시 잼(넣기 6/9): P00 v2.1·요약 v1.9, D02 v1.4, D03 v1.1, P04 v1.2, P05 v0.4 |
 | 2026-11-24 | v0.9 | 범위 변경(기획자 결정 2026-11-24 — 실물 제작 빼고 모델링까지): P06 CAD 모델 행(경로) 추가, D07 메모, G1 '4주·1인' 부담 요인 갱신, 버전 P00 v2.0·P01 v1.7·D01 v2.5·D02 v1.3·D03 v1.0(R-01~R-35, T-01~T-39) |
 | 2026-11-24 | v0.8 | 시간대 브랜치 합침 + 기획자 결정(팔 옆 통·0.3 m/s·650 s·넓은 차체)·등장인물 다시 짬: P00 v1.7, P01 v1.6, D01 v2.4, D02 v1.2, D03 v0.6(판정 테스트 새로 씀, 판정 함수 구현 전) |

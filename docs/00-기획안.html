@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>체육관 정리 로봇</title>
-<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v2.1 — 빈 시간 체육관 정리 로봇 (MuJoCo 메카넘 + SO-101 시뮬 + Fusion 360 축소판 CAD 모델, 만들지 않음)">
+<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v2.2 — 빈 시간 체육관 정리 로봇 (MuJoCo 메카넘 + SO-101 시뮬 + Fusion 360 축소판 CAD 모델, 만들지 않음)">
 <style>
 :root{--bg:#fbfaf7;--surface:#ffffff;--ink:#1d1f23;--ink2:#4a4f57;--muted:#767c86;--line:#e3e1db;--accent:#1f6f5c;--accent-soft:#e3f1ec;--warn:#9a5b00;--warn-soft:#fdf1dc;--bar:#2f7d68;--obst:#8a8f98;--skip:#d9822b;--code:#f3f1ec;--maru:#e6c89c;--maru2:#efd6ae}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171a;--surface:#1d2024;--ink:#eceae4;--ink2:#c4c7cc;--muted:#9aa0a8;--line:#30343a;--accent:#5cc3a3;--accent-soft:#1d3a32;--warn:#f0b35a;--warn-soft:#3a2c17;--bar:#5cc3a3;--obst:#8a8f98;--skip:#e39a4c;--code:#24272c;--maru:#5a4630;--maru2:#6a523a}}
@@ -58,7 +58,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </style></head>
 <body><div class="wrap" id="top">
 <header class="hero">
-<div class="kicker">litter-bot · 기획안 v2.1 · 2026-11-24</div>
+<div class="kicker">litter-bot · 기획안 v2.2 · 2026-11-24</div>
 <h1>체육관 정리 로봇</h1>
 <p class="lede">사람 없는 빈 시간에 코트의 먼지·흙먼지·셔틀콕 깃털을 마른 극세사 패드로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 로봇팔로 집는다(보조, 유일한 차별점). 4주 동안 MuJoCo(메카넘 + SO-101, robot_v2)로 확인하고 메카넘 축소판(청소 모듈 + SO-ARM101 팔)은 Fusion 360 CAD 모델로 설계를 확인한다(만들지 않음, 실물은 로드맵). 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
 <div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(기획자 관찰)·(현장 관찰 기반 추정) 표시를 꼭 함께 읽을 것</div>
@@ -110,7 +110,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <p>2026-11-24, 저장소에서 확인한 것만 적는다.</p>
 <ol>
 <li><strong>현장 데이터:</strong> 실측 0건 · 추정 3건(사설·구민·학교 대표 행). <code>logs/field/field_count.csv</code>는 아직 머리줄뿐이다. 실측은 11/24~11/30에 센다(13장).</li>
-<li><strong>시뮬:</strong> 시뮬 로봇을 Stretch 3에서 실물과 같은 메카넘 + SO-101(<code>robot_v2</code>, 기획자 설계 2026-11-24)로 바꿨다. 장면 <code>gym_v2</code>(= gym_v0 + robot_v2), 판정 테스트는 requirements v0.6 기준으로 새로 씀(사람 몫), <code>src/judge.py</code>는 테스트를 고치지 않고 구현(29 passed). 실측: 바닥 닿음·넘어짐 여유는 됨, 묻힌 쓰레기통에 넣기 0/9 → 팔 옆에 거는 통 + 넓은 차체로 바꿈 (기획자 결정 2026-11-24). 넓은 차체 + 옆 통(바퀴 밖에 거는 깊이 10.5 cm 통) 넣기는 병 위치 9곳 중 <strong>6곳(6/9, 실측 — 베이스·위 몸통 폭을 Fusion 값 213.2 · 183.2 mm로 맞춘 뒤, 그 전 219.2 · 189.2 mm 때 7/9)</strong>, 팔 동작 7.4 s (<a href="../logs/2026-11-24_fusion_width_remeasure.md">Fusion 폭 다시 잼</a>. 예전 0/9는 깊이 7 cm 통 + 다른 넣기 경로 — <a href="../logs/2026-11-24_robot_v2_measurements.md">robot_v2 실측</a>, <a href="../logs/2026-11-24_robot_v2_wide_side_pick.md">wide_side 실측</a>).</li>
+<li><strong>시뮬:</strong> 시뮬 로봇을 Stretch 3에서 실물과 같은 메카넘 + SO-101(<code>robot_v2</code>, 기획자 설계 2026-11-24)로 바꿨다. 장면 <code>gym_v2</code>(= gym_v0 + robot_v2), 판정 테스트는 requirements v0.6 기준으로 새로 씀(사람 몫), <code>src/judge.py</code>는 테스트를 고치지 않고 구현(29 passed). 실측: 바닥 닿음·넘어짐 여유는 됨, 묻힌 쓰레기통에 넣기 0/9 → 팔 옆에 거는 통 + 넓은 차체로 바꿈 (기획자 결정 2026-11-24). 넓은 차체 + 옆 통(바퀴 밖에 거는 깊이 10.5 cm 통) 넣기는 병 위치 9곳 중 <strong>9곳(9/9, 실측)</strong>, 병 위치 ±3 cm·차체 방향 ±15°까지 더한 36번도 36/36(IK 시드 두 번 같음), 팔 동작 7.4 s (<a href="../logs/2026-11-24_pick_robust.md">넣기 안정화</a>. 실패 원인은 첫 IK가 집게를 π 뒤집힌 손목 돌림 가지로 골라 옮기는 중에 병이 빠진 것이었다. 손목 가지를 고정해 고쳤다. 고치기 전에는 Fusion 폭으로 6/9, 폭을 맞추기 전에는 7/9였다 — <a href="../logs/2026-11-24_fusion_width_remeasure.md">Fusion 폭 다시 잼</a>. 예전 0/9는 깊이 7 cm 통 + 다른 넣기 경로 — <a href="../logs/2026-11-24_robot_v2_measurements.md">robot_v2 실측</a>, <a href="../logs/2026-11-24_robot_v2_wide_side_pick.md">wide_side 실측</a>).</li>
 <li><strong>CAD 모델 (만들지 않음):</strong> 실물 제작은 4주 범위에서 뺐다(기획자 결정 2026-11-24 — "새싹 팀프로젝트에서 이번에 테스트하는 것은 실제로 만들어 보지 않는다. 대신 모델링은 한다."). 만들기봇이 Fusion 360 매개변수 모델 'litter-bot 축소판 v1'(User Parameters 36개, 컴포넌트 12개)을 만들었고, 간섭 검사로 뒤 패드를 Ø110으로 바꿨다(9장). 본문에 남은 '실물' 계획·숫자는 만들 경우의 참고다.</li>
 <li><strong>결정:</strong> 청소 모듈 주·집게(집기) 보조, 회전 패드 실물 4주 필수(→ 범위 변경으로 만들 경우), SO-ARM101 차체 장착(2026-11-24), 실물 대신 CAD 모델(2026-11-24) 등 정해진 것과 남은 것은 15장.</li>
 <li><strong>다음 관문:</strong> 12/01(화) 현장 데이터로 K-1·K-1b·K-1c·K-1e·K-7 판단, 12/04 일정 압박 사다리, 12/11 CAD 간섭 0(K-16) 판단(14장).</li>
@@ -1566,7 +1566,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <tbody>
 <tr>
 <td>로봇</td>
-<td><strong><code>scenes/robot_v2.xml</code></strong> — 메카넘 넓은 차체(390 × 280 mm, 직접 제작 — 기획자 결정 2026-11-24, 평면 관절로 단순화) + SO-101(TheRobotStudio, Apache-2.0) + 옆솔·밑 흡입·뒤 패드 판정 영역 + 팔 옆에 거는 쓰레기통 + 크래들, 기획자 설계 2026-11-24 (<code>scripts/build_robot_v2.py</code>의 <code>wide_side</code>, 베이스·위 몸통 폭 = Fusion 값 213.2 · 183.2 mm, 넣기 9곳 6/9(실측, <a href="../logs/2026-11-24_fusion_width_remeasure.md">Fusion 폭 다시 잼</a> — 폭을 맞추기 전 7/9, <a href="../logs/2026-11-24_robot_v2_wide_side_pick.md">wide_side 실측</a>). 예전 얕은 통(깊이 7 cm, 0/9)은 비교용 <code>robot_v2_wide_side_7cm.xml</code>. X3 차체 + 묻힌 통은 비교용 <code>robot_v2_x3.xml</code>. 예전 Stretch 3는 비교 기록만</td>
+<td><strong><code>scenes/robot_v2.xml</code></strong> — 메카넘 넓은 차체(390 × 280 mm, 직접 제작 — 기획자 결정 2026-11-24, 평면 관절로 단순화) + SO-101(TheRobotStudio, Apache-2.0) + 옆솔·밑 흡입·뒤 패드 판정 영역 + 팔 옆에 거는 쓰레기통 + 크래들, 기획자 설계 2026-11-24 (<code>scripts/build_robot_v2.py</code>의 <code>wide_side</code>, 베이스·위 몸통 폭 = Fusion 값 213.2 · 183.2 mm, 넣기 9곳 9/9·늘린 시험 36/36(실측, 손목 가지 고정, <a href="../logs/2026-11-24_pick_robust.md">넣기 안정화</a> — 고정 전 6/9, <a href="../logs/2026-11-24_fusion_width_remeasure.md">Fusion 폭 다시 잼</a>, 폭을 맞추기 전 7/9, <a href="../logs/2026-11-24_robot_v2_wide_side_pick.md">wide_side 실측</a>). 예전 얕은 통(깊이 7 cm, 0/9)은 비교용 <code>robot_v2_wide_side_7cm.xml</code>. X3 차체 + 묻힌 통은 비교용 <code>robot_v2_x3.xml</code>. 예전 Stretch 3는 비교 기록만</td>
 </tr>
 <tr>
 <td>장면 v2</td>
@@ -1627,12 +1627,12 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td><strong>팔이 바닥·옆 통에 닿는 범위</strong></td>
-<td>CAD의 팔 받침 자리(회전축 = 앞 모서리에서 60 mm 뒤)·옆 통 자리를 시뮬 robot_v2 실측(바닥: 차체 앞면에서 0.04~0.26 m, 손끝 최고 약 0.67 m, 옆 통 넣기 9곳 6/9)과 맞춰 본다</td>
+<td>CAD의 팔 받침 자리(회전축 = 앞 모서리에서 60 mm 뒤)·옆 통 자리를 시뮬 robot_v2 실측(바닥: 차체 앞면에서 0.04~0.26 m, 손끝 최고 약 0.67 m, 옆 통 넣기 9곳 9/9)과 맞춰 본다</td>
 <td>CAD의 SO-101은 단순 덩어리라 도달 자체는 시뮬 숫자를 쓴다. 베이스·위 몸통 폭은 Fusion 값으로 맞췄다(새싹봇 결정 2026-11-24). 팔 받침·옆 통 자리는 확인 필요</td>
 </tr>
 <tr>
 <td><strong>무게중심·넘어짐</strong></td>
-<td>컴포넌트 무게(재질)를 넣고 무게중심이 바퀴 사각형 안에 있는지, 시뮬 넘어짐 여유(넓은 차체 앞 89 · 왼 93 · 오른 106 · 크래들 115 mm, <a href="../logs/2026-11-24_robot_v2_measurements.md">robot_v2 실측</a>)와 비교</td>
+<td>컴포넌트 무게(재질)를 넣고 무게중심이 바퀴 사각형 안에 있는지, 시뮬 넘어짐 여유(넓은 차체, 손끝 + 0.1 kg: 앞 88 · 왼 94 · 오른 104 · 크래들 114 mm — Fusion 폭으로 다시 잰 값, <a href="../logs/2026-11-24_fusion_width_remeasure.md">Fusion 폭 다시 잼</a>, 처음 기록 <a href="../logs/2026-11-24_robot_v2_measurements.md">robot_v2 실측</a>)와 비교</td>
 <td>재질: 아래 베이스·윗판은 합판(바닥판 9 mm·윗판 6 mm), 출력 부품은 PLA(robot-lab README). 몸통이 속이 찬 덩어리라 밀도·부품 무게 값을 넣기 전에는 숫자를 쓰지 않는다 (확인 필요)</td>
 </tr>
 <tr>
@@ -2051,7 +2051,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 <tr>
 <td>무게중심</td>
-<td>재질·무게를 넣은 뒤 무게중심이 바퀴 사각형 안 (시뮬 넘어짐 여유 89~115 mm와 나란히 보고)</td>
+<td>재질·무게를 넣은 뒤 무게중심이 바퀴 사각형 안 (시뮬 넘어짐 여유 88~114 mm와 나란히 보고)</td>
 <td>Fusion 물성</td>
 </tr>
 <tr>
@@ -2503,7 +2503,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 <td>1</td>
 <td>11/23(월) ~ 11/27(금)</td>
 <td>01 → 02 → 03</td>
-<td>장면 v1·v2: <code>gym_v0</code> + 메카넘 + SO-101 (robot_v1 옆 바구니 → robot_v2 기획자 설계, 묻힌 통 0/9 → 팔 옆 통 + 넓은 차체, 넣기 9곳 7/9 → Fusion 폭으로 6/9) + 패드 판정 영역</td>
+<td>장면 v1·v2: <code>gym_v0</code> + 메카넘 + SO-101 (robot_v1 옆 바구니 → robot_v2 기획자 설계, 묻힌 통 0/9 → 팔 옆 통 + 넓은 차체, 넣기 9곳 7/9 → Fusion 폭으로 6/9 → 손목 가지 고정으로 9/9) + 패드 판정 영역</td>
 <td>Fusion 360 매개변수 모델 v1(User Parameters 36개, 컴포넌트 12개 — 만들기봇, 11/24) · 간섭 검사 → 뒤 패드 Ø110(11/24). 팔 장착판(컴포넌트 06)은 기획자 수정용</td>
 <td>D02 차터, 기획안 v1.2, 유저 시나리오 / D01 / D03 + 판정 함수 / D06·D07·D08 / D04·D05</td>
 </tr>
@@ -2817,6 +2817,11 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>2026-11-24</td>
+<td>v2.2</td>
+<td>옆 통 넣기 안정화(<a href="../logs/2026-11-24_pick_robust.md">넣기 안정화</a>): 실패 원인 = 첫 IK의 손목 돌림 가지(+1.62 rad, 집게 π 뒤집힘) → 옮기는 호 후반에 병이 빠짐. 가지 고정으로 9곳 6/9 → <strong>9/9</strong>, 병 위치 ±3 cm·차체 방향 ±15° 포함 36/36(시드 두 번). 넘어짐 여유를 지금 측정 88~114 mm로(9장 CAD 표·11-2). 지금 상태 2·8장 로봇 줄·9장·14장</td>
+</tr>
 <tr>
 <td>2026-11-24</td>
 <td>v2.1</td>

@@ -1,14 +1,15 @@
 """시뮬 영상 (발표·검토용) — media/sim/*.mp4, *.gif. 지금은 pick_to_bin 하나 (주인: '일단 하나만 먼저').
 
     uv run --with pillow --with imageio --with imageio-ffmpeg python src/sim/make_videos.py      # pick (약 30 s)
-    uv run --with pillow --with imageio --with imageio-ffmpeg python src/sim/make_videos.py trials   # 9곳 성공 수
+    uv run --with pillow --with imageio --with imageio-ffmpeg python src/sim/make_videos.py trials   # 9곳 × 4묶음 × 시드 2 성공 수
 
 로봇 = robot_v2 'wide_side' (주인 결정 2026-11-24: 넓은 차체 39 × 28 cm + 옆에 거는 통, 운행 0.3 m/s).
 장면 = gym_v2 (기본 = wide_side, gym_v0 5 m × 3 m + 로봇). scripts/build_robot_v2.py 가 만든다.
 
 1. pick    : 벤치 앞 빈 생수병(뚜껑 모양, 가정)의 목·뚜껑을 잡아 옆 통에 넣고 크래들로 접기.
              집기 방식 = src/checks/mecanum_so101_measure.py pick() 그대로(v1 8/9 방식) + smooth_arc=True.
-             wide_side 9곳 시험 결과는 logs/2026-11-24_fusion_width_remeasure.md (6/9, Fusion 폭 — 그 전 7/9는 logs/2026-11-24_wide_side_pick.md). 영상은 그중 성공한 병 위치(가운데, 0/0).
+             + 손목 돌림 가지 고정(roll_pref −π/2): 고정 전 6/9 → 고정 뒤 9/9 (±3 cm·차체 방향 ±15° 포함 36/36, 시드 0·1 같음 —
+             logs/2026-11-24_pick_robust.md. 그 전 기록 logs/2026-11-24_fusion_width_remeasure.md). 영상은 가운데(0/0) 병 위치.
 (나중에: full_mode_sweep — 장면 전체 훑기 + 커버리지 색 + 충전 자리 복귀, person_stop — 사람 대역 1 m 안 정지·재개)
 
 영상 숫자(시간·성공 수)는 모두 이 스크립트의 시뮬 값이다. 실행할 때 media/sim/numbers.json 에도 남긴다.
@@ -39,8 +40,9 @@ W, H, FPS = 1280, 720, 30
 GIF_W, GIF_FPS = 640, 10
 FONT_PATHS = ["/System/Library/Fonts/AppleSDGothicNeo.ttc", "/System/Library/Fonts/Supplemental/AppleGothic.ttf"]
 NUM = {}
-PICK = dict(bottle="cap", quiet=True, scene=SCENE, zone="bin_zone", x_g=0.40, smooth_arc=True)
-TRIALS_OK = (6, 9)     # `make_videos.py trials` 결과 (Fusion 폭 213.2·183.2 mm, logs/2026-11-24_fusion_width_remeasure.md — 예전 219.2·189.2 mm 때 7/9). 바뀌면 여기를 고친다
+PICK = dict(bottle="cap", quiet=True, scene=SCENE, zone="bin_zone", x_g=0.40, smooth_arc=True,
+            roll_pref=-np.pi / 2)   # 손목 돌림 가지 고정 (logs/2026-11-24_pick_robust.md: 실패는 모두 +1.62 rad 가지)
+TRIALS_OK = (9, 9)     # `make_videos.py trials` ±2 cm 9곳 결과 (손목 가지 고정 뒤, 시드 0·1 같음 — logs/2026-11-24_pick_robust.md. 고정 전 6/9). 바뀌면 여기를 고친다
 
 
 def font(sz):
@@ -176,7 +178,7 @@ def pick_video():
     rel = d.site_xmat[sid].reshape(3, 3).T @ (d.xpos[b] - d.site_xpos[sid])
     still_in = bool(np.all(np.abs(rel[:2]) <= m.site_size[sid][:2]))
     res = dict(success=bool(r["inside"]), still_in_after_cradle=still_in, t_drive=round(r["t_drive"], 2), t_arm=round(r["t_arm"], 2),
-               t_cradle=round(t_cradle, 2), t_end=round(frames[-1][0], 2), trials=f"{TRIALS_OK[0]}/{TRIALS_OK[1]} (wide_side, 병 위치 ±2 cm 9곳)")
+               t_cradle=round(t_cradle, 2), t_end=round(frames[-1][0], 2), trials=f"{TRIALS_OK[0]}/{TRIALS_OK[1]} (wide_side, 병 위치 ±2 cm 9곳, 손목 가지 고정)")
     NUM["pick_to_bin"] = res
     print("  결과", res)
     # 단계 = pick() 이 돌려준 구간 길이(segs): 위로, 내려오기, 닫기, 들기, 호, 멈춤, 내리기, 벌리기, 통 위로, 접기
@@ -201,26 +203,42 @@ def pick_video():
         img = caption(raw, [f"생수병 집어 옆 통에 넣기 — {ph}",
                             f"시뮬 시간 {t:5.1f} s · 배속 ×1",
                             "넓은 차체 39×28 cm + 옆에 거는 통 (주인 결정)"],
-                      sub=f"병 위치 {TRIALS_OK[1]}곳 중 {TRIALS_OK[0]}곳 성공한 방식, 그중 가운데 위치(성공) · 다가가기 {r['t_drive']:.1f} s + 팔 {r['t_arm']:.1f} s + 접기 {t_cradle:.1f} s")
+                      sub=f"병 위치 ±2 cm {TRIALS_OK[1]}곳 중 {TRIALS_OK[0]}곳 성공한 방식, 그중 가운데 위치 · 다가가기 {r['t_drive']:.1f} s + 팔 {r['t_arm']:.1f} s + 접기 {t_cradle:.1f} s")
         v.add(img)
     end = caption(raw, [f"{'성공' if r['inside'] and still_in else '실패'}: 병이 옆 통 안",
                          f"다가가기 {r['t_drive']:.1f} s · 팔 동작 {r['t_arm']:.1f} s · 크래들 접기 {t_cradle:.1f} s",
-                         f"같은 방식 병 위치 ±2 cm {TRIALS_OK[1]}곳 중 {TRIALS_OK[0]}곳 성공 ({TRIALS_OK[1] - TRIALS_OK[0]}곳은 통 밖)"])
+                         f"같은 방식 병 위치 ±2 cm {TRIALS_OK[1]}곳 중 {TRIALS_OK[0]}곳 성공"
+                         + (f" ({TRIALS_OK[1] - TRIALS_OK[0]}곳은 통 밖)" if TRIALS_OK[0] < TRIALS_OK[1] else " (±3 cm·차체 방향 ±15°도 9/9)")])
     for _ in range(FPS * 2): v.add(end)
     v.close()
 
 
-def trials():
-    """영상과 같은 설정으로 병 위치 ±2 cm 9곳 (v1 pick_trials 와 같은 격자). 성공 수를 TRIALS_OK 와 비교."""
-    ok = 0
-    for dx in (-0.02, 0.0, 0.02):
-        for dy in (-0.02, 0.0, 0.02):
-            r = M.pick(shift=(dx, dy), **PICK)
-            ok += r["inside"]
-            print(f"  병 위치 ({dx:+.2f}, {dy:+.2f}) m: {'성공' if r['inside'] else '실패'}  다가가기 {r['t_drive']:.2f} s, 팔 {r['t_arm']:.2f} s, "
-                  f"병(통 기준) {np.round(r['bottle_rel'], 3).tolist()}")
-    print(f"  {ok}/9 성공 (TRIALS_OK = {TRIALS_OK})")
-    NUM["pick_trials"] = dict(ok=int(ok), n=9)
+GRIDS = {"±2 cm": ([(dx, dy) for dx in (-0.02, 0.0, 0.02) for dy in (-0.02, 0.0, 0.02)], 0.0),
+         "±3 cm": ([(dx, dy) for dx in (-0.03, 0.0, 0.03) for dy in (-0.03, 0.0, 0.03)], 0.0),
+         "±2 cm, 차체 방향 +15°": ([(dx, dy) for dx in (-0.02, 0.0, 0.02) for dy in (-0.02, 0.0, 0.02)], np.radians(15)),
+         "±2 cm, 차체 방향 −15°": ([(dx, dy) for dx in (-0.02, 0.0, 0.02) for dy in (-0.02, 0.0, 0.02)], np.radians(-15))}
+
+
+def trials(seeds=(0, 1)):
+    """영상과 같은 설정으로 병 위치 ±2 cm 9곳 (v1 pick_trials 와 같은 격자) + ±3 cm 9곳 + 다가간 차체 방향 ±15° (±2 cm 9곳씩).
+    병은 축대칭이라 '방향'은 병이 아니라 병을 마주한 차체 방향(yaw)을 어긋나게 해 본다. IK 시드를 바꿔 두 번 돈다.
+    ±2 cm 9곳 성공 수를 TRIALS_OK 와 비교."""
+    res = {}
+    for seed in seeds:
+        for name, (grid, yaw) in GRIDS.items():
+            ok, fails = 0, []
+            for dx, dy in grid:
+                r = M.pick(shift=(dx, dy), seed=seed, yaw_off=yaw, **PICK)
+                ok += r["inside"]
+                if not r["inside"]:
+                    fails.append([dx, dy])
+                if name == "±2 cm" and seed == seeds[0]:
+                    print(f"  병 위치 ({dx:+.2f}, {dy:+.2f}) m: {'성공' if r['inside'] else '실패'}  다가가기 {r['t_drive']:.2f} s, 팔 {r['t_arm']:.2f} s, "
+                          f"손목 돌림 {r['q_roll']:+.2f} rad, 병(통 기준) {np.round(r['bottle_rel'], 3).tolist()}")
+            print(f"  시드 {seed} · {name}: {ok}/9 성공" + (f", 실패 {fails}" if fails else ""))
+            res.setdefault(name, {})[f"seed{seed}"] = int(ok)
+    print(f"  (TRIALS_OK = {TRIALS_OK})")
+    NUM["pick_trials"] = dict(ok=res["±2 cm"][f"seed{seeds[0]}"], n=9, by_set=res, roll_pref=round(PICK["roll_pref"], 4))
 
 
 if __name__ == "__main__":

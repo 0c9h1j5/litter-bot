@@ -1,7 +1,7 @@
 """robot_v1 / gym_v1 / robot_v2 그림.
 uv run --with pillow python src/checks/render_robot.py robot  docs/img/robot_v1.png
 uv run --with pillow python src/checks/render_robot.py gym    docs/img/gym_v1.png
-uv run --with pillow python src/checks/render_robot.py robot2 docs/img/robot_v2.png   # 왼쪽 X3 차체, 오른쪽 설계 어림 차체(wide) — 크래들 접기 / 앞 바닥 집기
+uv run --with pillow python src/checks/render_robot.py robot2 docs/img/robot_v2.png   # 왼쪽 X3 차체(비교용), 오른쪽 기본 robot_v2(wide_side: 넓은 차체 + 옆 통, Fusion 폭) — 크래들 접기 / 앞 바닥 집기
 """
 import sys
 import mujoco
@@ -28,13 +28,13 @@ def shot(path, pose, lookat, dist, az, el, w=900, h=700):
 
 
 if which == "robot2":
-    from build_robot_v2 import STOW_V2
+    from build_robot_v2 import STOW_V2, STOW_WIDE
     names = ["shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll"]
-    stow = dict(zip(names, STOW_V2), gripper=0.0)
+    stows = {"x3": dict(zip(names, STOW_V2), gripper=0.0), "wide": dict(zip(names, STOW_WIDE), gripper=0.0)}
     reach = {"shoulder_pan": 0.0, "shoulder_lift": 0.6, "elbow_flex": 0.2, "wrist_flex": 0.9, "gripper": 0.8}
     tiles = []
-    for path, lab in (("scenes/robot_v2_x3.xml", "X3 30x20 cm"), ("scenes/robot_v2_wide.xml", "wide 39x28 cm")):
-        for pose, pl in ((stow, "STOW (cradle)"), (reach, "reach floor")):
+    for path, lab, st in (("scenes/robot_v2_x3.xml", "X3 30x20 cm", "x3"), ("scenes/robot_v2.xml", "wide_side 39x28 cm + side bin (default)", "wide")):
+        for pose, pl in ((stows[st], "STOW (cradle)"), (reach, "reach floor")):
             im = shot(path, pose, [0.02, 0.0, 0.13], 0.95, 215, -30)
             ImageDraw.Draw(im).text((12, 10), f"{lab} / {pl}", fill=(255, 255, 255))
             tiles.append(im)
