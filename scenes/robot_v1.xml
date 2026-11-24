@@ -1,0 +1,72 @@
+<!--
+  robot_v1: 메카넘 4륜 차체(단순화) + 청소 모듈 A + SO-ARM101(SO-101) 팔 — 2026-11-24
+  이 파일은 scripts/build_robot_v1.py 가 만든다. 손으로 고치지 말고 스크립트의 CHASSIS 값을 고친 뒤 다시 돌린다.
+  - 차체: Yahboom ROSMASTER X3 치수 기준(커뮤니티 URDF), 길이 0.3 m, 폭 0.1994 m(바퀴 포함), 윗판 0.14 m(추정), 질량 4.2 kg
+  - 이동: 평면 관절 3개(base_x, base_y 월드 기준 미끄럼 + base_yaw) + 속도 액추에이터. 메카넘 롤러는 만들지 않았다.
+    최고 속도 1.0 m/s(판매처 Q&A, 확인 필요), 제자리 회전 6.47 rad/s(운동학 상한 v/(lx+ly))
+  - 팔: TheRobotStudio SO-ARM100 저장소 Simulation/SO101/so101_new_calib.xml (Apache-2.0) 에서
+    고정 집게 충돌 형상만 상자로 바꾼 사본(so101_new_calib_litterbot.xml)을 attach
+  - 앞: V자 가이드(충돌 있음, θ 40.0°, 입 0.2 m, 목 0.04 m) + 흡입구 판정 영역(site suction_zone)
+  - 뒤: 회전 패드 2개 판정 영역(충돌 없음), 왼쪽 옆: 바구니, 위: 핸디 청소기 자리, 깊이 카메라 자리(depth_cam)
+  치수·질량 중 출처가 없는 값은 모두 가정이다.
+-->
+<mujoco model="robot_v1">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" integrator="implicitfast"/>
+  <visual>
+    <headlight diffuse="0.55 0.55 0.55" ambient="0.35 0.35 0.35"/>
+    <global offwidth="1600" offheight="1200"/>
+  </visual>
+  <default>
+    <default class="body"><geom type="box" rgba="0.2 0.55 0.3 1" friction="0.6 0.005 0.0001"/></default>
+    <default class="vis"><geom contype="0" conaffinity="0" mass="0"/></default>
+    <default class="wheel"><geom type="cylinder" euler="1.5708 0 0" contype="0" conaffinity="0" mass="0" rgba="0.15 0.15 0.15 1"/></default>
+    <default class="guide"><geom type="box" mass="0.02" rgba="0.6 0.36 0 1" friction="0.3 0.005 0.0001"/></default>
+    <default class="zone"><geom contype="0" conaffinity="0" mass="0"/></default>
+    <default class="basket"><geom type="box" mass="0.01" rgba="0.95 0.95 0.95 1"/></default>
+  </default>
+  <asset>
+    <model name="so101" file="assets/so101/so101_new_calib_litterbot.xml"/>
+  </asset>
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" diffuse="0.7 0.7 0.7"/>
+    <geom name="floor" type="plane" size="2 2 0.1" rgba="0.8 0.62 0.4 1"/>
+    <body name="robot" pos="0 0 0">
+      <joint name="base_x" type="slide" axis="1 0 0" damping="0"/>
+      <joint name="base_y" type="slide" axis="0 1 0" damping="0"/>
+      <joint name="base_yaw" type="hinge" axis="0 0 1" damping="0"/>
+      <site name="robot_origin" pos="0 0 0" size="0.01"/>
+      <geom name="chassis" class="body" pos="0 0 0.0875" size="0.15 0.0693 0.0525" mass="4.2"/>
+      <geom name="wheel_fl" class="wheel" pos="0.08 0.0745 0.0325" size="0.0325 0.0152"/>
+      <geom name="wheel_fr" class="wheel" pos="0.08 -0.0745 0.0325" size="0.0325 0.0152"/>
+      <geom name="wheel_rl" class="wheel" pos="-0.08 0.0745 0.0325" size="0.0325 0.0152"/>
+      <geom name="wheel_rr" class="wheel" pos="-0.08 -0.0745 0.0325" size="0.0325 0.0152"/>
+      <geom name="guide_left" class="guide" pos="0.2077 0.06 0.017" euler="0 0 0.6981" size="0.0622 0.003 0.015"/>
+      <geom name="guide_right" class="guide" pos="0.2077 -0.06 0.017" euler="0 0 -0.6981" size="0.0622 0.003 0.015"/>
+      <site name="suction_zone" type="box" pos="0.16 0 0.02" size="0.02 0.02 0.02" rgba="0.16 0.49 0.88 0.35"/>
+      <geom name="pad_left" class="zone" type="cylinder" pos="-0.19 0.05 0.003" size="0.05 0.003" rgba="0.12 0.44 0.36 0.6"/>
+      <geom name="pad_right" class="zone" type="cylinder" pos="-0.19 -0.05 0.003" size="0.05 0.003" rgba="0.12 0.44 0.36 0.6"/>
+      <geom name="vacuum" class="body" pos="-0.06 0 0.175" size="0.05 0.045 0.035" mass="0.7" rgba="0.79 0.85 0.94 1"/>
+      <geom name="cam_mast" class="vis" type="cylinder" pos="0.135 -0.055 0.22" size="0.006 0.08" rgba="0.3 0.3 0.3 1"/>
+      <geom name="cam_box" class="vis" type="box" pos="0.135 -0.055 0.3" euler="0 0.6981 0" size="0.0125 0.045 0.0125" rgba="0.1 0.1 0.1 1"/>
+      <camera name="depth_cam" pos="0.148 -0.055 0.3" fovy="58" xyaxes="0 -1 0 0.6428 0 0.766"/>
+      <body name="basket" pos="0.109 0.157 0">
+        <geom name="basket_floor" class="basket" pos="0 0 0.043" size="0.054 0.054 0.002"/>
+        <geom name="basket_wall_f" class="basket" pos="0.052 0 0.095" size="0.002 0.054 0.05"/>
+        <geom name="basket_wall_b" class="basket" pos="-0.052 0 0.095" size="0.002 0.054 0.05"/>
+        <geom name="basket_wall_l" class="basket" pos="0 0.052 0.095" size="0.05 0.002 0.05"/>
+        <geom name="basket_wall_r" class="basket" pos="0 -0.052 0.095" size="0.05 0.002 0.05"/>
+        <site name="basket_zone" type="box" pos="0 0 0.095" size="0.05 0.05 0.05" rgba="1 1 0 0.15"/>
+      </body>
+      <frame name="arm_mount" pos="0.07 0 0.14">
+        <attach model="so101" body="base" prefix="arm_"/>
+      </frame>
+    </body>
+  </worldbody>
+  <actuator>
+    <!-- 속도 명령(월드 기준). 차체 기준 (vx, vy)는 yaw로 돌려 넣는다: src/checks/robot_v1_util.py drive() -->
+    <velocity name="drive_x" joint="base_x" kv="400" ctrlrange="-1 1"/>
+    <velocity name="drive_y" joint="base_y" kv="400" ctrlrange="-1 1"/>
+    <velocity name="drive_yaw" joint="base_yaw" kv="20" ctrlrange="-6.47 6.47"/>
+  </actuator>
+</mujoco>

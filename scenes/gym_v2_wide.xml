@@ -1,0 +1,16 @@
+<!--
+  gym_v2_wide: gym_v0(체육관 코트 일부 5 m x 3 m, 그대로) + robot_v2_wide(주인 설계 배치, 차체 'wide') — 2026-11-24
+  scripts/build_robot_v2.py 가 만든다. 시작 자리 (-0.6, 0.2), 앞(+x)을 봄 — gym_v1 과 같음.
+-->
+<mujoco model="gym_v2_wide">
+  <include file="gym_v0.xml"/>
+  <option integrator="implicitfast"/>
+  <asset>
+    <model name="robot" file="robot_v2_wide.xml"/>
+  </asset>
+  <worldbody>
+    <frame name="robot_start" pos="-0.6 0.2 0">
+      <attach model="robot" body="robot" prefix=""/>
+    </frame>
+  </worldbody>
+</mujoco>
