@@ -233,11 +233,11 @@ def main():
     page = f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>체육관 정리 로봇</title>
-<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v1.3 — 대관 사이 체육관 정리 로봇 (MuJoCo Stretch 3 시뮬 + 메카넘 축소판)">
+<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v1.4 — 대관 사이 체육관 정리 로봇 (MuJoCo Stretch 3 시뮬 + 메카넘 축소판)">
 <style>{CSS}</style></head>
 <body><div class="wrap" id="top">
 <header class="hero">
-<div class="kicker">litter-bot · 기획안 v1.3 · 2026-11-23</div>
+<div class="kicker">litter-bot · 기획안 v1.4 · 2026-11-23</div>
 <h1>체육관 정리 로봇</h1>
 <p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
 <div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(현장 관찰 기반 추정) 표시를 꼭 함께 읽을 것</div>
