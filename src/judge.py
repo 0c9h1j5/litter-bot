@@ -44,6 +44,8 @@ v0.6 (주인 결정 2026-11-24): 대관 사이 '짧은 모드'를 없앴다 — 
 장면 설정 오류(targets <= 0, grid_cells − obstacle_cells <= 0, 10회 집계에 10개가 아닌 결과)는 ValueError.
 """
 
+from fractions import Fraction
+
 
 # 기준값 — 바뀌면 여기만 고친다 (경계 포함 방향은 명세 문장 그대로).
 COLLECTION_MIN_PCT = 80        # R-04 수거율 80% 이상 (한 판, 10회 평균)
@@ -55,6 +57,42 @@ MODE1_MAX_S = 480.0            # R-26 모드 1 480 s 이하
 MODE2_MAX_S = 600.0            # R-26 모드 2 600 s 이하
 PERSON_STOP_MAX_S = 1.0        # R-09 사람 앞 정지 1.0 s 이하 (모든 회)
 RUNS = 10                      # 시드 10개 10회 (기획안 11장)
+
+
+
+def _targets(result: dict) -> tuple[int, int]:
+    """수거 수·대상 수. 대상이 0개 이하면 장면 설정 오류(ValueError)."""
+    targets = result["targets"]
+    if targets <= 0:
+        raise ValueError(f"집게 대상 수가 0 이하: targets = {targets}")
+    return result["collected"], targets
+
+
+def _ratio_ok(part: int, whole: int, min_pct: int) -> bool:
+    """part / whole >= min_pct %  — 정수 곱으로 비교 (부동소수점 오차 없음)."""
+    return part * 100 >= min_pct * whole
+
+
+def _safety_ok(result: dict) -> bool:
+    """안전·분실물 (R-09, R-10, R-11, R-16, R-17, R-24) — 전체 모드·벤치만 줍기 공통."""
+    return (
+        result["base_collisions"] == 0                                        # R-24
+        and result["zone_exits"] == 0                                         # R-16
+        and all(t <= PERSON_STOP_MAX_S for t in result["person_stop_s"])      # R-09 (모든 회)
+        and result["forbidden_picks"] == 0                                    # R-10·R-11·R-17
+        and result["lost_items_photographed"] >= result["lost_items_seen"]    # R-17 사진 100%
+    )
+
+
+def _full_rest_ok(result: dict) -> bool:
+    """전체 모드의 수거율·커버리지 밖 조건: R-18 시간·복귀, R-26 모드별 시간, 안전·분실물."""
+    return (
+        result["elapsed_s"] <= FULL_MAX_S                 # R-18 시간
+        and result["dock_dist_m"] <= DOCK_RADIUS_M        # R-18 복귀
+        and result["mode1_elapsed_s"] <= MODE1_MAX_S      # R-26
+        and result["mode2_elapsed_s"] <= MODE2_MAX_S      # R-26
+        and _safety_ok(result)
+    )
 
 
 def judge_full_mode(result: dict) -> bool:
@@ -69,7 +107,15 @@ def judge_full_mode(result: dict) -> bool:
       분실물 R-10·R-11·R-17(forbidden_picks 0, lost_items_photographed >= lost_items_seen)
     targets <= 0 또는 grid_cells − obstacle_cells <= 0 이면 ValueError.
     """
-    raise NotImplementedError("v0.6 판정 — 다음 작업자가 tests/test_judge.py를 고치지 않고 구현")
+    collected, targets = _targets(result)
+    paintable = result["grid_cells"] - result["obstacle_cells"]
+    if paintable <= 0:
+        raise ValueError(f"칠할 칸이 없음: grid_cells − obstacle_cells = {paintable}")
+    return (
+        _ratio_ok(collected, targets, COLLECTION_MIN_PCT)                 # R-04
+        and _ratio_ok(result["covered_cells"], paintable, COVERAGE_MIN_PCT)  # R-06
+        and _full_rest_ok(result)
+    )
 
 
 def judge_bench_only(result: dict) -> bool:
@@ -81,7 +127,12 @@ def judge_bench_only(result: dict) -> bool:
       안전·분실물 조건은 judge_full_mode와 같음 (R-09, R-10, R-11, R-16, R-17, R-24)
     시간·커버리지는 보지 않는다(R-32에 기준 없음, 바닥은 밀지 않음). targets <= 0 이면 ValueError.
     """
-    raise NotImplementedError("v0.6 판정 — 다음 작업자가 tests/test_judge.py를 고치지 않고 구현")
+    collected, targets = _targets(result)
+    return (
+        _ratio_ok(collected, targets, COLLECTION_MIN_PCT)   # R-32·R-04
+        and result["dock_dist_m"] <= DOCK_RADIUS_M          # R-32
+        and _safety_ok(result)
+    )
 
 
 def judge_ten_runs(results: list[dict]) -> bool:
@@ -93,7 +144,22 @@ def judge_ten_runs(results: list[dict]) -> bool:
       나머지(R-06, R-18 시간·복귀, R-26, 안전, 분실물)는 10회 모두 judge_full_mode의 같은 기준
     len(results) != RUNS(10) 이면 ValueError. 각 회의 설정 오류도 judge_full_mode처럼 ValueError.
     """
-    raise NotImplementedError("v0.6 판정 — 다음 작업자가 tests/test_judge.py를 고치지 않고 구현")
+    if len(results) != RUNS:
+        raise ValueError(f"10회 집계에는 결과 {RUNS}개가 필요함: {len(results)}개")
+    rates = []        # 회별 수거율 (분수로 정확히)
+    others_ok = True
+    for r in results:
+        collected, targets = _targets(r)
+        paintable = r["grid_cells"] - r["obstacle_cells"]
+        if paintable <= 0:
+            raise ValueError(f"칠할 칸이 없음: grid_cells − obstacle_cells = {paintable}")
+        rates.append(Fraction(collected, targets))
+        others_ok = (others_ok
+                     and _ratio_ok(r["covered_cells"], paintable, COVERAGE_MIN_PCT)  # R-06
+                     and _full_rest_ok(r))
+    mean_ok = sum(rates) * 100 >= COLLECTION_MIN_PCT * len(rates)   # 평균 80% 이상
+    min_ok = min(rates) * 100 >= COLLECTION_RUN_MIN_PCT             # 최저 회 60% 이상
+    return mean_ok and min_ok and others_ok
 
 
 def decide_start(time_to_next_booking_s: float, people_on_court: int, bench_button: bool = False) -> str:
@@ -106,4 +172,10 @@ def decide_start(time_to_next_booking_s: float, people_on_court: int, bench_butt
       그 밖                                               → "none"
     하던 줄을 멈추고 복귀하는 규칙(대관 시작이 다가올 때)은 문턱 숫자가 정해지지 않아 여기 없다 (확인 필요).
     """
-    raise NotImplementedError("v0.6 판정 — 다음 작업자가 tests/test_judge.py를 고치지 않고 구현")
+    if people_on_court >= 1:
+        return "none"         # R-01: 사람이 있으면 버튼을 눌러도 출발 안 함
+    if bench_button:
+        return "bench_only"   # R-32
+    if time_to_next_booking_s >= FULL_MAX_S:
+        return "full"         # R-25
+    return "none"
