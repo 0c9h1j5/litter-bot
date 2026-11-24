@@ -36,29 +36,29 @@
       <joint name="base_y" type="slide" axis="0 1 0" damping="0"/>
       <joint name="base_yaw" type="hinge" axis="0 0 1" damping="0"/>
       <site name="robot_origin" pos="0 0 0" size="0.01"/>
-      <geom name="base_0" class="base" pos="0 0 0.0575" size="0.195 0.1096 0.0225"/>
-      <geom name="upper_1" class="upper" pos="0 0 0.115" size="0.195 0.0946 0.035"/>
+      <geom name="base_0" class="base" pos="0 0 0.0575" size="0.195 0.1066 0.0225"/>
+      <geom name="upper_1" class="upper" pos="0 0 0.115" size="0.195 0.0916 0.035"/>
       <geom name="chassis_mass" class="vis" type="box" pos="0 0 0.0925" size="0.01 0.01 0.01" mass="4.2" rgba="0 0 0 0"/>
-      <geom name="vacuum_mass" class="vis" type="box" pos="-0.02 -0.0548 0.0575" size="0.01 0.01 0.01" mass="0.7" rgba="0 0 0 0"/>
+      <geom name="vacuum_mass" class="vis" type="box" pos="-0.02 -0.0533 0.0575" size="0.01 0.01 0.01" mass="0.7" rgba="0 0 0 0"/>
       <geom name="wheel_fl" class="wheel" pos="0.13 0.1248 0.0325" size="0.0325 0.0152"/>
       <geom name="wheel_fr" class="wheel" pos="0.13 -0.1248 0.0325" size="0.0325 0.0152"/>
       <geom name="wheel_rl" class="wheel" pos="-0.13 0.1248 0.0325" size="0.0325 0.0152"/>
       <geom name="wheel_rr" class="wheel" pos="-0.13 -0.1248 0.0325" size="0.0325 0.0152"/>
-      <geom name="bumper" class="bumper" pos="0.201 0 0.0375" size="0.006 0.1096 0.0225"/>
-      <geom name="brush_left" class="zone" type="cylinder" pos="0.177 0.0916 0.004" size="0.045 0.004" rgba="0.95 0.65 0.1 0.7"/>
-      <geom name="brush_right" class="zone" type="cylinder" pos="0.177 -0.0916 0.004" size="0.045 0.004" rgba="0.95 0.65 0.1 0.7"/>
+      <geom name="bumper" class="bumper" pos="0.201 0 0.0375" size="0.006 0.1066 0.0225"/>
+      <geom name="brush_left" class="zone" type="cylinder" pos="0.177 0.0886 0.004" size="0.045 0.004" rgba="0.95 0.65 0.1 0.7"/>
+      <geom name="brush_right" class="zone" type="cylinder" pos="0.177 -0.0886 0.004" size="0.045 0.004" rgba="0.95 0.65 0.1 0.7"/>
       <geom name="pad_left" class="zone" type="cylinder" pos="-0.24 0.055 0.003" size="0.055 0.003" rgba="0.12 0.44 0.36 0.6"/>
       <geom name="pad_right" class="zone" type="cylinder" pos="-0.24 -0.055 0.003" size="0.055 0.003" rgba="0.12 0.44 0.36 0.6"/>
       <site name="suction_zone" type="box" pos="0.0655 0 0.015" size="0.02 0.05 0.015" rgba="0.16 0.49 0.88 0.5"/>
-      <geom name="cam_mast" class="vis" type="cylinder" pos="0.175 -0.0796 0.2" size="0.006 0.05" rgba="0.3 0.3 0.3 1"/>
-      <geom name="cam_box" class="vis" type="box" pos="0.175 -0.0796 0.25" euler="0 0.6109 0" size="0.0125 0.045 0.0125" rgba="0.1 0.1 0.1 1"/>
-      <camera name="depth_cam" pos="0.188 -0.0796 0.25" fovy="58" xyaxes="0 -1 0 0.5736 0 0.8192"/>
+      <geom name="cam_mast" class="vis" type="cylinder" pos="0.175 -0.0766 0.2" size="0.006 0.05" rgba="0.3 0.3 0.3 1"/>
+      <geom name="cam_box" class="vis" type="box" pos="0.175 -0.0766 0.25" euler="0 0.6109 0" size="0.0125 0.045 0.0125" rgba="0.1 0.1 0.1 1"/>
+      <camera name="depth_cam" pos="0.188 -0.0766 0.25" fovy="58" xyaxes="0 -1 0 0.5736 0 0.8192"/>
       <geom name="screen" class="vis" type="box" pos="0.197 0 0.12" size="0.002 0.05 0.02" rgba="0.05 0.1 0.2 1"/>
       <geom name="handle_bar" class="vis" type="capsule" fromto="-0.175 -0.04 0.19 -0.175 0.04 0.19" size="0.006" rgba="0.25 0.25 0.25 1"/>
       <geom name="handle_post_l" class="vis" type="capsule" fromto="-0.175 0.04 0.15 -0.175 0.04 0.19" size="0.005" rgba="0.25 0.25 0.25 1"/>
       <geom name="handle_post_r" class="vis" type="capsule" fromto="-0.175 -0.04 0.15 -0.175 -0.04 0.19" size="0.005" rgba="0.25 0.25 0.25 1"/>
-      <geom name="estop" class="vis" type="cylinder" pos="-0.16 -0.0696 0.16" size="0.015 0.01" rgba="0.85 0.1 0.1 1"/>
-      <geom name="cradle" class="vis" type="box" pos="0.13 -0.0646 0.162" size="0.02 0.025 0.012" rgba="0.55 0.55 0.6 1"/>
+      <geom name="estop" class="vis" type="cylinder" pos="-0.16 -0.0666 0.16" size="0.015 0.01" rgba="0.85 0.1 0.1 1"/>
+      <geom name="cradle" class="vis" type="box" pos="0.13 -0.0616 0.162" size="0.02 0.025 0.012" rgba="0.55 0.55 0.6 1"/>
       <body name="bin" pos="0.135 0.15 0">
         <geom name="bin_floor" class="bin" pos="0 0 0.078" size="0.054 0.054 0.002"/>
         <geom name="bin_wall_f" class="bin" pos="0.052 0 0.115" size="0.002 0.054 0.035"/>

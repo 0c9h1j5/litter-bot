@@ -11,7 +11,7 @@ robot_v1(build_robot_v1.py)에서 바뀐 점 (설계 페이지 '체육관 정리
   - 쓰레기통: 왼쪽 옆에 거는 바구니 → 몸통에 묻은 통(테두리 = 윗면 높이), 팔 회전축에서 왼쪽 뒤 대각선 15~20 cm.
     → 묻힌 통은 실측 0/9라 주인 결정(2026-11-24)으로 취소, **팔 옆에 거는 통**(robot_v1 옆 바구니 8/9와 같은 방식)으로.
 기본 차체(scenes/robot_v2.xml, gym_v2.xml) = "wide_side": 넓은 차체(직접 제작, 39 × 28 cm — 주인 결정 2026-11-24)
-  + 팔 회전축 옆, 차체 왼쪽 밖에 거는 통(깊이 10.5 cm). 넣기 실측(logs/2026-11-24_robot_v2_wide_side_pick.md): 9곳 7/9
+  + 팔 회전축 옆, 차체 왼쪽 밖에 거는 통(깊이 10.5 cm). 넣기 실측: 9곳 6/9 (베이스·위 몸통 폭 Fusion 213.2·183.2 mm, logs/2026-11-24_fusion_width_remeasure.md — 그 전 7/9)
   (smooth_arc 넣기). 비교용 "wide_side_7cm"(위 몸통 옆에 붙인 깊이 7 cm 통).
   - 외형: 2단(아래 청소 베이스 + 위 몸통 — 색으로만 나눔), 앞 위 짧은 기둥 깊이 카메라(높이 0.25 m, 아래로 35°),
     앞면 화면, 위 뒤 손잡이·비상정지(모두 보기용, 충돌 없음).
@@ -63,6 +63,7 @@ VARIANTS = {
         length=_CH["length"], width=_CH["width"], wheel_r=_CH["wheel_radius"], wheel_w=_CH["wheel_width"],
         wheel_x=_CH["wheel_x"], wheel_y=_CH["wheel_y"], body_bottom=_CH["body_bottom"], base_top=_CH["base_top"],
         deck_z=_CH["deck_height"], mass=_CH["mass"], vmax=_OP["max_speed_sim"], upper_inset=_CH["upper_inset"],
+        body_w=_CH["base_width"], up_w=_CH["upper_width"],   # Fusion 매개변수 모델 계산값 (바퀴와 3 mm 틈)
         # 묻힌 통(예전 안): 설계 페이지 '시판 통 15 × 15 × 15 cm' 대신 안쪽 0.13 × 0.13 (몸통 폭에 묻으려면, 가정), 바닥 0.045
         bin=dict(inner=0.13, floor_z=0.045, dist=0.17, side=0.03),
         brush_r=_CL["side_brush_radius"], pad_r=_CL["pad_radius"],
@@ -73,7 +74,7 @@ VARIANTS["x3b"] = dict(VARIANTS["x3"], bin=dict(inner=0.10, floor_z=0.045, dist=
 VARIANTS["wide_long"] = dict(VARIANTS["wide"], bin=dict(inner_x=0.23, inner_y=0.12, floor_z=0.045, dist=0.19, side=0.0))
 # 팔 옆에 거는 통 (주인 결정 2026-11-24: 묻힌 통 0/9 취소 → robot_v1 옆 바구니 8/9와 같은 방식). 통 크기·높이는 모두 가정.
 # "wide_side" = 기본(scenes/robot_v2.xml): 팔 회전축과 같은 x, 차체(바퀴 포함) 왼쪽 밖에 건다(hang="left").
-#   안쪽 0.10 × 0.10 m, 바닥 0.045 m, 테두리 = 윗면 0.15 m (깊이 10.5 cm, v1 바구니 크기에 가깝게). 9곳 7/9
+#   안쪽 0.10 × 0.10 m, 바닥 0.045 m, 테두리 = 윗면 0.15 m (깊이 10.5 cm, v1 바구니 크기에 가깝게). 9곳 6/9 (Fusion 폭, 그 전 7/9)
 #   (smooth_arc 넣기, logs/2026-11-24_robot_v2_wide_side_pick.md).
 #   통 치수는 config/robot_params.yaml scale_model.side_bin 에서 읽는다.
 VARIANTS["wide_side"] = dict(VARIANTS["wide"], bin=dict(hang=_SB["hang"], inner=_SB["inner"], floor_z=_SB["floor_z"], gap=_SB["gap"]))
@@ -104,8 +105,8 @@ STOW_V2_WIDE = [-1.5708, -1.14, 1.34, 1.65, 0.0]
 def layout(v):
     """변형 v 의 주요 좌표(모델 만들기와 측정 스크립트가 같이 쓴다)."""
     L, W = v["length"], v["width"]
-    body_w = W - 2 * v["wheel_w"]
-    up_w = body_w - 2 * v["upper_inset"]
+    body_w = v.get("body_w", W - 2 * v["wheel_w"])        # 넓은 차체는 Fusion 값(yaml base_width), X3는 폭 − 바퀴 폭
+    up_w = v.get("up_w", body_w - 2 * v["upper_inset"])
     pivot = (L / 2 - PIVOT_BACK, 0.0)
     b = v["bin"]
     if b.get("hang") == "left":   # 옆에 거는 통: 팔 회전축과 같은 x, 차체(바퀴 포함) 왼쪽 밖

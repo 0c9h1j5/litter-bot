@@ -8,7 +8,7 @@
 
 1. pick    : 벤치 앞 빈 생수병(뚜껑 모양, 가정)의 목·뚜껑을 잡아 옆 통에 넣고 크래들로 접기.
              집기 방식 = src/checks/mecanum_so101_measure.py pick() 그대로(v1 8/9 방식) + smooth_arc=True.
-             wide_side 9곳 시험 결과는 logs/2026-11-24_wide_side_pick.md (7/9). 영상은 그중 성공한 병 위치(가운데, 0/0).
+             wide_side 9곳 시험 결과는 logs/2026-11-24_fusion_width_remeasure.md (6/9, Fusion 폭 — 그 전 7/9는 logs/2026-11-24_wide_side_pick.md). 영상은 그중 성공한 병 위치(가운데, 0/0).
 (나중에: full_mode_sweep — 장면 전체 훑기 + 커버리지 색 + 충전 자리 복귀, person_stop — 사람 대역 1 m 안 정지·재개)
 
 영상 숫자(시간·성공 수)는 모두 이 스크립트의 시뮬 값이다. 실행할 때 media/sim/numbers.json 에도 남긴다.
@@ -40,7 +40,7 @@ GIF_W, GIF_FPS = 640, 10
 FONT_PATHS = ["/System/Library/Fonts/AppleSDGothicNeo.ttc", "/System/Library/Fonts/Supplemental/AppleGothic.ttf"]
 NUM = {}
 PICK = dict(bottle="cap", quiet=True, scene=SCENE, zone="bin_zone", x_g=0.40, smooth_arc=True)
-TRIALS_OK = (7, 9)     # `make_videos.py trials` 결과 (logs/2026-11-24_wide_side_pick.md). 바뀌면 여기를 고친다
+TRIALS_OK = (6, 9)     # `make_videos.py trials` 결과 (Fusion 폭 213.2·183.2 mm, logs/2026-11-24_fusion_width_remeasure.md — 예전 219.2·189.2 mm 때 7/9). 바뀌면 여기를 고친다
 
 
 def font(sz):
