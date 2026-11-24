@@ -33,7 +33,7 @@ if which == "robot2":
     stow = dict(zip(names, STOW_V2), gripper=0.0)
     reach = {"shoulder_pan": 0.0, "shoulder_lift": 0.6, "elbow_flex": 0.2, "wrist_flex": 0.9, "gripper": 0.8}
     tiles = []
-    for path, lab in (("scenes/robot_v2.xml", "X3 30x20 cm"), ("scenes/robot_v2_wide.xml", "wide 39x28 cm")):
+    for path, lab in (("scenes/robot_v2_x3.xml", "X3 30x20 cm"), ("scenes/robot_v2_wide.xml", "wide 39x28 cm")):
         for pose, pl in ((stow, "STOW (cradle)"), (reach, "reach floor")):
             im = shot(path, pose, [0.02, 0.0, 0.13], 0.95, 215, -30)
             ImageDraw.Draw(im).text((12, 10), f"{lab} / {pl}", fill=(255, 255, 255))

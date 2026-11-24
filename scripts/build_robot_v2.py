@@ -9,10 +9,13 @@ robot_v1(build_robot_v1.py)에서 바뀐 점 (설계 페이지 '체육관 정리
     흡입구 = 차체 밑 가운데, 앞바퀴 바로 뒤 판정 영역. 뒤 = 마른 회전 패드 2개 판정 영역(반대 방향).
     앞 범퍼(충돌 있음)는 바닥에서 1.5 cm 띄움.
   - 쓰레기통: 왼쪽 옆에 거는 바구니 → 몸통에 묻은 통(테두리 = 윗면 높이), 팔 회전축에서 왼쪽 뒤 대각선 15~20 cm.
+    → 묻힌 통은 실측 0/9라 주인 결정(2026-11-24)으로 취소, **팔 옆에 거는 통**(robot_v1 옆 바구니 8/9와 같은 방식)으로.
+기본 차체(scenes/robot_v2.xml, gym_v2.xml) = "wide_side": 넓은 차체(직접 제작, 39 × 28 cm — 주인 결정 2026-11-24)
+  + 팔 회전축 바로 왼쪽에 거는 통. 넣기 실측(logs/2026-11-24_robot_v2_wide_side_pick.md): 가운데 한 번 성공, 9곳 0/9 — 확인 필요.
   - 외형: 2단(아래 청소 베이스 + 위 몸통 — 색으로만 나눔), 앞 위 짧은 기둥 깊이 카메라(높이 0.25 m, 아래로 35°),
     앞면 화면, 위 뒤 손잡이·비상정지(모두 보기용, 충돌 없음).
-차체 치수는 VARIANTS 에: "x3" = Yahboom ROSMASTER X3 30 × 20 cm(지금 기준, 통은 설계대로 대각선 — 뒷바퀴 위라 얕음),
-"x3b" = 같은 차체에 통을 거의 바로 뒤로(바퀴를 피해 깊게), "wide" = 설계 페이지 어림 39 × 28 × 15 cm.
+차체 치수는 VARIANTS 에: "wide_side" = 기본(위), "x3" = Yahboom ROSMASTER X3 30 × 20 cm(비교용, 통은 설계대로 대각선 — 뒷바퀴 위라 얕음),
+"x3b" = 같은 차체에 통을 거의 바로 뒤로(바퀴를 피해 깊게), "wide" = 설계 페이지 어림 39 × 28 × 15 cm + 묻힌 통(비교용, 0/9).
 값의 출처·가정 표시는 logs/2026-11-24_robot_v2_measurements.md 1절 표.
 좌표: 로봇 원점 = 차체 가운데 바로 아래 바닥. x = 앞, y = 왼쪽, z = 위 (m, kg, s).
 """
@@ -50,8 +53,13 @@ VARIANTS = {
 VARIANTS["x3b"] = dict(VARIANTS["x3"], bin=dict(inner=0.10, floor_z=0.045, dist=0.155, side=0.005))
 # 설계 페이지 차체 + 병이 누울 수 있는 긴 통(안쪽 앞뒤 0.23 × 옆 0.12 m, 회전축 바로 뒤 0.19 m) — 대안 시험용 (가정)
 VARIANTS["wide_long"] = dict(VARIANTS["wide"], bin=dict(inner_x=0.23, inner_y=0.12, floor_z=0.045, dist=0.19, side=0.0))
-FILE_NAMES = {"x3": ("robot_v2", "gym_v2"), "x3b": ("robot_v2_x3b", "gym_v2_x3b"), "wide": ("robot_v2_wide", "gym_v2_wide"),
-              "wide_long": ("robot_v2_wide_long", "gym_v2_wide_long")}
+# 기본 (주인 결정 2026-11-24): 넓은 차체 + 팔 옆에 거는 통. 통은 어깨 회전축 바로 왼쪽(dist = side = 0.15 m → 앞뒤 위치 = 회전축),
+# 안쪽 0.10 × 0.10 m(robot_v1 바구니와 같음), 위 몸통 옆면에 붙여 걸고(몸통을 파지 않음 hang=True), 바닥 0.08 m(= 아래 베이스 윗면),
+# 테두리 = 윗면 0.15 m (깊이 7 cm). 크기·높이는 가정. robot_v1 은 회전축에서 옆 0.157 m, 깊이 10 cm 였다.
+VARIANTS["wide_side"] = dict(VARIANTS["wide"], bin=dict(inner=0.10, floor_z=0.08, dist=0.15, side=0.15, hang=True))
+DEFAULT_VARIANT = "wide_side"
+FILE_NAMES = {"wide_side": ("robot_v2", "gym_v2"), "x3": ("robot_v2_x3", "gym_v2_x3"), "x3b": ("robot_v2_x3b", "gym_v2_x3b"),
+              "wide": ("robot_v2_wide", "gym_v2_wide"), "wide_long": ("robot_v2_wide_long", "gym_v2_wide_long")}
 PIVOT_BACK = 0.06      # 어깨 회전축 = 윗면 앞 모서리에서 6 cm 뒤 (설계 페이지 '로봇팔' 줄)
 BIN_T = 0.004          # 통 벽 두께 (가정)
 SUCTION = dict(dx=0.04, dy=0.10, gap_back=0.012)  # 흡입구 판정 4 × 10 cm, 앞바퀴 뒤 끝에서 1.2 cm 뒤 (가정)
@@ -60,6 +68,9 @@ CAM = dict(z=0.25, pitch_deg=35.0, fovy=58)        # 깊이 카메라: 높이 �
 VACUUM_MASS = 0.7      # 핸디 청소기 (기획안 0.5~1 kg 가운데, 가정) — 베이스 안, 보이지 않는 질량
 # 크래들 접기 자세 (new calib 관절값 rad). robot_v2_measure.py stow 가 '팔 최고 높이 최소 + 몸·통과 충돌 없음'으로 찾은 값.
 STOW_V2 = [-1.5708, -1.74, 1.69, 1.24, 0.0]
+# 넓은 차체용 크래들 자세: STOW_V2(X3 기준)는 wide 몸통과 겹친다. 옆으로 0 mm 나오는 자세(팔 최고 0.352 m) —
+# logs/2026-11-24_robot_v2_measurements.md 4절. 측정 스크립트는 아직 STOW_V2 를 쓴다 (확인 필요).
+STOW_V2_WIDE = [-1.5708, -1.14, 1.34, 1.65, 0.0]
 
 
 def layout(v):
@@ -87,7 +98,7 @@ def boxes_around(x0, x1, y0, y1, z0, z1, hole):
     return out
 
 
-def build(name="x3"):
+def build(name=DEFAULT_VARIANT):
     v = VARIANTS[name]
     lay = layout(v)
     L, W, body_w, up_w = lay["L"], lay["W"], lay["body_w"], lay["up_w"]
@@ -103,7 +114,9 @@ def build(name="x3"):
     # 아래 청소 베이스 (body_bottom ~ base_top) 와 위 몸통 (base_top ~ deck_z). 통 자리는 비운다.
     k = 0
     for (z0, z1, hw, cls) in ((v["body_bottom"], v["base_top"], body_w / 2, "base"), (v["base_top"], v["deck_z"], up_w / 2, "upper")):
-        if z1 <= z_floor_bot:      # 통 바닥보다 아래 층: 통 자리도 채움
+        if b.get("hang"):          # 옆에 거는 통: 몸통을 파지 않는다
+            parts = [(0.0, 0.0, (z0 + z1) / 2, L / 2, hw, (z1 - z0) / 2)]
+        elif z1 <= z_floor_bot:    # 통 바닥보다 아래 층: 통 자리도 채움
             parts = [(0.0, 0.0, (z0 + z1) / 2, L / 2, hw, (z1 - z0) / 2)]
         elif z0 >= z_floor_bot:
             parts = boxes_around(-L / 2, L / 2, -hw, hw, z0, z1, hole)
@@ -143,7 +156,7 @@ def build(name="x3"):
         geoms += (f'      <geom name="pad_{nm}" class="zone" type="cylinder" pos="{f(-L / 2 - pr + 0.01, s * pr, 0.003)}" '
                   f'size="{f(pr, 0.003)}" rgba="0.12 0.44 0.36 0.6"/>\n')
 
-    # 묻힌 쓰레기통 (몸통 안, 테두리 = 윗면 높이)
+    # 쓰레기통 (묻힌 통: 몸통 안 / hang: 몸통 옆에 걺 — 둘 다 테두리 = 윗면 높이)
     rim = v["deck_z"]
     hw = (rim - b["floor_z"]) / 2
     zc = (rim + b["floor_z"]) / 2
@@ -175,14 +188,14 @@ def build(name="x3"):
            f'      <geom name="cradle" class="vis" type="box" pos="{f(lay["pivot"][0] - 0.005, -(up_w / 2 - 0.03), v["deck_z"] + 0.012)}" size="0.02 0.025 0.012" rgba="0.55 0.55 0.6 1"/>\n')
 
     xml = f"""<!--
-  robot_v2 ({name}): 주인 설계(2026-11-24) 배치 — 메카넘 차체(단순화) + 옆솔·흡입·패드 판정 영역 + 묻힌 쓰레기통 + SO-101
+  robot_v2 ({name}): 주인 설계(2026-11-24) 배치 — 메카넘 차체(단순화) + 옆솔·흡입·패드 판정 영역 + {'팔 옆에 거는' if b.get('hang') else '묻힌'} 쓰레기통 + SO-101
   이 파일은 scripts/build_robot_v2.py 가 만든다. 손으로 고치지 말고 스크립트의 VARIANTS 값을 고친 뒤 다시 돌린다.
   - 차체 '{name}': 길이 {L} m, 폭 {W} m(바퀴 포함), 윗면 {v['deck_z']} m, 질량 {v['mass']} kg (+ 핸디 청소기 {VACUUM_MASS} kg)
   - 이동: robot_v1 과 같음(평면 관절 base_x/base_y/base_yaw + 속도 액추에이터, 롤러 없음)
   - 팔: so101_new_calib_litterbot.xml, 어깨 회전축 = 윗면 앞 모서리에서 {PIVOT_BACK} m 뒤, 가운데
   - 앞: 옆솔 2개(brush_left/right) · 밑 가운데 흡입구(site suction_zone) · 뒤 패드 2개(pad_left/right) — 모두 충돌 없는 판정 영역
     범퍼(bumper)만 충돌 있음, 바닥에서 {BUMPER['bottom']} m
-  - 쓰레기통(body bin, site bin_zone): 몸통에 묻음, 안쪽 {2 * hix:.2f} × {2 * hiy:.2f} m, 바닥 {b['floor_z']} m, 테두리 {rim} m(= 윗면)
+  - 쓰레기통(body bin, site bin_zone): {'몸통 옆에 걺(팔 회전축 바로 옆)' if b.get('hang') else '몸통에 묻음'}, 안쪽 {2 * hix:.2f} × {2 * hiy:.2f} m, 바닥 {b['floor_z']} m, 테두리 {rim} m(= 윗면)
   치수·질량 중 출처가 없는 값은 모두 가정이다 (logs/2026-11-24_robot_v2_measurements.md 1절).
 -->
 <mujoco model="robot_v2_{name}">

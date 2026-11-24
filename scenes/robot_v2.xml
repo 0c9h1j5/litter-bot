@@ -1,15 +1,15 @@
 <!--
-  robot_v2 (x3): 주인 설계(2026-11-24) 배치 — 메카넘 차체(단순화) + 옆솔·흡입·패드 판정 영역 + 묻힌 쓰레기통 + SO-101
+  robot_v2 (wide_side): 주인 설계(2026-11-24) 배치 — 메카넘 차체(단순화) + 옆솔·흡입·패드 판정 영역 + 팔 옆에 거는 쓰레기통 + SO-101
   이 파일은 scripts/build_robot_v2.py 가 만든다. 손으로 고치지 말고 스크립트의 VARIANTS 값을 고친 뒤 다시 돌린다.
-  - 차체 'x3': 길이 0.3 m, 폭 0.1994 m(바퀴 포함), 윗면 0.14 m, 질량 4.2 kg (+ 핸디 청소기 0.7 kg)
+  - 차체 'wide_side': 길이 0.39 m, 폭 0.28 m(바퀴 포함), 윗면 0.15 m, 질량 4.2 kg (+ 핸디 청소기 0.7 kg)
   - 이동: robot_v1 과 같음(평면 관절 base_x/base_y/base_yaw + 속도 액추에이터, 롤러 없음)
   - 팔: so101_new_calib_litterbot.xml, 어깨 회전축 = 윗면 앞 모서리에서 0.06 m 뒤, 가운데
   - 앞: 옆솔 2개(brush_left/right) · 밑 가운데 흡입구(site suction_zone) · 뒤 패드 2개(pad_left/right) — 모두 충돌 없는 판정 영역
     범퍼(bumper)만 충돌 있음, 바닥에서 0.015 m
-  - 쓰레기통(body bin, site bin_zone): 몸통에 묻음, 안쪽 0.10 × 0.10 m, 바닥 0.07 m, 테두리 0.14 m(= 윗면)
+  - 쓰레기통(body bin, site bin_zone): 몸통 옆에 걺(팔 회전축 바로 옆), 안쪽 0.10 × 0.10 m, 바닥 0.08 m, 테두리 0.15 m(= 윗면)
   치수·질량 중 출처가 없는 값은 모두 가정이다 (logs/2026-11-24_robot_v2_measurements.md 1절).
 -->
-<mujoco model="robot_v2_x3">
+<mujoco model="robot_v2_wide_side">
   <compiler angle="radian" autolimits="true"/>
   <option timestep="0.002" integrator="implicitfast"/>
   <visual>
@@ -36,43 +36,38 @@
       <joint name="base_y" type="slide" axis="0 1 0" damping="0"/>
       <joint name="base_yaw" type="hinge" axis="0 0 1" damping="0"/>
       <site name="robot_origin" pos="0 0 0" size="0.01"/>
-      <geom name="base_0" class="base" pos="0 0 0.0505" size="0.15 0.0693 0.0155"/>
-      <geom name="base_1" class="base" pos="-0.1312 0 0.073" size="0.0188 0.0693 0.007"/>
-      <geom name="base_2" class="base" pos="0.0728 0 0.073" size="0.0772 0.0693 0.007"/>
-      <geom name="base_3" class="base" pos="-0.0583 -0.0392 0.073" size="0.054 0.0301 0.007"/>
-      <geom name="upper_4" class="upper" pos="-0.1312 0 0.11" size="0.0188 0.0693 0.03"/>
-      <geom name="upper_5" class="upper" pos="0.0728 0 0.11" size="0.0772 0.0693 0.03"/>
-      <geom name="upper_6" class="upper" pos="-0.0583 -0.0392 0.11" size="0.054 0.0301 0.03"/>
-      <geom name="chassis_mass" class="vis" type="box" pos="0 0 0.0875" size="0.01 0.01 0.01" mass="4.2" rgba="0 0 0 0"/>
-      <geom name="vacuum_mass" class="vis" type="box" pos="-0.02 -0.0347 0.0575" size="0.01 0.01 0.01" mass="0.7" rgba="0 0 0 0"/>
-      <geom name="wheel_fl" class="wheel" pos="0.08 0.0745 0.0325" size="0.0325 0.0152"/>
-      <geom name="wheel_fr" class="wheel" pos="0.08 -0.0745 0.0325" size="0.0325 0.0152"/>
-      <geom name="wheel_rl" class="wheel" pos="-0.08 0.0745 0.0325" size="0.0325 0.0152"/>
-      <geom name="wheel_rr" class="wheel" pos="-0.08 -0.0745 0.0325" size="0.0325 0.0152"/>
-      <geom name="bumper" class="bumper" pos="0.156 0 0.0375" size="0.006 0.0693 0.0225"/>
-      <geom name="brush_left" class="zone" type="cylinder" pos="0.136 0.0553 0.004" size="0.035 0.004" rgba="0.95 0.65 0.1 0.7"/>
-      <geom name="brush_right" class="zone" type="cylinder" pos="0.136 -0.0553 0.004" size="0.035 0.004" rgba="0.95 0.65 0.1 0.7"/>
-      <geom name="pad_left" class="zone" type="cylinder" pos="-0.19 0.05 0.003" size="0.05 0.003" rgba="0.12 0.44 0.36 0.6"/>
-      <geom name="pad_right" class="zone" type="cylinder" pos="-0.19 -0.05 0.003" size="0.05 0.003" rgba="0.12 0.44 0.36 0.6"/>
-      <site name="suction_zone" type="box" pos="0.0155 0 0.015" size="0.02 0.05 0.015" rgba="0.16 0.49 0.88 0.5"/>
-      <geom name="cam_mast" class="vis" type="cylinder" pos="0.13 -0.0543 0.195" size="0.006 0.055" rgba="0.3 0.3 0.3 1"/>
-      <geom name="cam_box" class="vis" type="box" pos="0.13 -0.0543 0.25" euler="0 0.6109 0" size="0.0125 0.045 0.0125" rgba="0.1 0.1 0.1 1"/>
-      <camera name="depth_cam" pos="0.143 -0.0543 0.25" fovy="58" xyaxes="0 -1 0 0.5736 0 0.8192"/>
-      <geom name="screen" class="vis" type="box" pos="0.152 0 0.115" size="0.002 0.0493 0.02" rgba="0.05 0.1 0.2 1"/>
-      <geom name="handle_bar" class="vis" type="capsule" fromto="-0.13 -0.04 0.18 -0.13 0.04 0.18" size="0.006" rgba="0.25 0.25 0.25 1"/>
-      <geom name="handle_post_l" class="vis" type="capsule" fromto="-0.13 0.04 0.14 -0.13 0.04 0.18" size="0.005" rgba="0.25 0.25 0.25 1"/>
-      <geom name="handle_post_r" class="vis" type="capsule" fromto="-0.13 -0.04 0.14 -0.13 -0.04 0.18" size="0.005" rgba="0.25 0.25 0.25 1"/>
-      <geom name="estop" class="vis" type="cylinder" pos="-0.115 -0.0443 0.15" size="0.015 0.01" rgba="0.85 0.1 0.1 1"/>
-      <geom name="cradle" class="vis" type="box" pos="0.085 -0.0393 0.152" size="0.02 0.025 0.012" rgba="0.55 0.55 0.6 1"/>
-      <body name="bin" pos="-0.0583 0.045 0">
-        <geom name="bin_floor" class="bin" pos="0 0 0.068" size="0.054 0.054 0.002"/>
-        <geom name="bin_wall_f" class="bin" pos="0.052 0 0.105" size="0.002 0.054 0.035"/>
-        <geom name="bin_wall_b" class="bin" pos="-0.052 0 0.105" size="0.002 0.054 0.035"/>
-        <geom name="bin_wall_l" class="bin" pos="0 0.052 0.105" size="0.05 0.002 0.035"/>
-        <geom name="bin_wall_r" class="bin" pos="0 -0.052 0.105" size="0.05 0.002 0.035"/>
-        <site name="bin_zone" type="box" pos="0 0 0.105" size="0.05 0.05 0.035" rgba="1 1 0 0.2"/>
+      <geom name="base_0" class="base" pos="0 0 0.0575" size="0.195 0.1096 0.0225"/>
+      <geom name="upper_1" class="upper" pos="0 0 0.115" size="0.195 0.0946 0.035"/>
+      <geom name="chassis_mass" class="vis" type="box" pos="0 0 0.0925" size="0.01 0.01 0.01" mass="4.2" rgba="0 0 0 0"/>
+      <geom name="vacuum_mass" class="vis" type="box" pos="-0.02 -0.0548 0.0575" size="0.01 0.01 0.01" mass="0.7" rgba="0 0 0 0"/>
+      <geom name="wheel_fl" class="wheel" pos="0.13 0.1248 0.0325" size="0.0325 0.0152"/>
+      <geom name="wheel_fr" class="wheel" pos="0.13 -0.1248 0.0325" size="0.0325 0.0152"/>
+      <geom name="wheel_rl" class="wheel" pos="-0.13 0.1248 0.0325" size="0.0325 0.0152"/>
+      <geom name="wheel_rr" class="wheel" pos="-0.13 -0.1248 0.0325" size="0.0325 0.0152"/>
+      <geom name="bumper" class="bumper" pos="0.201 0 0.0375" size="0.006 0.1096 0.0225"/>
+      <geom name="brush_left" class="zone" type="cylinder" pos="0.177 0.0916 0.004" size="0.045 0.004" rgba="0.95 0.65 0.1 0.7"/>
+      <geom name="brush_right" class="zone" type="cylinder" pos="0.177 -0.0916 0.004" size="0.045 0.004" rgba="0.95 0.65 0.1 0.7"/>
+      <geom name="pad_left" class="zone" type="cylinder" pos="-0.255 0.07 0.003" size="0.07 0.003" rgba="0.12 0.44 0.36 0.6"/>
+      <geom name="pad_right" class="zone" type="cylinder" pos="-0.255 -0.07 0.003" size="0.07 0.003" rgba="0.12 0.44 0.36 0.6"/>
+      <site name="suction_zone" type="box" pos="0.0655 0 0.015" size="0.02 0.05 0.015" rgba="0.16 0.49 0.88 0.5"/>
+      <geom name="cam_mast" class="vis" type="cylinder" pos="0.175 -0.0796 0.2" size="0.006 0.05" rgba="0.3 0.3 0.3 1"/>
+      <geom name="cam_box" class="vis" type="box" pos="0.175 -0.0796 0.25" euler="0 0.6109 0" size="0.0125 0.045 0.0125" rgba="0.1 0.1 0.1 1"/>
+      <camera name="depth_cam" pos="0.188 -0.0796 0.25" fovy="58" xyaxes="0 -1 0 0.5736 0 0.8192"/>
+      <geom name="screen" class="vis" type="box" pos="0.197 0 0.12" size="0.002 0.05 0.02" rgba="0.05 0.1 0.2 1"/>
+      <geom name="handle_bar" class="vis" type="capsule" fromto="-0.175 -0.04 0.19 -0.175 0.04 0.19" size="0.006" rgba="0.25 0.25 0.25 1"/>
+      <geom name="handle_post_l" class="vis" type="capsule" fromto="-0.175 0.04 0.15 -0.175 0.04 0.19" size="0.005" rgba="0.25 0.25 0.25 1"/>
+      <geom name="handle_post_r" class="vis" type="capsule" fromto="-0.175 -0.04 0.15 -0.175 -0.04 0.19" size="0.005" rgba="0.25 0.25 0.25 1"/>
+      <geom name="estop" class="vis" type="cylinder" pos="-0.16 -0.0696 0.16" size="0.015 0.01" rgba="0.85 0.1 0.1 1"/>
+      <geom name="cradle" class="vis" type="box" pos="0.13 -0.0646 0.162" size="0.02 0.025 0.012" rgba="0.55 0.55 0.6 1"/>
+      <body name="bin" pos="0.135 0.15 0">
+        <geom name="bin_floor" class="bin" pos="0 0 0.078" size="0.054 0.054 0.002"/>
+        <geom name="bin_wall_f" class="bin" pos="0.052 0 0.115" size="0.002 0.054 0.035"/>
+        <geom name="bin_wall_b" class="bin" pos="-0.052 0 0.115" size="0.002 0.054 0.035"/>
+        <geom name="bin_wall_l" class="bin" pos="0 0.052 0.115" size="0.05 0.002 0.035"/>
+        <geom name="bin_wall_r" class="bin" pos="0 -0.052 0.115" size="0.05 0.002 0.035"/>
+        <site name="bin_zone" type="box" pos="0 0 0.115" size="0.05 0.05 0.035" rgba="1 1 0 0.2"/>
       </body>
-      <frame name="arm_mount" pos="0.0512 0 0.14">
+      <frame name="arm_mount" pos="0.0962 0 0.15">
         <attach model="so101" body="base" prefix="arm_"/>
       </frame>
     </body>
@@ -80,6 +75,6 @@
   <actuator>
     <velocity name="drive_x" joint="base_x" kv="400" ctrlrange="-1 1"/>
     <velocity name="drive_y" joint="base_y" kv="400" ctrlrange="-1 1"/>
-    <velocity name="drive_yaw" joint="base_yaw" kv="20" ctrlrange="-6.47 6.47"/>
+    <velocity name="drive_yaw" joint="base_yaw" kv="20" ctrlrange="-3.92 3.92"/>
   </actuator>
 </mujoco>
