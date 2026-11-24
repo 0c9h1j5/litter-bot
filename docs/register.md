@@ -4,7 +4,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 
 | ID | 산출물 | 실무 명칭 | 스테이지 | 작성 | 검토 | 상태 | 버전 | 파일 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| P00 | 기획안 | Project Proposal | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.3 | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
+| P00 | 기획안 | Project Proposal | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.5 | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
 | P01 | 유저 시나리오 | User Scenario | 01 | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.3 | [docs/01-유저시나리오.md](01-유저시나리오.md) |
 | P02 | 현장 계수표 | Field Count Sheet | 01 | 최현준 | 최현준 | 작성 | v1.1 | [docs/02-현장계수표.md](02-현장계수표.md) · CSV `logs/field/field_count_template.csv` |
 | P03 | 현장 데이터 (실측 + 추정) 요약 | Field Data Summary | 01 | 자동 생성 | 최현준 | 작성 | v1 | [docs/03-현장데이터-요약.md](03-현장데이터-요약.md) · `scripts/field_summary.py` |
