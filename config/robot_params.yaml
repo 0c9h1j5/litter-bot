@@ -74,7 +74,7 @@ scale_model:
   arm:
     model: {value: SO-ARM101, unit: "-", source: 주인 결정, note: "차체 위 앞 가운데, 안 쓸 때 크래들에 접음"}
     pivot_back: {value: 0.06, unit: m, source: 주인 결정, note: "어깨 회전축 = 윗면 앞 모서리에서 6 cm 뒤 (설계 페이지)"}
-    pick_time: {value: 7.4, unit: s, source: 시뮬, note: "wide_side 9곳 중 7곳 성공, 팔 동작 7.38 s (logs/2026-11-24_wide_side_pick.md). 상용 팔 로봇(Z70·Cyber 10)은 동작 시간을 공개하지 않음"}
+    pick_time: {value: 7.4, unit: s, source: 시뮬, note: "wide_side 9곳 중 7곳 성공, 팔 동작 7.38 s (logs/2026-11-24_robot_v2_wide_side_pick.md). requirements v0.8 C-04 wide 열. 상용 팔 로봇(Z70·Cyber 10)은 동작 시간을 공개하지 않음"}
     payload_target: {value: 300, unit: g, source: roborock_saros_z70, note: "빈 생수병·캔·컵·봉지 대상. Z70 300 g, Cyber 10 Ultra 500 g. SO-101 실제 하중은 확인 필요"}
 
   camera:
@@ -92,6 +92,13 @@ scale_model:
     unit: "-"
     source: 계산
     note: "건식 체육관급 7개 중 라이다 5·카메라 4·깊이 3·범퍼 3·낙하 3 (DB에 적힌 것만, J30·C30은 센서 표기 없음). 시뮬 robot_v2에는 깊이 카메라·범퍼만 있음. 낙하·라이다는 가정(아직 모델에 없음)"
+  front_range:            # 앞 거리 센서 (실물 축소판). 정지 명령 0.50 m (requirements C-23·C-32)를 쓰려면 0.5 m 이상 재야 함
+    value: [VL53L1X ToF 앞 왼쪽, VL53L1X ToF 앞 오른쪽, HC-SR04 초음파 앞 가운데]
+    unit: "-"
+    source: 가정
+    note: "조사 과정에서 나온 후보 (decisions 2026-11-24). 이 높이·배치에서의 측정 범위는 확인 필요"
+  front_range_height: {value: [0.08, 0.10], unit: m, source: 가정, note: "앞 거리 센서 바닥 높이 8~10 cm (확인 필요)"}
+  stop_command_dist: {value: 0.50, unit: m, source: 주인 결정, note: "장애물·병·캔·분실물 앞 정지 명령 거리. 0.50 − 0.3 m/s × 1 s = 0.20 m 남김, 멈추는 자리 0.20~0.50 m (requirements C-23·C-32, decisions 2026-11-24)"}
   noise_target: {value: 65, unit: dB, source: wheelie_j30, note: "J30 표준 ≤65 dB, R3 Vac 61.7 dB, Phantas 조용한 모드 ≤60 dB. 축소판은 핸디 청소기 소리를 재서 확인 (가정 목표)"}
 
 product_concept:
