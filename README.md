@@ -2,12 +2,10 @@
 
 새싹 로보틱스 SW 운영 팀프로젝트(1인 팀, 2026-11-23 ~ 12-18). 대관과 대관 사이 실내 체육관에서, 코트·벤치 주변의 생수병·캔·컵을 집고(핫스폿 순회: 벤치 → 구석, 창문틀은 확장) 마루 먼지·흙먼지·셔틀콕 깃털을 극세사 패드로 미는(직선 훑기, 주 기능) 로봇을 MuJoCo(Hello Robot Stretch 3)로 입증하고, 메카넘 차 + 청소 모듈 A(사선 가이드·흡입·뒤 회전 패드) + 차체에 얹은 SO-ARM101 팔 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.
 
-**1일차 제출물:**
-- 팀 차터: [docs/charter.md](docs/charter.md) (D02 v1.0, 상태 검토)
-- 산출물 목록: [docs/register.md](docs/register.md) (D00 v0.5)
-- 저장소: https://github.com/0c9h1j5/litter-bot
-
-**3일차 제출물:** [docs/requirements.md](docs/requirements.md) (D03 v0.3, 상태 검토), [tests/test_judge.py](tests/test_judge.py), [src/judge.py](src/judge.py) (시그니처만 — 구현 전이라 `uv run pytest -q tests`는 지금 10 failed)
+**제출물 안내:**
+- 1일차: 팀 차터 [docs/charter.md](docs/charter.md) (D02 v1.0, 검토) · 산출물 목록 [docs/register.md](docs/register.md) (D00 v0.7) · 저장소 https://github.com/0c9h1j5/litter-bot
+- 2일차: 문제 정의서 [docs/problem.md](docs/problem.md) (D01 v2.1, 검토)
+- 3일차: 요구사항 명세 [docs/requirements.md](docs/requirements.md) (D03 v0.4, 검토) · 판정 테스트 [tests/test_judge.py](tests/test_judge.py) · 판정 함수 [src/judge.py](src/judge.py) (`uv run pytest -q tests` → 10 passed)
 
 **먼저 읽기:** [기획안](docs/00-기획안.md) (발표용 페이지: [docs/00-기획안.html](docs/00-기획안.html)를 브라우저로 열기) → [한 장 요약](docs/00-기획안-요약.md) → [유저 시나리오](docs/01-유저시나리오.md) → [현장 계수표](docs/02-현장계수표.md) → [팀 차터](docs/charter.md)
 
@@ -24,18 +22,19 @@ litter-bot/
 │   ├── 01-유저시나리오.md          P01 관리자·대관 팀·동호인 × 지금 vs 로봇과 함께, 요구사항 R-01~R-20
 │   ├── 02-현장계수표.md            P02 경기 직후 한 장 (폰으로 채우기)
 │   ├── 03-현장데이터-요약.md        P03 현장 데이터 (실측 + 추정) 요약 — 자동 생성
-│   ├── 04-유사제품조사.md          P04 국내외 유사 제품 32개 · 사람이 미는 장비 비교 · 우리 차별점(겹치는 점 포함)
+│   ├── 04-유사제품조사.md          P04 v1.0 국내외 유사 제품 32개 · 사람이 미는 장비 비교 · 우리 차별점(겹치는 점 포함)
 │   ├── charter.md                D02 팀 차터 v1.0 (검토)
 │   ├── decisions.md              결정 기록 (주인 결정, 날짜·이유·출처)
-│   ├── register.md               D00 산출물 목록 v0.5 (G1 점검표 포함)
-│   ├── requirements.md           D03 요구사항 명세 v0.3 (검토) — 계층·계산·요구사항 표 R-01~R-31·단계별 요구사항·R↔T
+│   ├── problem.md                D01 문제 정의서 v2.1 (검토) — 사용자 3인·대관 사이 흐름·불편 숫자·경쟁 사례·출처
+│   ├── register.md               D00 산출물 목록 v0.7 (G1 점검표 포함)
+│   ├── requirements.md           D03 요구사항 명세 v0.4 (검토) — 계층·계산·요구사항 표 R-01~R-31·단계별 요구사항·R↔T
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
 │   └── img/                      그림 (MuJoCo 직접 렌더: gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg)
 ├── scenes/
 │   ├── gym_v0.xml                MuJoCo 장면 뼈대: 농구 코트 일부 5 m × 3 m + 라인·벤치·창문틀 (4일차에 장면 v1: + Stretch 3)
 │   └── sidewalk_v0.xml           예전 가게 앞 장면 (v1.1, 참고용)
 ├── src/
-│   ├── judge.py                  D03 판정 함수 judge_short_mode / judge_full_mode (시그니처만, 구현은 다음 단계)
+│   ├── judge.py                  D03 판정 함수 judge_short_mode / judge_full_mode (구현됨, T-01~T-10 통과)
 │   └── checks/                   확인용 스크립트 (장면 렌더, Stretch 리프트 높이, 깊이 돌출 검출)
 ├── scripts/field_summary.py      현장 데이터 요약 생성 (uv run python scripts/field_summary.py)
 ├── tests/
