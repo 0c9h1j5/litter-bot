@@ -18,6 +18,8 @@ robot_v1(build_robot_v1.py)에서 바뀐 점 (설계 페이지 '체육관 정리
 차체 치수는 VARIANTS 에: "wide_side" = 기본(위), "wide_side_7cm" = 얕은 옆 통(비교용), "x3" = Yahboom ROSMASTER X3 30 × 20 cm(비교용, 통은 설계대로 대각선 — 뒷바퀴 위라 얕음),
 "x3b" = 같은 차체에 통을 거의 바로 뒤로(바퀴를 피해 깊게), "wide" = 설계 페이지 어림 39 × 28 × 15 cm + 묻힌 통(비교용, 0/9).
 값의 출처·가정 표시는 logs/2026-11-24_robot_v2_measurements.md 1절 표.
+2026-11-24 param-db: 넓은 차체(wide·wide_side)·속도 상한·판정 영역(옆솔·흡입구·패드)·범퍼·카메라·통 치수는
+config/robot_params.yaml(scale_model)에서 읽는다. 값을 바꾸려면 yaml을 고치고 이 스크립트를 다시 돌린다.
 좌표: 로봇 원점 = 차체 가운데 바로 아래 바닥. x = 앞, y = 왼쪽, z = 위 (m, kg, s).
 """
 import math
@@ -26,6 +28,20 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_robot_v1 import SO101_OUT, SO101_SRC, f, so101_derived  # noqa: E402
+import yaml  # noqa: E402
+
+# 넓은 차체(주인 결정)·운행 속도·판정 영역·범퍼·카메라 치수는 config/robot_params.yaml 의 scale_model 에서 읽는다 (값의 출처도 거기).
+PARAMS_PATH = Path(__file__).resolve().parents[1] / "config" / "robot_params.yaml"
+PARAMS = yaml.safe_load(PARAMS_PATH.read_text(encoding="utf-8"))
+
+
+def _vals(group):
+    """{'length': {'value': 0.39, 'unit': ...}, ...} → {'length': 0.39, ...}"""
+    return {k: v["value"] for k, v in group.items() if isinstance(v, dict) and "value" in v}
+
+
+SM = PARAMS["scale_model"]
+_CH, _OP, _CL, _SB = _vals(SM["chassis"]), _vals(SM["operation"]), _vals(SM["cleaning"]), _vals(SM["side_bin"])
 
 PAN_OFFSET = 0.0388   # SO-101 base 원점 → 어깨 회전(shoulder_pan) 축, 앞으로 (so101_new_calib.xml 의 shoulder body pos)
 
@@ -42,13 +58,14 @@ VARIANTS = {
     # X3 + 통을 거의 바로 뒤로(옆 0.005 m): 뒷바퀴와 겹치지 않아 통 바닥을 0.045 m 까지 내릴 수 있다 (깊이 9.5 cm, 가정)
     "x3b": None,
     # 설계 페이지 어림 '길이 38~40 × 폭 26~30 × 윗면 15 cm'의 가운데. 바퀴·질량은 X3 와 같다고 둠 (가정)
+    # 차체·바퀴·질량·속도 상한·옆솔·패드 반지름은 config/robot_params.yaml scale_model 에서 (주인 결정 + 가정)
     "wide": dict(
-        length=0.390, width=0.280, wheel_r=0.0325, wheel_w=0.0304, wheel_x=0.13, wheel_y=0.1248,
-        body_bottom=0.035, base_top=0.08, deck_z=0.15, mass=4.2, vmax=1.0,
-        upper_inset=0.015,
-        # 통: 설계 페이지 '시판 통 15 × 15 × 15 cm' 대신 안쪽 0.13 × 0.13 (몸통 폭에 묻으려면, 가정), 바닥 0.045
+        length=_CH["length"], width=_CH["width"], wheel_r=_CH["wheel_radius"], wheel_w=_CH["wheel_width"],
+        wheel_x=_CH["wheel_x"], wheel_y=_CH["wheel_y"], body_bottom=_CH["body_bottom"], base_top=_CH["base_top"],
+        deck_z=_CH["deck_height"], mass=_CH["mass"], vmax=_OP["max_speed_sim"], upper_inset=_CH["upper_inset"],
+        # 묻힌 통(예전 안): 설계 페이지 '시판 통 15 × 15 × 15 cm' 대신 안쪽 0.13 × 0.13 (몸통 폭에 묻으려면, 가정), 바닥 0.045
         bin=dict(inner=0.13, floor_z=0.045, dist=0.17, side=0.03),
-        brush_r=0.045, pad_r=0.07,  # 패드 2장 = 폭 0.28 m (가정)
+        brush_r=_CL["side_brush_radius"], pad_r=_CL["pad_radius"],
     ),
 }
 VARIANTS["x3b"] = dict(VARIANTS["x3"], bin=dict(inner=0.10, floor_z=0.045, dist=0.155, side=0.005))
@@ -58,7 +75,8 @@ VARIANTS["wide_long"] = dict(VARIANTS["wide"], bin=dict(inner_x=0.23, inner_y=0.
 # "wide_side" = 기본(scenes/robot_v2.xml): 팔 회전축과 같은 x, 차체(바퀴 포함) 왼쪽 밖에 건다(hang="left").
 #   안쪽 0.10 × 0.10 m, 바닥 0.045 m, 테두리 = 윗면 0.15 m (깊이 10.5 cm, v1 바구니 크기에 가깝게). 9곳 7/9
 #   (smooth_arc 넣기, logs/2026-11-24_robot_v2_wide_side_pick.md).
-VARIANTS["wide_side"] = dict(VARIANTS["wide"], bin=dict(hang="left", inner=0.10, floor_z=0.045, gap=0.003))
+#   통 치수는 config/robot_params.yaml scale_model.side_bin 에서 읽는다.
+VARIANTS["wide_side"] = dict(VARIANTS["wide"], bin=dict(hang=_SB["hang"], inner=_SB["inner"], floor_z=_SB["floor_z"], gap=_SB["gap"]))
 # "wide_side_7cm" = 비교용(예전 day3-v2 기본): 회전축 바로 왼쪽 0.15 m, 위 몸통 옆면에 붙여 걺(hang=True),
 #   바닥 0.08 m(= 아래 베이스 윗면), 깊이 7 cm.
 VARIANTS["wide_side_7cm"] = dict(VARIANTS["wide"], bin=dict(inner=0.10, floor_z=0.08, dist=0.15, side=0.15, hang=True))
@@ -70,12 +88,12 @@ FILE_NAMES = {"wide_side": ("robot_v2", "gym_v2"), "wide_side_7cm": ("robot_v2_w
 # logs/2026-11-24_robot_v2_measure_output.txt · robot_v2_measurements.md 4절). STOW_V2(X3 기준)는 wide 몸통과 겹친다.
 STOW_WIDE = [-1.5708, -1.14, 1.34, 1.65, 0.0]
 STOW_V2_WIDE = STOW_WIDE   # 예전 이름 (day3-v2)
-PIVOT_BACK = 0.06      # 어깨 회전축 = 윗면 앞 모서리에서 6 cm 뒤 (설계 페이지 '로봇팔' 줄)
-BIN_T = 0.004          # 통 벽 두께 (가정)
-SUCTION = dict(dx=0.04, dy=0.10, gap_back=0.012)  # 흡입구 판정 4 × 10 cm, 앞바퀴 뒤 끝에서 1.2 cm 뒤 (가정)
-BUMPER = dict(bottom=0.015, top=0.06, thick=0.012)  # 범퍼 바닥에서 1.5 cm (설계 1~2 cm의 가운데)
-CAM = dict(z=0.25, pitch_deg=35.0, fovy=58)        # 깊이 카메라: 높이 약 0.25 m, 아래로 35° (설계 페이지, 가정)
-VACUUM_MASS = 0.7      # 핸디 청소기 (기획안 0.5~1 kg 가운데, 가정) — 베이스 안, 보이지 않는 질량
+PIVOT_BACK = SM["arm"]["pivot_back"]["value"]   # 어깨 회전축 = 윗면 앞 모서리에서 6 cm 뒤 (설계 페이지 '로봇팔' 줄)
+BIN_T = _SB["wall"]     # 통 벽 두께 (가정)
+SUCTION = dict(dx=_CL["suction_dx"], dy=_CL["suction_dy"], gap_back=_CL["suction_gap_back"])  # 흡입구 판정 4 × 10 cm, 앞바퀴 뒤 끝에서 1.2 cm 뒤 (가정)
+BUMPER = dict(bottom=_CL["bumper_bottom"], top=_CL["bumper_top"], thick=_CL["bumper_thick"])  # 범퍼 바닥에서 1.5 cm (설계 1~2 cm의 가운데)
+CAM = _vals(SM["camera"])                         # 깊이 카메라: 높이 약 0.25 m, 아래로 35°, fovy 58 (설계 페이지, 가정)
+VACUUM_MASS = _CH["vacuum_mass"]   # 핸디 청소기 (기획안 0.5~1 kg 가운데, 가정) — 베이스 안, 보이지 않는 질량
 # 크래들 접기 자세 (new calib 관절값 rad). robot_v2_measure.py stow 가 '팔 최고 높이 최소 + 몸·통과 충돌 없음'으로 찾은 값.
 STOW_V2 = [-1.5708, -1.74, 1.69, 1.24, 0.0]
 # 넓은 차체용 크래들 자세: STOW_V2(X3 기준)는 wide 몸통과 겹친다. 옆으로 0 mm 나오는 자세(팔 최고 0.352 m) —

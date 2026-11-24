@@ -9,6 +9,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 | P02 | 현장 계수표 | Field Count Sheet | 01 | 1일차 (11/23~) | 최현준 | 최현준 | 작성 | v1.1 | – | [docs/02-현장계수표.md](02-현장계수표.md) · CSV `logs/field/field_count_template.csv` |
 | P03 | 현장 데이터 (실측 + 추정) 요약 | Field Data Summary | 01 | 1일차 (11/23~) | 자동 생성 | 최현준 | 작성 | v1 | – | [docs/03-현장데이터-요약.md](03-현장데이터-요약.md) · `scripts/field_summary.py` |
 | P04 | 유사 제품 조사 | Competitive Landscape | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v1.0 | – (기획안 10장 보강) | [docs/04-유사제품조사.md](04-유사제품조사.md) |
+| P05 | 제품 파라미터 분석 | Product Parameter Benchmark | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v0.2 | R-04·R-06·R-18 (값 근거) | [docs/05-제품파라미터-분석.md](05-제품파라미터-분석.md) · DB `data/products/specs.csv` · 파라미터 `config/robot_params.yaml` |
 | D01 | 문제 정의서 | Problem Statement | 01 | 2일차 | 최현준 | 최현준 + AI 리뷰 | 검토 | v2.4 | R-01~R-20 | [docs/problem.md](problem.md) |
 | D02 | 팀 차터 | Project Charter | 01 | 1일차 | 최현준 | 최현준 + AI 코딩 에이전트 리뷰 | 검토 | v1.2 | – | [docs/charter.md](charter.md) · 부속 [decisions.md](decisions.md), [logs/daily.md](../logs/daily.md) |
 | D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v0.7 | R-01~R-32 (여기서 정의, Must 3개 R-04·06·18), T-01~T-36 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
@@ -21,7 +22,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 - 상태는 작성, 검토, 승인 순으로 바뀌고, 승인은 강사님 컨펌 뒤에 적는다.
 - 1인 팀이라 작성자와 검토자가 같다. 검토는 AI 코딩 에이전트 리뷰를 1회 거쳐 기록한다.
 - 예정 일차는 1일차 교안 '이번 주 안내'에 제시된 일정이다. D09 이후 번호와 2주차 이후 일정은 아직 받지 않았다(확인 필요).
-- P00~P04는 수업 산출물 번호(D01~) 외에 작성한 제안 문서다. 파일명의 번호(00-, 01-)는 읽는 순서를 뜻한다.
+- P00~P05는 수업 산출물 번호(D01~) 외에 작성한 제안 문서다. 파일명의 번호(00-, 01-)는 읽는 순서를 뜻한다.
 - **문서 머리말 형식:** `ID · 이름 · 작성 · 검토 · 상태 · 버전 · 관련 R/T`. 자동 생성 문서(P03)는 스크립트가 머리말을 만들어서 이 형식을 따르지 않는다.
 
 ## 관문 G1 Feasibility Review (스테이지 01 끝)

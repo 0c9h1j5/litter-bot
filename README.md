@@ -25,6 +25,7 @@ litter-bot/
 │   ├── 02-현장계수표.md            P02 경기 직후 한 장 (폰으로 채우기)
 │   ├── 03-현장데이터-요약.md        P03 현장 데이터 (실측 + 추정) 요약 — 자동 생성
 │   ├── 04-유사제품조사.md          P04 v1.0 국내외 유사 제품 32개 · 사람이 미는 장비 비교 · 우리 차별점(겹치는 점 포함)
+│   ├── 05-제품파라미터-분석.md      P05 v0.1 상용 청소 로봇 사양 범위·효율 비교 → 우리 축소판·제품 개념 파라미터
 │   ├── charter.md                D02 팀 차터 v1.0 (검토)
 │   ├── decisions.md              결정 기록 (주인 결정, 날짜·이유·출처)
 │   ├── problem.md                D01 문제 정의서 v2.1 (검토) — 사용자 3인·대관 사이 흐름·불편 숫자·경쟁 사례·출처
@@ -32,6 +33,8 @@ litter-bot/
 │   ├── requirements.md           D03 요구사항 명세 v0.4 (검토) — 계층·계산·요구사항 표 R-01~R-31·단계별 요구사항·R↔T
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
 │   └── img/                      그림 (MuJoCo 직접 렌더: robot_v2.png, robot_v1.png, gym_v1.png, gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg · 외형 예시: example_render.jpg, example_top.jpg(AI 생성), example_drawing.jpg(벡터 도면))
+├── data/products/                 제품 사양 DB: specs.csv(원본, 21개 제품) · specs.json(자동) · README.md(칸 설명)
+├── config/robot_params.yaml      우리 로봇 파라미터 (scale_model 축소판·시뮬 / product_concept 제품 개념), 값마다 출처 — build_robot_v2.py가 읽음
 ├── scenes/
 │   ├── robot_v2*.xml             로봇 v2: 주인 설계 배치(앞 가운데 팔·크래들, 옆솔·밑 흡입·뒤 패드 판정 영역). 기본 robot_v2.xml = 넓은 차체 + 팔 옆(바퀴 밖)에 거는 통(wide_side, 넣기 9곳 7/9), 비교용 wide_side_7cm(얕은 옆 통)·x3·x3b·wide·wide_long(묻힌 통) (scripts/build_robot_v2.py가 생성)
 │   ├── gym_v2*.xml               장면 v2: gym_v0 + robot_v2 (차체 안마다 1개)
@@ -45,7 +48,8 @@ litter-bot/
 │   ├── judge.py                  D03 판정 함수 judge_full_mode / judge_bench_only / judge_ten_runs / decide_start (v0.6, 구현됨 — 29 passed)
 │   └── checks/                   확인용 스크립트 (장면·로봇 렌더, 메카넘+SO-101 실측, 예전 Stretch 리프트 높이, 깊이 돌출 검출)
 ├── scripts/
-│   ├── build_robot_v2.py         robot_v2*.xml·gym_v2*.xml 생성 (차체 치수 VARIANTS)
+│   ├── build_robot_v2.py         robot_v2*.xml·gym_v2*.xml 생성 (차체 치수 VARIANTS, 넓은 차체·판정 영역은 config/robot_params.yaml)
+│   ├── product_db.py             제품 DB specs.csv → specs.json + P05 분석 표 (uv run python scripts/product_db.py)
 │   ├── build_robot_v1.py         robot_v1.xml 생성 (차체 치수 CHASSIS 한 곳)
 │   └── field_summary.py          현장 데이터 요약 생성 (uv run python scripts/field_summary.py)
 ├── media/sim/                    시뮬 영상 mp4·gif + numbers.json (영상 속 숫자)
