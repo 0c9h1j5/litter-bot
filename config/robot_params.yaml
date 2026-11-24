@@ -108,8 +108,8 @@ product_concept:
   mass: {value: 55, unit: kg, source: 계산, note: "무게 중앙 53 kg + 팔 약 2 kg (가정)"}
   work_speed: {value: 0.5, unit: m/s, source: 가정, note: "기획안 7장 값. 상용 '표시 ÷ (폭 × 3600)'로 거꾸로 셈한 속도 0.27~0.71 m/s 안"}
   max_speed: {value: 1.2, unit: m/s, source: pudu_cc1pro, note: "CC1 Pro·MT1·C40S 최고 1.2 m/s (건식 체육관급 최대)"}
-  clean_width: {value: 0.55, unit: m, source: lionsbot_r3vac, note: "R3 Vac 옆솔 포함 550, MT1 진공 550, CC1 Pro 500. 기획안 7장 '패드 폭 1.0 m'는 상용 건식 최대 610 mm(C30)보다 넓어 범위 밖 → 이 값 제안 (주인 확정 필요)"}
-  area_rate_theoretical: {value: 990, unit: m²/h, source: 계산, note: "0.55 × 0.5 × 3600. 기획안 7장 1,800 m²/h(1.0 m × 0.5 m/s)는 상용 건식 이론 최대(Phantas 1,674)보다 큼"}
+  clean_width: {value: 0.55, unit: m, source: lionsbot_r3vac, note: "R3 Vac 옆솔 포함 550, MT1 진공 550, CC1 Pro 500. 예전 기획안 7장 '패드 폭 1.0 m'는 상용 건식 최대 610 mm(C30)보다 넓어 범위 밖 → 이 값으로 바꿈 (기획자 결정 2026-11-24)"}
+  area_rate_theoretical: {value: 990, unit: m²/h, source: 계산, note: "0.55 × 0.5 × 3600. 예전 기획안 7장 1,800 m²/h(1.0 m × 0.5 m/s)는 상용 건식 이론 최대(Phantas 1,674)보다 컸음. 기획자 결정 2026-11-24"}
   area_rate_practical: {value: [300, 740], unit: m²/h, source: 계산, note: "이론 × 0.30~0.75. 상용 건식 실제 350~1,000 m²/h와 겹침. 농구 코트 1면 420 m² → 약 34~85분"}
   side_brush_count: {value: 2, unit: 개, source: 주인 결정, note: "축소판과 같은 배치"}
   side_brush_diameter: {value: 0.15, unit: m, source: 가정, note: "축소판 9 cm ÷ 폭 비 0.58 ≈ 0.155 m. 상용 옆솔 지름은 DB에 없음"}
