@@ -1,6 +1,7 @@
 """제품 파라미터 DB — data/products/specs.csv(원본, 손으로 고침) → specs.json, 그리고 P05 분석 표.
 
     uv run python scripts/product_db.py          # specs.json 다시 쓰기 + 분석 표(마크다운)를 화면에 출력
+    uv run python scripts/product_db.py params   # config/robot_params.yaml → P05 '7. 우리 로봇 파라미터' 절을 다시 씀
 
 CSV 규칙 (data/products/README.md): 한 행 = 한 제품, 페이지에서 직접 본 값만, 없으면 빈칸.
 범위 값은 "3-5"처럼 쓴다 → JSON에서는 [3, 5]. ○/✕/모름 같은 표시는 글자 그대로 둔다.
@@ -8,11 +9,16 @@ CSV 규칙 (data/products/README.md): 한 행 = 한 제품, 페이지에서 직�
 import csv
 import json
 import statistics
+import sys
 from pathlib import Path
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 CSV = ROOT / "data" / "products" / "specs.csv"
 JSON = ROOT / "data" / "products" / "specs.json"
+PARAMS = ROOT / "config" / "robot_params.yaml"
+P05 = ROOT / "docs" / "05-제품파라미터-분석.md"
 
 # P05의 '건식 체육관급' 묶음: 국내 체육관·학교에 팔리거나 체육관 용도로 홍보된 건식(또는 건식 모드) 로봇
 DRY_GYM = ["wheelie_j30", "wheelie_c30", "lionsbot_r3vac", "pudu_cc1pro", "pudu_mt1vac", "softbank_whiz", "gausium_phantas"]
@@ -111,7 +117,58 @@ def efficiency_table(data):
     return "\n".join(lines)
 
 
+# yaml → 표 (새싹봇 참고 스크립트 yaml2md.py를 옮김)
+GROUP_NAMES = {"chassis": "차체", "operation": "운행·목표", "cleaning": "청소 모듈", "side_bin": "옆 통(집은 쓰레기)",
+               "arm": "로봇팔", "camera": "카메라", "battery": "배터리", "meta": "축소 비율"}
+
+
+def _pval(v):
+    if isinstance(v, list):
+        return " ~ ".join(map(str, v)) if all(isinstance(x, (int, float)) for x in v) else ", ".join(map(str, v))
+    return str(v)
+
+
+def _param_rows(d, group):
+    out = []
+    for k, v in d.items():
+        if isinstance(v, dict) and "value" in v:
+            out.append((group, k, _pval(v["value"]), v.get("unit", ""), v.get("source", ""),
+                        str(v.get("note", "")).replace("|", "/")))
+        elif isinstance(v, dict):
+            out += _param_rows(v, GROUP_NAMES.get(k, k))
+    return out
+
+
+def params_markdown():
+    y = yaml.safe_load(PARAMS.read_text(encoding="utf-8"))
+    L = ["## 7. 우리 로봇 파라미터 (config/robot_params.yaml 전체)", "",
+         "`uv run python scripts/product_db.py params`가 [config/robot_params.yaml](../config/robot_params.yaml)에서 만든 표다(손으로 고치지 말고 yaml을 고친 뒤 다시 돌린다). "
+         "`근거` 읽는 법: 제품 id = 그 상용 제품 값(data/products/specs.csv), 계산 = DB 값으로 계산, 주인 결정, 시뮬 = 시뮬 실측, 다른 기록 = 저장소의 다른 기록 파일, 가정 = 근거 없음(실측·주인 확정 뒤 바꿈).", ""]
+    meta = [r for r in _param_rows({"meta": y["meta"]}, "공통")]
+    L += ["### 7-0. 축소 비율 (meta)", "", "| 묶음 | 이름 | 값 | 단위 | 근거 | 메모 |", "| --- | --- | --- | --- | --- | --- |"]
+    L += [f"| {g} | {k} | {v} | {u} | {s} | {n} |" for g, k, v, u, s, n in meta] + [""]
+    for sec, title in (("scale_model", "7-1. 축소판 · 시뮬 (scale_model)"),
+                       ("product_concept", "7-2. 제품 개념 (product_concept, 실제 체육관용 — 만들지 않음)")):
+        L += [f"### {title}", "", "| 묶음 | 이름 | 값 | 단위 | 근거 | 메모 |", "| --- | --- | --- | --- | --- | --- |"]
+        L += [f"| {g} | {k} | {v} | {u} | {s} | {n} |" for g, k, v, u, s, n in _param_rows(y[sec], "공통")]
+        L.append("")
+    return "\n".join(L)
+
+
+def write_params_section():
+    """P05에서 '## 7.' 절(없으면 '## 변경 기록' 바로 앞)을 yaml 표로 바꿔 쓴다."""
+    doc = P05.read_text(encoding="utf-8")
+    end = doc.index("## 변경 기록")
+    start = doc.find("## 7. 우리 로봇 파라미터")
+    start = end if start == -1 else start
+    P05.write_text(doc[:start] + params_markdown() + "\n" + doc[end:], encoding="utf-8")
+
+
 def main():
+    if sys.argv[1:] == ["params"]:
+        write_params_section()
+        print("wrote", P05.relative_to(ROOT), "7절")
+        return
     raw, data = load()
     JSON.write_text(json.dumps({"source": "data/products/specs.csv (scripts/product_db.py가 변환)", "products": data},
                                ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
