@@ -1,7 +1,8 @@
 """docs/00-기획안.md + docs/01-유저시나리오.md → docs/00-기획안.html (한 파일, 외부 CDN 없음)
 
 실행: uv run --with markdown python docs/build_html.py
-- 이미지(docs/img/*.png)는 base64로 넣는다.
+- 이미지(docs/img/*.png·*.jpg·*.svg)는 base64로 넣는다.
+- md 맨 앞 목차(<!-- toc --> ~ <!-- /toc -->)는 빼고, 페이지 목차(nav)를 쓴다.
 - md의 ASCII 그림(체육관 장면 위에서 본 그림)은 SVG 그림으로 바꿔 넣는다 (핫스폿 순회 + 직선 훑기).
 - 부록: 유저 시나리오(01), 현장 계수표(02).
 """
@@ -47,9 +48,9 @@ def embed_images(h: str) -> str:
         if not p.exists():
             return m.group(0)
         b64 = base64.b64encode(p.read_bytes()).decode()
-        mime = "image/svg+xml" if src.endswith(".svg") else "image/png"
+        mime = {"svg": "image/svg+xml", "jpg": "image/jpeg", "jpeg": "image/jpeg"}.get(src.rsplit(".", 1)[-1], "image/png")
         return f'src="data:{mime};base64,{b64}"'
-    return re.sub(r'src="(img/[^"]+\.(?:png|svg))"', rep, h)
+    return re.sub(r'src="(img/[^"]+\.(?:png|jpe?g|svg))"', rep, h)
 
 
 # ---------- SVG 그림 ----------
@@ -204,9 +205,14 @@ def main():
     # 제목·머리말은 hero로 따로 만든다
     lines = main_md.split("\n")
     body_md = "\n".join(lines[3:])
+    body_md = re.sub(r"<!-- toc -->.*?<!-- /toc -->\n?", "", body_md, flags=re.S)
     h_main = md_to_html(body_md)
     h_main = replace_ascii(h_main)
     h_main, toc = slugify(h_main, "s")
+    # md 안의 GitHub식 장 링크(#0-1-아이디어-전환-과정 등) → 이 페이지의 h2 id
+    gh = lambda t: re.sub(r"\s", "-", re.sub(r"[^\w\- ]", "", t.strip().lower()))
+    for hid, text in toc:
+        h_main = h_main.replace(f'href="#{gh(html.unescape(text))}"', f'href="#{hid}"')
 
     scen_lines = scen_md.split("\n")
     h_scen = md_to_html("\n".join(scen_lines[3:]))
@@ -222,7 +228,7 @@ def main():
 
     cards = [
         ("주 기능 · 밀기·흡입", "① V자 사선 가이드 → ② 가운데 흡입(시판 핸디 청소기) → ③ 뒤 패드로 먼지·흙먼지·깃털을 모아 빨아들인다"),
-        ("보조 · 집기", "벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다. 분실물은 사진·알림"),
+        ("보조 · 집기", "벤치 쪽 생수병·구겨진 과자 봉지를 핫스폿 순회로 집는다(실물: 차체에 얹은 SO-ARM101 팔). 분실물은 사진·알림"),
         ("운영 모드", "짧은 모드(벤치 + 벤치 앞 띠) / 전체 모드. 다음 팀 입장 전 끝, 사람 5~20분보다 짧게"),
         ("성공 기준(시뮬)", "커버리지 95% · 짧은 모드 360 s · 분실물 집기 0 · 수거율 80% · 충돌 0"),
         ("앞 모듈 교체형", "모듈 A 가이드·흡입·회전 패드 2개(실물까지 필수) ↔ 모듈 B 사선 제설 날(확장)"),
@@ -233,13 +239,13 @@ def main():
     page = f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>체육관 정리 로봇</title>
-<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v1.4 — 대관 사이 체육관 정리 로봇 (MuJoCo Stretch 3 시뮬 + 메카넘 축소판)">
+<meta name="description" content="새싹 팀프로젝트 litter-bot 기획안 v1.5 — 대관 사이 체육관 정리 로봇 (MuJoCo Stretch 3 시뮬 + 메카넘 축소판)">
 <style>{CSS}</style></head>
 <body><div class="wrap" id="top">
 <header class="hero">
-<div class="kicker">litter-bot · 기획안 v1.4 · 2026-11-23</div>
+<div class="kicker">litter-bot · 기획안 v1.5 · 2026-11-24</div>
 <h1>체육관 정리 로봇</h1>
-<p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
+<p class="lede">대관과 대관 사이, 코트의 먼지·흙먼지·셔틀콕 깃털을 극세사 밀대로 밀어 다음 팀이 미끄럽지 않게 하고(주 기능), 벤치 쪽 생수병·과자 봉지는 집게로 집는다(보조). 4주 동안 MuJoCo(Stretch 3)로 입증하고 메카넘 축소판(청소 모듈 + SO-ARM101 팔)으로 실내 마루에서 시연한다. 실제 체육관 운행은 시설 동의·안전 확인을 전제로 한다.</p>
 <div class="meta">작성 최현준(PM·시뮬·개발·QA, 1인 팀) · 검토 AI 심사위원 리뷰 1회 · 숫자 옆 (가정)·(확인 필요)·(실측)·(주인 관찰)·(현장 관찰 기반 추정) 표시를 꼭 함께 읽을 것</div>
 <div class="cards">{cards_html}</div>
 </header>
@@ -249,7 +255,7 @@ def main():
 <section class="part" id="field"><div class="part-title">부록 C</div><h1 style="font-size:30px">현장 계수표 (docs/02-현장계수표.md)</h1>{wrap_tables(h_field)}</section>
 <section class="part" id="data"><div class="part-title">부록 D</div><h1 style="font-size:30px">현장 데이터 (실측 + 추정) — 요약 (docs/03-현장데이터-요약.md, 자동 생성)</h1>{wrap_tables(h_data)}</section>
 </main>
-<footer>원본: docs/00-기획안.md, docs/01-유저시나리오.md, docs/02-현장계수표.md · 이 페이지는 docs/build_html.py로 만든다 · 그림 1·2는 MuJoCo 직접 렌더 · 현장 사진은 넣지 않고(얼굴 보호) 출처 링크만 둔다.</footer>
+<footer>원본: docs/00-기획안.md, docs/01-유저시나리오.md, docs/02-현장계수표.md · 이 페이지는 docs/build_html.py로 만든다 · 그림 1·2는 MuJoCo 직접 렌더 · 개념 이미지 3장은 AI 생성(실제 설계와 다름) · 현장 사진은 넣지 않고(얼굴 보호) 출처 링크만 둔다.</footer>
 </div></body></html>"""
     OUT.write_text(page)
     print(OUT, f"{len(page)/1024:.0f} KB")
