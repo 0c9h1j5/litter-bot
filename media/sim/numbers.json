@@ -1,0 +1,22 @@
+{
+ "pick_to_bin": {
+  "success": true,
+  "still_in_after_cradle": true,
+  "t_drive": 3.79,
+  "t_arm": 7.38,
+  "t_cradle": 1.59,
+  "t_end": 15.33,
+  "trials": "7/9 (wide_side, 병 위치 ±2 cm 9곳)",
+  "video_s": 17.4,
+  "mp4_MB": 1.05,
+  "gif_MB": 3.55
+ },
+ "_env": {
+  "mujoco": "4.0.1",
+  "scene": "scenes/gym_v2.xml"
+ },
+ "pick_trials": {
+  "ok": 7,
+  "n": 9
+ }
+}

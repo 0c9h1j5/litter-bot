@@ -154,12 +154,12 @@ def move_path(m, d, I, qs, grip, log, rec=None):
     log.append(sum(sub))
 
 
-def load_gym(bottle="plan", shift=(0.0, 0.0), friction=None):
+def load_gym(bottle="plan", shift=(0.0, 0.0), friction=None, scene="scenes/gym_v1.xml"):
     """bottle="plan": 기획안 크기 원기둥 ø65 × 210 mm, 20 g (gym_v0 그대로).
     bottle="cap": 같은 크기 병에 어깨·목·뚜껑을 준 모양 (가정 — 시판 500 mL 병을 흉내, 실측 필요):
                   몸통 ø65 (0~150 mm), 어깨 ø48 (150~170), ø36 (170~180), 목+뚜껑 ø30 (180~210), 합 20 g.
     시험 때만 바꾸고 장면 파일은 고치지 않는다."""
-    spec = mujoco.MjSpec.from_file("scenes/gym_v1.xml")
+    spec = mujoco.MjSpec.from_file(scene)
     if bottle == "cap":
         b = spec.body("litter_bottle1"); g = b.first_geom()
         z0 = -0.105  # 병 바닥 (body 원점 = 병 가운데)
@@ -180,25 +180,29 @@ BEST = dict(plan=dict(gp=(0.0, 0.0, 0.034), tilt=30, zg=0.12),      # 기획안 
             cap=dict(gp=(-0.02, 0.0, 0.016), tilt=15, zg=0.195))    # 뚜껑 모양: 목·뚜껑을 손끝 쪽으로 집기
 
 
-def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=None, quiet=False):
-    """zg = 집는 높이(바닥에서, m). 병 바닥 높이 = zg - (병 바닥에서 집는 점까지)."""
+def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=None, quiet=False,
+         scene="scenes/gym_v1.xml", zone="basket_zone", x_g=0.40, stow=None, smooth_arc=False):
+    """zg = 집는 높이(바닥에서, m). 병 바닥 높이 = zg - (병 바닥에서 집는 점까지).
+    smooth_arc=True 면 호 경유점 IK 를 바로 앞 관절값에서만 시작한다(손목 돌림이 π 뒤집혀 병을 던지는 것 막기 —
+    robot_v2 wide_side 에서 본 실패, v1 기본값은 그대로).
+    scene·zone·x_g·stow 는 다른 차체(예: robot_v2 wide_side, 통 site bin_zone)에 같은 방식을 쓸 때만 바꾼다."""
+    stow = STOW if stow is None else np.asarray(stow)
     gp = BEST[bottle]["gp"] if gp is None else gp
     tilt = BEST[bottle]["tilt"] if tilt is None else tilt
     zg = BEST[bottle]["zg"] if zg is None else zg
     GP_NOW[0] = tuple(gp)
     say = (lambda *a_, **k_: None) if quiet else print
     import warnings; warnings.filterwarnings("ignore")
-    m = load_gym(bottle, shift, friction); d = mujoco.MjData(m); I = ids(m)
+    m = load_gym(bottle, shift, friction, scene); d = mujoco.MjData(m); I = ids(m)
     bottle = m.body("litter_bottle1").id
     start = m.body("robot").pos.copy()  # attach frame 위치는 body pos 에 들어 있다
-    d.qpos[I["qadr"]] = STOW; d.ctrl[I["act"]] = STOW
+    d.qpos[I["qadr"]] = stow; d.ctrl[I["act"]] = stow
     mujoco.mj_forward(m, d)
     for _ in range(250): mujoco.mj_step(m, d)   # 0.5 s 안정화
     bpos = d.xpos[bottle].copy()
     out = {}
 
     # (a) 다가가기: 병이 차체 기준 앞 x_g 에 오게. 로봇은 +y(벤치 쪽)를 보게(yaw 90°) — 바구니가 벤치와 부딪히지 않게.
-    x_g = 0.40
     yaw_goal = np.pi / 2
     goal = np.array([bpos[0] - x_g * np.cos(yaw_goal), bpos[1] - x_g * np.sin(yaw_goal)])
     V_APPROACH = 0.3  # 다가가기 속도 상한 m/s (가정: 사람 옆 운행 속도, 최고 속도 아님)
@@ -252,8 +256,8 @@ def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=
     q_grasp = down_qs[-1]
     up_qs, e3 = line(grasp, grasp + np.array([0, 0, 0.20]), q_grasp)
     q_lift = up_qs[-1]
-    bz = d.site_xpos[m.site("basket_zone").id].copy()
-    rim = bz[2] + m.site_size[m.site("basket_zone").id][2]
+    bz = d.site_xpos[m.site(zone).id].copy()
+    rim = bz[2] + m.site_size[m.site(zone).id][2]
     over = np.array([bz[0], bz[1], rim + 0.03 + zg])   # 병 바닥이 바구니 테두리 위 3 cm
     # 옮기기: 팔 축(pan) 둘레로 같은 높이의 호를 따라 (관절 직선 보간이면 병이 차체·바구니에 부딪힘)
     lift_pt = grasp + np.array([0, 0, 0.20])
@@ -265,7 +269,7 @@ def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=
     for k in range(1, 13):
         f_ = k / 12; ang = a0 + da * f_; rad = np.linalg.norm(r0) + (np.linalg.norm(r1) - np.linalg.norm(r0)) * f_
         pt = np.r_[pan_axis[:2] + rad * np.array([np.cos(ang), np.sin(ang)]), zc]
-        q, e = solve(pt, [q] + rand[:5]); arc_qs.append(q); e4 = max(e4, e)
+        q, e = solve(pt, [q] if smooth_arc else [q] + rand[:5]); arc_qs.append(q); e4 = max(e4, e)
     q_over, e = solve(over, [q]); arc_qs.append(q_over); e4 = max(e4, e)
     # 내려놓기: 병 바닥이 테두리 아래 DROP_IN 까지 들어가게 수직으로 내린 뒤 벌린다
     drop_qs, e5 = line(over, over - np.array([0, 0, 0.03 + DROP_IN]), q_over, n=6)
@@ -306,7 +310,7 @@ def pick(gp=None, tilt=None, bottle="plan", zg=None, shift=(0.0, 0.0), friction=
     for _ in range(500): drive(m, d, I, 0, 0, 0); mujoco.mj_step(m, d)
     # 판정: 병 무게중심이 바구니 안쪽 바닥 넓이 안(x·y)이고, 병이 서 있으면 무게중심이 테두리 + 6 cm 아래
     #       (병 21 cm > 바구니 깊이 10 cm 라 서 있는 병의 무게중심은 테두리보다 조금 높다), 집게는 벌린 채 떠나 있음
-    sid = m.site("basket_zone").id
+    sid = m.site(zone).id
     R = d.site_xmat[sid].reshape(3, 3); rel = R.T @ (d.xpos[bottle] - d.site_xpos[sid])
     hs = m.site_size[sid]
     up = d.xmat[bottle].reshape(3, 3)[:, 2] @ np.array([0, 0, 1.0])

@@ -6,7 +6,7 @@
   - 팔: so101_new_calib_litterbot.xml, 어깨 회전축 = 윗면 앞 모서리에서 0.06 m 뒤, 가운데
   - 앞: 옆솔 2개(brush_left/right) · 밑 가운데 흡입구(site suction_zone) · 뒤 패드 2개(pad_left/right) — 모두 충돌 없는 판정 영역
     범퍼(bumper)만 충돌 있음, 바닥에서 0.015 m
-  - 쓰레기통(body bin, site bin_zone): 몸통 옆에 걺(팔 회전축 바로 옆), 안쪽 0.10 × 0.10 m, 바닥 0.08 m, 테두리 0.15 m(= 윗면)
+  - 쓰레기통(body bin, site bin_zone): 팔 회전축 왼쪽 차체(바퀴 포함) 밖에 거는 통, 안쪽 0.10 × 0.10 m, 바닥 0.045 m, 테두리 0.15 m(= 윗면)
   치수·질량 중 출처가 없는 값은 모두 가정이다 (logs/2026-11-24_robot_v2_measurements.md 1절).
 -->
 <mujoco model="robot_v2_wide_side">
@@ -59,13 +59,13 @@
       <geom name="handle_post_r" class="vis" type="capsule" fromto="-0.175 -0.04 0.15 -0.175 -0.04 0.19" size="0.005" rgba="0.25 0.25 0.25 1"/>
       <geom name="estop" class="vis" type="cylinder" pos="-0.16 -0.0696 0.16" size="0.015 0.01" rgba="0.85 0.1 0.1 1"/>
       <geom name="cradle" class="vis" type="box" pos="0.13 -0.0646 0.162" size="0.02 0.025 0.012" rgba="0.55 0.55 0.6 1"/>
-      <body name="bin" pos="0.135 0.15 0">
-        <geom name="bin_floor" class="bin" pos="0 0 0.078" size="0.054 0.054 0.002"/>
-        <geom name="bin_wall_f" class="bin" pos="0.052 0 0.115" size="0.002 0.054 0.035"/>
-        <geom name="bin_wall_b" class="bin" pos="-0.052 0 0.115" size="0.002 0.054 0.035"/>
-        <geom name="bin_wall_l" class="bin" pos="0 0.052 0.115" size="0.05 0.002 0.035"/>
-        <geom name="bin_wall_r" class="bin" pos="0 -0.052 0.115" size="0.05 0.002 0.035"/>
-        <site name="bin_zone" type="box" pos="0 0 0.115" size="0.05 0.05 0.035" rgba="1 1 0 0.2"/>
+      <body name="bin" pos="0.135 0.197 0">
+        <geom name="bin_floor" class="bin" pos="0 0 0.043" size="0.054 0.054 0.002"/>
+        <geom name="bin_wall_f" class="bin" pos="0.052 0 0.0975" size="0.002 0.054 0.0525"/>
+        <geom name="bin_wall_b" class="bin" pos="-0.052 0 0.0975" size="0.002 0.054 0.0525"/>
+        <geom name="bin_wall_l" class="bin" pos="0 0.052 0.0975" size="0.05 0.002 0.0525"/>
+        <geom name="bin_wall_r" class="bin" pos="0 -0.052 0.0975" size="0.05 0.002 0.0525"/>
+        <site name="bin_zone" type="box" pos="0 0 0.0975" size="0.05 0.05 0.0525" rgba="1 1 0 0.2"/>
       </body>
       <frame name="arm_mount" pos="0.0962 0 0.15">
         <attach model="so101" body="base" prefix="arm_"/>
