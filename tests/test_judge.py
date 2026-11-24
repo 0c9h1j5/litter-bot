@@ -1,4 +1,4 @@
-"""판정 테스트 T-01~T-08 — docs/requirements.md ② 요구사항 표와 R ↔ T 대응 표.
+"""판정 테스트 T-01~T-10 — docs/requirements.md ② 요구사항 표와 R ↔ T 대응 표.
 
 사람이 쓴 시험지다. src/judge.py를 구현할 때 이 파일은 고치지 않는다.
 경계값은 '딱 경계 = 성공, 하나 넘으면 = 실패'로 쓴다 (교안 test_one_wrong_is_success 정신).
@@ -100,3 +100,20 @@ def test_full_mode_boundaries():
     assert not judge_full_mode(full_result(mode1_elapsed_s=480.5))
     assert not judge_full_mode(full_result(mode2_elapsed_s=600.5))
     assert not judge_full_mode(full_result(base_collisions=1))
+
+
+def test_collection_is_ratio_not_count():
+    """T-09 (R-04, 단계 4): 12/01에 대상 수가 바뀌어도 개수가 아니라 비율 80%로 판정 (K-4)."""
+    assert judge_short_mode(short_result(collected=8, targets=10))
+    assert not judge_short_mode(short_result(collected=7, targets=10))
+    assert judge_short_mode(short_result(collected=4, targets=4))
+    assert not judge_short_mode(short_result(collected=3, targets=4))
+
+
+def test_full_mode_safety_and_lost_items():
+    """T-10 (R-09, R-10, R-11, R-16, R-17, R-24, 단계 6·7): 전체 모드도 안전·분실물 조건은 짧은 모드와 같다."""
+    assert not judge_full_mode(full_result(zone_exits=1))
+    assert not judge_full_mode(full_result(person_stop_s=[1.01]))
+    assert judge_full_mode(full_result(person_stop_s=[1.0, 0.3]))
+    assert not judge_full_mode(full_result(forbidden_picks=1))
+    assert not judge_full_mode(full_result(lost_items_seen=1, lost_items_photographed=0))
