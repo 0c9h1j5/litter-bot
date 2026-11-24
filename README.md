@@ -4,7 +4,7 @@
 
 **1일차 제출물:**
 - 팀 차터: [docs/charter.md](docs/charter.md) (D02 v1.0, 상태 검토)
-- 산출물 목록: [docs/register.md](docs/register.md) (D00 v0.4)
+- 산출물 목록: [docs/register.md](docs/register.md) (D00 v0.5)
 - 저장소: https://github.com/0c9h1j5/litter-bot
 
 **먼저 읽기:** [기획안](docs/00-기획안.md) (발표용 페이지: [docs/00-기획안.html](docs/00-기획안.html)를 브라우저로 열기) → [한 장 요약](docs/00-기획안-요약.md) → [유저 시나리오](docs/01-유저시나리오.md) → [현장 계수표](docs/02-현장계수표.md) → [팀 차터](docs/charter.md)
@@ -22,9 +22,10 @@ litter-bot/
 │   ├── 01-유저시나리오.md          P01 관리자·대관 팀·동호인 × 지금 vs 로봇과 함께, 요구사항 R-01~R-20
 │   ├── 02-현장계수표.md            P02 경기 직후 한 장 (폰으로 채우기)
 │   ├── 03-현장데이터-요약.md        P03 현장 데이터 (실측 + 추정) 요약 — 자동 생성
+│   ├── 04-유사제품조사.md          P04 국내외 유사 제품 32개 · 사람이 미는 장비 비교 · 우리 차별점(겹치는 점 포함)
 │   ├── charter.md                D02 팀 차터 v1.0 (검토)
 │   ├── decisions.md              결정 기록 (주인 결정, 날짜·이유·출처)
-│   ├── register.md               D00 산출물 목록 v0.4 (G1 점검표 포함)
+│   ├── register.md               D00 산출물 목록 v0.5 (G1 점검표 포함)
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
 │   └── img/                      그림 (MuJoCo 직접 렌더: gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg)
 ├── scenes/
