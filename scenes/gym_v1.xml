@@ -1,0 +1,18 @@
+<!--
+  gym_v1: gym_v0(체육관 코트 일부 5 m x 3 m, 그대로) + robot_v1(메카넘 차체 + 청소 모듈 A + SO-101) — 2026-11-24
+  - gym_v0.xml 은 고치지 않고 include 한다. 로봇은 robot_v1.xml 의 body "robot" 만 attach 한다(robot_v1 의 바닥·조명은 안 들어옴).
+  - 시작 자리: 코트 안 (-0.6, 0.2), 앞(+x)을 봄 — 벤치 구역 병(litter_bottle1, x 0.1 y 0.8)까지 약 0.9 m (가정)
+  - 이름: 로봇 관절·액추에이터는 robot_v1 과 같다(base_x/base_y/base_yaw, drive_*, arm_*)
+-->
+<mujoco model="gym_v1">
+  <include file="gym_v0.xml"/>
+  <option integrator="implicitfast"/>
+  <asset>
+    <model name="robot_v1" file="robot_v1.xml"/>
+  </asset>
+  <worldbody>
+    <frame name="robot_start" pos="-0.6 0.2 0">
+      <attach model="robot_v1" body="robot" prefix=""/>
+    </frame>
+  </worldbody>
+</mujoco>
