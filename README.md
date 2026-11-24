@@ -26,13 +26,18 @@ litter-bot/
 │   ├── decisions.md              결정 기록 (주인 결정, 날짜·이유·출처)
 │   ├── register.md               D00 산출물 목록 v0.4 (G1 점검표 포함)
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
-│   └── img/                      그림 (MuJoCo 직접 렌더: gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg)
+│   └── img/                      그림 (MuJoCo 직접 렌더: robot_v1.png, gym_v1.png, gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg)
 ├── scenes/
-│   ├── gym_v0.xml                MuJoCo 장면 뼈대: 농구 코트 일부 5 m × 3 m + 라인·벤치·창문틀 (4일차에 장면 v1: + Stretch 3)
-│   └── sidewalk_v0.xml           예전 가게 앞 장면 (v1.1, 참고용)
+│   ├── robot_v1.xml              로봇만: 메카넘 차체(ROSMASTER X3 치수, 단순화) + 청소 모듈 A + SO-101 팔 + 옆 바구니 + 깊이 카메라 자리 (scripts/build_robot_v1.py가 생성)
+│   ├── gym_v1.xml                장면 v1: gym_v0 + robot_v1
+│   ├── gym_v0.xml                MuJoCo 장면 뼈대: 농구 코트 일부 5 m × 3 m + 라인·벤치·창문틀 (로봇 없음)
+│   ├── sidewalk_v0.xml           예전 가게 앞 장면 (v1.1, 참고용)
+│   └── assets/so101/             SO-101 MJCF·메시 (TheRobotStudio/SO-ARM100, Apache-2.0 — 출처·변경은 README.md)
 ├── src/
-│   └── checks/                   확인용 스크립트 (장면 렌더, Stretch 리프트 높이, 깊이 돌출 검출)
-├── scripts/field_summary.py      현장 데이터 요약 생성 (uv run python scripts/field_summary.py)
+│   └── checks/                   확인용 스크립트 (장면·로봇 렌더, 메카넘+SO-101 실측, 예전 Stretch 리프트 높이, 깊이 돌출 검출)
+├── scripts/
+│   ├── build_robot_v1.py         robot_v1.xml 생성 (차체 치수 CHASSIS 한 곳)
+│   └── field_summary.py          현장 데이터 요약 생성 (uv run python scripts/field_summary.py)
 ├── tests/                        테스트 (3일차 판정 테스트부터)
 └── logs/                         실행·실험·현장 기록
     ├── daily.md                              매일 기록 (한 일 / 막힌 일 / 할 일)
@@ -40,7 +45,9 @@ litter-bot/
     ├── field/field_estimate_v1.csv           현장 관찰 기반 추정 (사설·구민·학교 대표 행)
     ├── field/field_count_template.csv        현장 계수 CSV 템플릿 (예시 줄 포함)
     ├── field/2026-11-23_주인회고.md            주인 회고(체육관 약 10곳, 기억 기반) — 1차 근거
-    ├── 2026-11-22_stretch3_measurements.md   Stretch 3 모델 실측값 (속도·회전·패드 높이)
+    ├── 2026-11-24_mecanum_so101_measurements.md  메카넘 + SO-101 실측 (속도·팔 닿는 범위·병 집기·토크, Stretch와 비교)
+    ├── 2026-11-24_chassis_candidates.md      메카넘 차체 후보 조사 (구매 후보·산업용 청소 로봇 사양, 추천)
+    ├── 2026-11-22_stretch3_measurements.md   Stretch 3 모델 실측값 (속도·회전·패드 높이) — 예전 시뮬 로봇, 비교용
     ├── 2026-11-23_stretch3_lift_reach.md     Stretch 3 리프트별 그리퍼 높이 (창문틀)
     ├── 2026-11-23_depth_protrusion.md        깊이 렌더로 바닥 위 돌출물 찾기
     ├── 2026-11-23_roller_brush.md            롤러 솔 단순화 실험 (v1.1)
@@ -55,4 +62,12 @@ uv sync
 uv run mjpython -m mujoco.viewer --mjcf=scenes/gym_v0.xml   # macOS
 uv run python -m mujoco.viewer --mjcf=scenes/gym_v0.xml     # Windows·Linux
 uv run --with pillow python src/checks/render_scene.py scenes/gym_v0.xml docs/img/gym_v0.png   # 그림 다시 만들기
+
+# 장면 v1 (메카넘 차체 + SO-101)
+uv run mjpython -m mujoco.viewer --mjcf=scenes/gym_v1.xml    # macOS (Windows·Linux는 python)
+uv run mjpython -m mujoco.viewer --mjcf=scenes/robot_v1.xml  # 로봇만
+uv run python scripts/build_robot_v1.py                       # 차체 치수를 바꾼 뒤 robot_v1.xml 다시 만들기
+uv run python src/checks/mecanum_so101_measure.py             # 실측 (약 30 s) → logs/2026-11-24_mecanum_so101_measurements.md
+uv run --with pillow python src/checks/render_robot.py robot docs/img/robot_v1.png
+uv run --with pillow python src/checks/render_robot.py gym docs/img/gym_v1.png
 ```
