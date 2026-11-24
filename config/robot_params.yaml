@@ -1,0 +1,129 @@
+# litter-bot 로봇 파라미터 — 상용 청소 로봇을 따라 하고, 차별점은 로봇팔 하나 (주인 결정 2026-11-24)
+#
+# 두 묶음:
+#   scale_model     = 실물 축소판(메카넘 + 청소 모듈 A + SO-ARM101)과 MuJoCo 시뮬 robot_v2 'wide' / 'wide_side'
+#   product_concept = 실제 체육관 코트용 제품 개념 (만들지 않음 — 비교·발표용)
+# 값마다 value / unit / source / note.
+#   source: 제품 id(data/products/specs.csv의 id) · 계산 · 주인 결정 · 가정 · 시뮬(코드·실측 기록) · 다른 기록(파일 경로)
+#   '가정'은 근거가 없는 값이다. 실측·주인 확정이 나오면 바꾼다.
+# 분석: docs/05-제품파라미터-분석.md (P05). 제품 DB: data/products/specs.csv.
+#
+# scripts/build_robot_v2.py 가 scale_model 의 chassis · operation.max_speed_sim · cleaning(판정 영역) · side_bin · camera ·
+# arm.pivot_back · vacuum_mass 를 읽어 scenes/robot_v2_wide*.xml 을 만든다. 여기 값을 바꾸면 다시 돌린다:
+#     uv run python scripts/build_robot_v2.py
+# (x3·x3b 차체 안은 예전 후보라 build_robot_v2.py 안에 그대로 둔다. 판정 영역·범퍼·카메라는 모든 차체 안이 같이 쓴다.)
+
+meta:
+  version: v0.1
+  date: 2026-11-24
+  scale_ratio_length: {value: 0.75, unit: "-", source: 계산, note: "축소판 길이 0.39 m ÷ 건식 체육관급 길이 중앙 0.521 m (P05 표 1)"}
+  scale_ratio_width: {value: 0.58, unit: "-", source: 계산, note: "축소판 폭 0.28 m ÷ 건식 체육관급 폭 중앙 0.482 m. 폭에 걸린 값(청소 폭·흡입 폭·솔 지름)은 이 비율로 줄여 본다"}
+  scale_ratio_volume: {value: 0.10, unit: "-", source: 계산, note: "축소판 외형 부피 0.39×0.28×0.15 = 0.0164 m³ ÷ 중앙 제품 0.521×0.482×0.653 = 0.164 m³. 통 용량에 씀"}
+
+scale_model:
+  chassis:
+    variant: {value: wide, unit: "-", source: 주인 결정, note: "robot_v2 넓은 차체 (2026-11-24 저녁). 통은 옆에 거는 통 → 생성기 변형 이름 wide_side"}
+    length: {value: 0.390, unit: m, source: 주인 결정, note: "설계 페이지 어림 '길이 38~40 cm'의 가운데. 휠리 J30 길이 390 mm와 같음 (wheelie_j30)"}
+    width: {value: 0.280, unit: m, source: 주인 결정, note: "설계 페이지 어림 '폭 26~30 cm'의 가운데, 바퀴 포함. 건식 체육관급 폭 390~600 mm보다 좁음"}
+    deck_height: {value: 0.15, unit: m, source: 주인 결정, note: "윗면 15 cm (설계 페이지). 상용은 350~750 mm지만 팔이 윗면에 앉아 낮게 둠"}
+    base_top: {value: 0.08, unit: m, source: 가정, note: "아래 청소 베이스 윗면 (robot_v2, 색으로만 2단)"}
+    body_bottom: {value: 0.035, unit: m, source: 가정, note: "차체 바닥판 높이 (바퀴 반지름 약간 위)"}
+    upper_inset: {value: 0.015, unit: m, source: 가정, note: "위 몸통이 아래 베이스보다 한쪽으로 좁은 만큼"}
+    mass: {value: 4.2, unit: kg, source: 다른 기록, note: "ROSMASTER X3 판매처 표기 4.23 kg을 넓은 차체에도 그대로 둠 (가정, logs/2026-11-24_chassis_candidates.md [A4]). 상용 28~75 kg"}
+    wheel_radius: {value: 0.0325, unit: m, source: 다른 기록, note: "X3 커뮤니티 URDF wheel_radius (logs/2026-11-24_chassis_candidates.md [A3]), 넓은 차체에 그대로 (가정)"}
+    wheel_width: {value: 0.0304, unit: m, source: 다른 기록, note: "X3 URDF wheel_width, 그대로 (가정)"}
+    wheel_x: {value: 0.13, unit: m, source: 가정, note: "앞뒤 바퀴 축 ±0.13 m (robot_v2 wide)"}
+    wheel_y: {value: 0.1248, unit: m, source: 계산, note: "폭/2 − 바퀴 폭/2 = 0.14 − 0.0152"}
+    vacuum_mass: {value: 0.7, unit: kg, source: 가정, note: "핸디 청소기 (기획안 0.5~1 kg 가운데), 베이스 안"}
+
+  operation:
+    speed: {value: 0.3, unit: m/s, source: 주인 결정, note: "운행 속도. 휠리 J30 최고 속도 0.3 m/s와 같음 — 건식 체육관급 최고 속도 범위(0.3~1.2)의 아래 끝"}
+    max_speed_sim: {value: 1.0, unit: m/s, source: 다른 기록, note: "시뮬 속도 액추에이터 상한 (X3 판매처 Q&A 1.0 m/s, 확인 필요). 운행은 위 0.3 m/s"}
+    full_mode_max: {value: 650, unit: s, source: 주인 결정, note: "필수 ② 전체 모드(장면 5 m × 3 m 청소·집기 + 충전 자리 복귀) 상한 (requirements R-18, decisions 2026-11-24)"}
+    coverage_min: {value: 95, unit: "%", source: 주인 결정, note: "필수 ① 커버리지 (R-06). src/judge.py COVERAGE_MIN_PCT"}
+    collection_min: {value: 80, unit: "%", source: 주인 결정, note: "필수 ③ 수거율 (R-04). src/judge.py COLLECTION_MIN_PCT"}
+    clean_width: {value: 0.28, unit: m, source: 계산, note: "뒤 패드 2장 폭 = 2 × 0.07 (커버리지 판정이 패드 영역 기준, R-06). 상용 청소 폭 265~610 mm 안(아래쪽)"}
+    area_rate_theoretical: {value: 302, unit: m²/h, source: 계산, note: "0.28 m × 0.3 m/s × 3600. 상용 '이론 최대'는 모두 폭 × 최고 속도였다 (P05 표 2)"}
+    area_rate_practical: {value: [91, 227], unit: m²/h, source: 계산, note: "이론 × 0.30~0.75 (상용 실제/이론 비: Phantas 0.21~0.42, Kas 0.23~0.46, BD 50/50 0.59, T300 0.75). 장면 15 m² → 약 4~10분"}
+    continuous_run: {value: 40, unit: min, source: 다른 기록, note: "같은 4 kg급 AgileX LIMO 12 V 5.6 Ah 40분 (logs/2026-11-24_chassis_candidates.md [A6])을 목표로. 전체 모드 650 s의 약 3.7배. 상용 3~6 h는 제품 개념에"}
+
+  cleaning:
+    side_brush_count: {value: 2, unit: 개, source: 주인 결정, note: "앞 모서리 옆솔 2개, 안쪽으로 돈다고 봄 (설계 페이지). 상용 페이지는 옆솔 개수를 거의 안 적음"}
+    side_brush_radius: {value: 0.045, unit: m, source: 가정, note: "지름 9 cm (robot_v2 wide). 상용 옆솔 지름은 DB에 없음. 제품 개념 0.15 m × 폭 비 0.58 ≈ 0.087 m 지름과 비슷"}
+    side_brush_rpm: {value: 120, unit: rpm, source: 가정, note: "상용 옆솔 회전수는 DB에 없음 (Kas 패드 400 rpm, KIRA 디스크 150 rpm, T300 디스크 230 rpm은 바닥 디스크라 다름). 실물에서 깃털 튀김 보고 정함. 시뮬은 판정 영역이라 회전 없음"}
+    suction_count: {value: 1, unit: 개, source: 주인 결정, note: "가운데 밑 흡입구 1개 (설계 페이지)"}
+    suction_dx: {value: 0.04, unit: m, source: 가정, note: "흡입구 판정 영역 앞뒤 길이 (robot_v2)"}
+    suction_dy: {value: 0.10, unit: m, source: 가정, note: "흡입 폭 10 cm (robot_v2). 상용 흡입 폭/차체 폭 = J30 0.68·R3 Vac 0.73(옆솔 없이)인데 우리는 0.36 — 핸디 청소기 입구 크기 한계. 옆솔이 가운데로 모아 준다고 봄. 실물에서 흡입 시험(R-27) 뒤 다시 봄"}
+    suction_gap_back: {value: 0.012, unit: m, source: 가정, note: "앞바퀴 뒤 끝에서 흡입구까지"}
+    pad_count: {value: 2, unit: 개, source: 주인 결정, note: "뒤 마른 회전 패드 2장, 서로 반대 방향 (decisions: 뒤 패드 건식 유지)"}
+    pad_radius: {value: 0.07, unit: m, source: 가정, note: "지름 14 cm, 2장 = 폭 0.28 m = 차체 폭 (상용 청소 폭/차체 폭: CC1 Pro 0.91, C30 1.17)"}
+    pad_type: {value: 마른 극세사, unit: "-", source: 주인 결정, note: "물 안 씀. MFMA 파워 스크러버 비권장, 매일 건식 먼지 밀대 지침 (P04 5-1)"}
+    bumper_bottom: {value: 0.015, unit: m, source: 가정, note: "범퍼 바닥에서 1.5 cm (설계 페이지 1~2 cm 가운데). 상용 범퍼 높이는 DB에 없음"}
+    bumper_top: {value: 0.06, unit: m, source: 가정, note: "범퍼 윗면 높이"}
+    bumper_thick: {value: 0.012, unit: m, source: 가정, note: "범퍼 두께"}
+    dustbin: {value: 0.5, unit: L, source: 계산, note: "건식 체육관급 먼지통 중앙 5 L × 부피 비 0.10. 핸디 청소기 먼지통을 그대로 쓰면 그 용량 (실물 확인 필요)"}
+
+  side_bin:            # 집은 쓰레기 통 (팔용). 먼지통과 다름
+    hang: {value: left, unit: "-", source: 주인 결정, note: "옆에 거는 통, 팔 회전축과 같은 x, 차체(바퀴 포함) 왼쪽 밖 (logs/2026-11-24_wide_side_pick.md)"}
+    inner: {value: 0.10, unit: m, source: 가정, note: "안쪽 0.10 × 0.10 m (robot_v1 옆 바구니와 같음, 9곳 8/9)"}
+    floor_z: {value: 0.045, unit: m, source: 가정, note: "통 바닥 높이. 테두리 = 윗면 0.15 m"}
+    gap: {value: 0.003, unit: m, source: 가정, note: "차체 옆면과 통 벽 사이"}
+    wall: {value: 0.004, unit: m, source: 가정, note: "통 벽 두께 (build_robot_v2.py BIN_T)"}
+    volume: {value: 1.05, unit: L, source: 계산, note: "0.10 × 0.10 × (0.15 − 0.045) m. 500 mL 병 약 2개. 상용에는 '줍기 통'이 없음 — MT1 쓰레기통 6 L, Phantas 1 L가 가장 가까움"}
+
+  arm:
+    model: {value: SO-ARM101, unit: "-", source: 주인 결정, note: "차체 위 앞 가운데, 안 쓸 때 크래들에 접음"}
+    pivot_back: {value: 0.06, unit: m, source: 주인 결정, note: "어깨 회전축 = 윗면 앞 모서리에서 6 cm 뒤 (설계 페이지)"}
+    pick_time: {value: 7.4, unit: s, source: 시뮬, note: "wide_side 9곳 중 7곳 성공, 팔 동작 7.38 s (logs/2026-11-24_wide_side_pick.md). 상용 팔 로봇(Z70·Cyber 10)은 동작 시간을 공개하지 않음"}
+    payload_target: {value: 300, unit: g, source: roborock_saros_z70, note: "빈 생수병·캔·컵·봉지 대상. Z70 300 g, Cyber 10 Ultra 500 g. SO-101 실제 하중은 확인 필요"}
+
+  camera:
+    z: {value: 0.25, unit: m, source: 가정, note: "앞 기둥 깊이 카메라 높이 (설계 페이지)"}
+    pitch_deg: {value: 35.0, unit: deg, source: 가정, note: "아래로 35°"}
+    fovy: {value: 58, unit: deg, source: 가정, note: "세로 시야각"}
+
+  min_pass_width: {value: 0.50, unit: m, source: 계산, note: "통 포함 폭 약 0.39 m × 1.26 (상용 최소 통과 폭/차체 폭: J30 1.15, CC1 Pro 1.27, MT1 1.25, Phantas 1.43의 중앙). 벤치 사이 통로 실측과 비교 필요"}
+  threshold: {value: 0.010, unit: m, source: 가정, note: "범퍼 바닥 1.5 cm보다 낮은 턱만. 체육관 코트는 평평 (상용 C55 50 mm, Z70 40 mm)"}
+  battery:
+    voltage: {value: 12, unit: V, source: 가정, note: "SO-ARM101과 같은 12 V로 맞춤 (logs/2026-11-24_chassis_candidates.md 추천 표). 차체 실물 결정 전"}
+    capacity: {value: 5.6, unit: Ah, source: 다른 기록, note: "LIMO 12 V 5,600 mAh (chassis_candidates [A6]) 수준 = 약 67 Wh (계산). 팔·핸디 청소기 전원은 따로일 수 있음 (확인 필요)"}
+  sensors:
+    value: [깊이 카메라(앞 기둥), 범퍼(앞), 낙하 센서(앞 2), 2D 라이다(선택)]
+    unit: "-"
+    source: 계산
+    note: "건식 체육관급 7개 중 라이다 5·카메라 4·깊이 3·범퍼 3·낙하 3 (DB에 적힌 것만, J30·C30은 센서 표기 없음). 시뮬 robot_v2에는 깊이 카메라·범퍼만 있음. 낙하·라이다는 가정(아직 모델에 없음)"
+  noise_target: {value: 65, unit: dB, source: wheelie_j30, note: "J30 표준 ≤65 dB, R3 Vac 61.7 dB, Phantas 조용한 모드 ≤60 dB. 축소판은 핸디 청소기 소리를 재서 확인 (가정 목표)"}
+
+product_concept:
+  length: {value: 0.52, unit: m, source: 계산, note: "건식 체육관급 길이 중앙 521 mm (R3 Vac). 팔 받침은 윗면에"}
+  width: {value: 0.48, unit: m, source: 계산, note: "폭 중앙 482 mm"}
+  height: {value: 0.65, unit: m, source: 계산, note: "높이 중앙 653 mm (팔 접은 높이 제외)"}
+  mass: {value: 55, unit: kg, source: 계산, note: "무게 중앙 53 kg + 팔 약 2 kg (가정)"}
+  work_speed: {value: 0.5, unit: m/s, source: 가정, note: "기획안 7장 값. 상용 '표시 ÷ (폭 × 3600)'로 거꾸로 셈한 속도 0.27~0.71 m/s 안"}
+  max_speed: {value: 1.2, unit: m/s, source: pudu_cc1pro, note: "CC1 Pro·MT1·C40S 최고 1.2 m/s (건식 체육관급 최대)"}
+  clean_width: {value: 0.55, unit: m, source: lionsbot_r3vac, note: "R3 Vac 옆솔 포함 550, MT1 진공 550, CC1 Pro 500. 기획안 7장 '패드 폭 1.0 m'는 상용 건식 최대 610 mm(C30)보다 넓어 범위 밖 → 이 값 제안 (주인 확정 필요)"}
+  area_rate_theoretical: {value: 990, unit: m²/h, source: 계산, note: "0.55 × 0.5 × 3600. 기획안 7장 1,800 m²/h(1.0 m × 0.5 m/s)는 상용 건식 이론 최대(Phantas 1,674)보다 큼"}
+  area_rate_practical: {value: [300, 740], unit: m²/h, source: 계산, note: "이론 × 0.30~0.75. 상용 건식 실제 350~1,000 m²/h와 겹침. 농구 코트 1면 420 m² → 약 34~85분"}
+  side_brush_count: {value: 2, unit: 개, source: 주인 결정, note: "축소판과 같은 배치"}
+  side_brush_diameter: {value: 0.15, unit: m, source: 가정, note: "축소판 9 cm ÷ 폭 비 0.58 ≈ 0.155 m. 상용 옆솔 지름은 DB에 없음"}
+  suction_width: {value: 0.35, unit: m, source: lionsbot_r3vac, note: "흡입·쓸기만의 폭: J30 265, R3 Vac 350(옆솔 없이), MT1 550 → 중앙 350"}
+  suction: {value: [4, 19], unit: kPa, source: 계산, note: "DB에 흡입력이 적힌 건식 체육관급은 J30 4 kPa, C30 19 kPa뿐 → 범위만. 값은 정하지 않음 (확인 필요)"}
+  pad_count: {value: 2, unit: 개, source: 주인 결정, note: "뒤 마른 패드 2장"}
+  pad_diameter: {value: 0.28, unit: m, source: 계산, note: "2장 = 청소 폭 0.55 m. 상용 먼지 걸레 폭 Phantas 330 mm"}
+  dustbin: {value: 6, unit: L, source: lionsbot_r3vac, note: "R3 Vac 6 L, Phantas 6 L 봉투, CC1 Pro 2.5 L + 6 L 봉투. 범위 2~14 L"}
+  trash_bin: {value: 10, unit: L, source: 가정, note: "팔로 집은 병·봉지 통. 회고 '경기당 생수병 1 + 봉지 2' × 하루 6~9타임(추정)을 한 번에 담는 크기로 어림. 상용에 같은 칸 없음"}
+  battery_voltage: {value: 24, unit: V, source: 계산, note: "DB 배터리 전압: J40·C55·KIRA·Tennant·SC50 24 V, Whiz 25.2 V, Kas 25.6 V — 모두 24 V급"}
+  battery_energy: {value: 600, unit: Wh, source: softbank_whiz, note: "Whiz 597 Wh(30 kg급, 3 h), J40 648 Wh(계산). 팔 몫은 따로 안 셈 (확인 필요)"}
+  continuous_run: {value: 3, unit: h, source: 계산, note: "건식 체육관급 3~6 h (중앙 4 h). 600 Wh 급이 3 h (Whiz)"}
+  charge_time: {value: 3, unit: h, source: 계산, note: "건식 체육관급 2~6 h (중앙 3.5 h)"}
+  min_pass_width: {value: 0.65, unit: m, source: gausium_phantas, note: "Phantas 650, CC1 Pro 700, J30 450. 폭 0.48 m × 1.26 = 0.60 m (계산)과 비슷"}
+  threshold: {value: 0.02, unit: m, source: 가정, note: "체육관 출입구 문턱 정도. 건식 체육관급 페이지에는 턱 높이가 없음 (C55 50 mm는 대형)"}
+  sensors:
+    value: [2D 라이다, 3D 깊이 카메라, RGB 카메라, 범퍼, 낙하 센서]
+    unit: "-"
+    source: 계산
+    note: "건식 체육관급에서 많이 쓰는 구성 (R3 Vac·Phantas는 다섯 가지 다 적힘, Whiz는 RGB 카메라 칸만 빠짐). 팔 카메라는 Z70·Cyber 10처럼 추가"
+  noise_target: {value: 65, unit: dB, source: wheelie_j30, note: "건식 체육관급 60~65 dB"}
+  arm_payload: {value: 500, unit: g, source: dreame_cyber10_ultra, note: "Cyber 10 Ultra 500 g, Z70 300 g. 빈 병·캔·봉지면 300 g로도 됨"}
+  arm_dof: {value: 5, unit: "-", source: roborock_saros_z70, note: "Z70 5축, Cyber 10 Ultra 자유도 5. SO-ARM101도 5축 + 집게"}
+  price_reference: {value: [13000, 25000], unit: USD, source: 계산, note: "구매가 표시: R3 Vac $13,000(RobotLAB, 같은 페이지 $22,275로 엇갈림)·Whiz $25,000. 렌탈 클로봇 월 40만원대~. 우리 목표 가격은 근거 없음"}
