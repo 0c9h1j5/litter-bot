@@ -7,6 +7,8 @@
 - 산출물 목록: [docs/register.md](docs/register.md) (D00 v0.4)
 - 저장소: https://github.com/0c9h1j5/litter-bot
 
+**3일차 제출물:** [docs/requirements.md](docs/requirements.md) (D03 v0.3, 상태 검토), [tests/test_judge.py](tests/test_judge.py), [src/judge.py](src/judge.py) (시그니처만 — 구현 전이라 `uv run pytest -q tests`는 지금 10 failed)
+
 **먼저 읽기:** [기획안](docs/00-기획안.md) (발표용 페이지: [docs/00-기획안.html](docs/00-기획안.html)를 브라우저로 열기) → [한 장 요약](docs/00-기획안-요약.md) → [유저 시나리오](docs/01-유저시나리오.md) → [현장 계수표](docs/02-현장계수표.md) → [팀 차터](docs/charter.md)
 
 ## 파일 트리
@@ -24,16 +26,19 @@ litter-bot/
 │   ├── 03-현장데이터-요약.md        P03 현장 데이터 (실측 + 추정) 요약 — 자동 생성
 │   ├── charter.md                D02 팀 차터 v1.0 (검토)
 │   ├── decisions.md              결정 기록 (주인 결정, 날짜·이유·출처)
-│   ├── register.md               D00 산출물 목록 v0.4 (G1 점검표 포함)
+│   ├── register.md               D00 산출물 목록 v0.5 (G1 점검표 포함)
+│   ├── requirements.md           D03 요구사항 명세 v0.3 (검토) — 계층·계산·요구사항 표 R-01~R-31·단계별 요구사항·R↔T
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
 │   └── img/                      그림 (MuJoCo 직접 렌더: gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg)
 ├── scenes/
 │   ├── gym_v0.xml                MuJoCo 장면 뼈대: 농구 코트 일부 5 m × 3 m + 라인·벤치·창문틀 (4일차에 장면 v1: + Stretch 3)
 │   └── sidewalk_v0.xml           예전 가게 앞 장면 (v1.1, 참고용)
 ├── src/
+│   ├── judge.py                  D03 판정 함수 judge_short_mode / judge_full_mode (시그니처만, 구현은 다음 단계)
 │   └── checks/                   확인용 스크립트 (장면 렌더, Stretch 리프트 높이, 깊이 돌출 검출)
 ├── scripts/field_summary.py      현장 데이터 요약 생성 (uv run python scripts/field_summary.py)
-├── tests/                        테스트 (3일차 판정 테스트부터)
+├── tests/
+│   └── test_judge.py             D03 판정 테스트 T-01~T-10 (uv run pytest -q tests)
 └── logs/                         실행·실험·현장 기록
     ├── daily.md                              매일 기록 (한 일 / 막힌 일 / 할 일)
     ├── field/field_count.csv                 실측(현장 계수) — 경기 1회 = 한 줄 추가
@@ -52,6 +57,7 @@ litter-bot/
 git clone https://github.com/0c9h1j5/litter-bot.git
 cd litter-bot
 uv sync
+uv run pytest -q tests                                       # 판정 테스트 (judge.py 구현 전이라 지금은 10 failed)
 uv run mjpython -m mujoco.viewer --mjcf=scenes/gym_v0.xml   # macOS
 uv run python -m mujoco.viewer --mjcf=scenes/gym_v0.xml     # Windows·Linux
 uv run --with pillow python src/checks/render_scene.py scenes/gym_v0.xml docs/img/gym_v0.png   # 그림 다시 만들기
