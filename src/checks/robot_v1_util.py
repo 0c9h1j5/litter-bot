@@ -43,7 +43,7 @@ def to_body(m, d, I, p_world):
 
 def ik(m, d, I, target, down=None, q0=None, iters=300, tol=1e-3, dots=None, offset=None):
     """손끝(gripperframe) 위치를 target(월드)로. down=(축 이름, 방향 벡터) 또는 그 목록이면 gripperframe 의 그 축(들)을 맞춘다.
-    dots=[(축 이름, 월드 벡터, 값)] 이면 gripperframe 축 · 벡터 = 값 을 맞춘다(예: 집게 닫는 축을 수평으로: ("z", ez, 0)).
+    dots=[(축 이름 또는 gripperframe 벡터, 월드 벡터, 값)] 이면 gripperframe 축 · 벡터 = 값 을 맞춘다(예: 집게 닫는 축을 수평으로: ("z", ez, 0)).
     offset=(x, y, z)이면 손끝 대신 gripperframe 좌표의 그 점(예: 두 손가락 사이 집는 점)을 target 으로 보낸다.
     팔 관절 5개만 쓰는 감쇠 최소자승. 결과 관절값, 위치 오차(m)를 돌려준다. d 는 바꾸지 않는다."""
     dd = mujoco.MjData(m)
@@ -68,7 +68,7 @@ def ik(m, d, I, target, down=None, q0=None, iters=300, tol=1e-3, dots=None, offs
         if dots:
             R = dd.site_xmat[I["tip"]].reshape(3, 3)
             for axis, v, val in dots:
-                a = R[:, "xyz".index(axis)]
+                a = _axis(R, axis)
                 row = np.cross(a, v) @ jr[:, I["dadr"]]
                 J = np.vstack([J, 0.3 * row]); e = np.concatenate([e, [0.3 * (val - a @ v)]])
         if np.linalg.norm(err) < tol and (len(e) == 3 or np.linalg.norm(e[3:]) < 0.02):
@@ -88,8 +88,13 @@ def _ori_err(d, I, down, dots):
         for axis, want in ([down] if isinstance(down[0], str) else down):
             e += float(np.linalg.norm(np.cross(R[:, "xyz".index(axis)], want)))
     for axis, v, val in (dots or []):
-        e += abs(val - float(R[:, "xyz".index(axis)] @ v))
+        e += abs(val - float(_axis(R, axis) @ v))
     return e
+
+
+def _axis(R, axis):
+    """gripperframe 축: 'x'·'y'·'z' 또는 gripperframe 좌표의 벡터(예: 잡은 병의 축)."""
+    return R[:, "xyz".index(axis)] if isinstance(axis, str) else R @ np.asarray(axis)
 
 
 def point(d, I, offset=None):
