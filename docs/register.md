@@ -1,19 +1,19 @@
 # 산출물 목록 (register)
 
-D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 검토 (승인은 강사님 컨펌 뒤) · v0.9 · 관련 R-01~R-35 (R-01~R-20은 [01-유저시나리오.md](01-유저시나리오.md)에서 시작, 정의는 [requirements.md](requirements.md)), T-01~T-39 ([requirements.md](requirements.md) ②·R↔T 표)
+D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 검토 (승인은 강사님 컨펌 뒤) · v1.0 · 관련 R-01~R-35 (R-01~R-20은 [01-유저시나리오.md](01-유저시나리오.md)에서 시작, 정의는 [requirements.md](requirements.md)), T-01~T-39 ([requirements.md](requirements.md) ②·R↔T 표)
 
 | ID | 산출물 | 실무 명칭 | 스테이지 | 예정 일차 | 작성 | 검토 | 상태 | 버전 | 관련 요구사항 | 파일 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| P00 | 기획안 | Project Proposal | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v2.2 (요약 v2.0) | R-17·R-19 인용 (정의는 P01) | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
+| P00 | 기획안 | Project Proposal | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v2.3 (요약 v2.1) | R-17·R-19 인용 (정의는 P01) | [docs/00-기획안.md](00-기획안.md) · [html](00-기획안.html) · [요약](00-기획안-요약.md) |
 | P01 | 유저 시나리오 | User Scenario | 01 | 1일차 (11/23~) | 최현준 | 최현준 + AI 심사 리뷰 | 작성 | v1.7 | R-01~R-20 (여기서 정의) | [docs/01-유저시나리오.md](01-유저시나리오.md) |
 | P02 | 현장 계수표 | Field Count Sheet | 01 | 1일차 (11/23~) | 최현준 | 최현준 | 작성 | v1.1 | – | [docs/02-현장계수표.md](02-현장계수표.md) · CSV `logs/field/field_count_template.csv` |
 | P03 | 현장 데이터 (실측 + 추정) 요약 | Field Data Summary | 01 | 1일차 (11/23~) | 자동 생성 | 최현준 | 작성 | v1 | – | [docs/03-현장데이터-요약.md](03-현장데이터-요약.md) · `scripts/field_summary.py` |
 | P04 | 유사 제품 조사 | Competitive Landscape | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v1.2 | – (기획안 10장 보강) | [docs/04-유사제품조사.md](04-유사제품조사.md) |
 | P06 | CAD 모델 (축소판 설계, 만들지 않음) | Parametric CAD Model | 03 | 2일차 (11/24) | 만들기봇 (Fusion 360) | 최현준 | 작성 | v1 | R-15·R-33~R-35 (CAD 확인) | 저장소 밖: robot-lab 저장소 `builds/so-arm101/chassis/fusion/` — `litter_scale_model_v1.f3d`·`.step`, 그림 `litter_scale_1_3-4.png`·`litter_scale_2_top.png`·`litter_scale_3_side.png` (만드는 스크립트 `builds/so-arm101/chassis/fusion_build_scale_model.py`, 원본은 Fusion 클라우드 'litter-bot 축소판 v1 (매개변수)'). 설명은 [기획안 9장](00-기획안.md#9-cad-모델-설계-확인-만들지-않음) |
 | P05 | 제품 파라미터 분석 | Product Parameter Benchmark | 01 | 2일차 (11/24) | 최현준 + AI 조사 | 최현준 | 작성 | v0.4 | R-04·R-06·R-18 (값 근거) | [docs/05-제품파라미터-분석.md](05-제품파라미터-분석.md) · DB `data/products/specs.csv` · 파라미터 `config/robot_params.yaml` |
-| D01 | 문제 정의서 | Problem Statement | 01 | 2일차 | 최현준 | 최현준 + AI 리뷰 | 검토 | v2.5 | R-01~R-20 | [docs/problem.md](problem.md) |
+| D01 | 문제 정의서 | Problem Statement | 01 | 2일차 | 최현준 | 최현준 + AI 리뷰 | 검토 | v3.0 | R-01~R-20, Must R-04·06·18 연결 | [docs/problem.md](problem.md) |
 | D02 | 팀 차터 | Project Charter | 01 | 1일차 | 최현준 | 최현준 + AI 코딩 에이전트 리뷰 | 검토 | v1.5 | – | [docs/charter.md](charter.md) · 부속 [decisions.md](decisions.md), [logs/daily.md](../logs/daily.md) |
-| D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v1.2 | R-01~R-35 (여기서 정의, Must 3개 R-04·06·18, CAD R-33~R-35, Won't 실물 R-20~23·29·30), C-01~C-32, T-01~T-39 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
+| D03 | 요구사항 명세 | PRD / SRS | 02 | 3일차 | 최현준 (AI 코딩 에이전트 초안) | 최현준 | 검토 | v1.3 | R-01~R-35 (여기서 정의, Must 3개 R-04·06·18, CAD R-33~R-35, Won't 실물 R-20~23·29·30), C-01~C-32, T-01~T-39 | [docs/requirements.md](requirements.md) · 판정 테스트 `tests/test_judge.py` (T-01~T-10·T-21·T-22·T-32~T-36, v0.6) · 판정 함수 `src/judge.py` (v0.6 구현됨 — pytest 29 passed) |
 | D04 | 요구사항 추적표 | Traceability Matrix | 02 | 5일차 | 최현준 | 최현준 | – | – | – | 예정. R↔T 대응은 [requirements.md](requirements.md) ② 표의 '테스트' 칸과 'R ↔ T 대응' 표에서 시작하며, 교안 p15 형식대로 Given/When/Then과 결과 칸을 더한다 |
 | D05 | 계획·WBS·위험 목록 | Project Plan / Risk Register | 02 | 5일차 | 최현준 | 최현준 | – | – | – | |
 | D06 | 시스템 구조 | System Architecture / ICD | 03 | 4일차 | 최현준 | 최현준 | – | – | – | |
@@ -32,7 +32,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 
 | 점검 | 지금 | 근거 |
 | --- | --- | --- |
-| 문제가 숫자로 서나 | 일부. 회고 숫자(경기당 생수병 1 + 과자 봉지 2, 사람 쓰레기만 5~10분 / 밀대까지 10~20분)와 통계(체육관 1,530개소 등)는 있음. 회고는 추정치이며 실측 0건 | 기획안 1장, [problem.md](problem.md) (D01 v2.1) |
+| 문제가 숫자로 서나 | 일부. 회고 숫자(경기당 생수병 1 + 과자 봉지 2, 사람 쓰레기만 5~10분 / 밀대까지 10~20분)와 통계(체육관 1,530개소 등)는 있음. 회고는 추정치이며 실측 0건. 관리자 부담(H1)은 숫자가 없어 인터뷰로 확인 | 기획안 1장, [problem.md](problem.md) (D01 v3.0, 1-1·4-3) |
 | 4주·1인으로 되나 | 계획은 있으나 확인 전. 일정과 일정 압박 사다리, 중단 기준(K-1~K-16)은 작성함. 부담 요인이던 실물 일정 +3~4.5일(가정)은 2026-11-24 범위 변경(실물 제작 빼고 CAD 모델까지)으로 4주 밖으로 나감 | 기획안 6-10·9·12·14장, [decisions.md](decisions.md) |
 | 현장 데이터 실측 | 아직 0건 (추정 3건). 11/24~11/30 계수 진행 후 12/01 K-1·K-1b·K-1c·K-1e·K-7 판단 | 기획안 13장, [03-현장데이터-요약.md](03-현장데이터-요약.md) |
 | 강사님 컨펌 | 아직 받지 않음 (차터·목록 상태 '검토') | 이 문서, [charter.md](charter.md) |
@@ -40,6 +40,7 @@ D00 · 산출물 목록 · 작성 최현준(PM) · 검토 최현준 · 상태 �
 ## 변경 기록
 | 날짜 | 버전 | 바꾼 것 |
 | --- | --- | --- |
+| 2026-11-25 | v1.0 | 문제 정의를 관리자 중심으로(관리자가 다른 시설 업무로 대관마다 코트를 확인·청소하기 어려움, 가설 H1~H3): D01 v3.0, D03 v1.3, P00 v2.3·요약 v2.1. Must 조건·테스트·판정 함수는 그대로 |
 | 2026-11-24 | v0.9 (3) | 옆 통 넣기 안정화(손목 돌림 가지 고정, 6/9 → 9/9, 늘린 시험 36/36): P00 v2.2·요약 v2.0, D02 v1.5, D03 v1.2 |
 | 2026-11-24 | v0.9 (2) | 시뮬 폭 = Fusion 값, 다시 잼(넣기 6/9): P00 v2.1·요약 v1.9, D02 v1.4, D03 v1.1, P04 v1.2, P05 v0.4 |
 | 2026-11-24 | v0.9 | 범위 변경(기획자 결정 2026-11-24 — 실물 제작 빼고 모델링까지): P06 CAD 모델 행(경로) 추가, D07 메모, G1 '4주·1인' 부담 요인 갱신, 버전 P00 v2.0·P01 v1.7·D01 v2.5·D02 v1.3·D03 v1.0(R-01~R-35, T-01~T-39) |
