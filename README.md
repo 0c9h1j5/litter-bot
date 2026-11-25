@@ -10,8 +10,8 @@
 
 **1. 제출물 (1·2·3일차)**
 - 1일차: 팀 차터 [docs/charter.md](docs/charter.md) (D02 v1.4, 검토) · 산출물 목록 [docs/register.md](docs/register.md) (D00 v0.9) · 저장소 https://github.com/0c9h1j5/litter-bot
-- 2일차: 문제 정의서 [docs/problem.md](docs/problem.md) (D01 v2.5, 검토)
-- 3일차: 요구사항 명세 [docs/requirements.md](docs/requirements.md) (D03 v1.1, 검토) · 판정 테스트 [tests/test_judge.py](tests/test_judge.py) (v0.6으로 새로 씀, 사람 몫) · 판정 함수 [src/judge.py](src/judge.py) (구현됨, 테스트는 그대로 — `uv run pytest -q tests` → 29 passed)
+- 2일차: 문제 정의서 [docs/problem.md](docs/problem.md) (D01 v3.0, 검토 — 관리자 중심 문제 정의)
+- 3일차: 요구사항 명세 [docs/requirements.md](docs/requirements.md) (D03 v1.3, 검토) · 판정 테스트 [tests/test_judge.py](tests/test_judge.py) (v0.6으로 새로 씀, 사람 몫) · 판정 함수 [src/judge.py](src/judge.py) (구현됨, 테스트는 그대로 — `uv run pytest -q tests` → 29 passed)
 
 **2. 근거 자료** (제출물이 인용하는 문서·데이터)
 - 기획: [한 장 요약](docs/00-기획안-요약.md) · [기획안](docs/00-기획안.md) (P00, 발표용 페이지 [docs/00-기획안.html](docs/00-기획안.html)) · [유저 시나리오](docs/01-유저시나리오.md) (P01)
@@ -35,8 +35,8 @@
 litter-bot/
 ├── README.md                     입구 (이 파일)
 ├── docs/
-│   ├── 00-기획안.md               P00 기획안 v2.1 (원본) — 현장: 실내 체육관
-│   ├── 00-기획안-요약.md           P00 한 장 요약 v1.9 (발표 첫 장)
+│   ├── 00-기획안.md               P00 기획안 v2.3 (원본) — 현장: 실내 체육관
+│   ├── 00-기획안-요약.md           P00 한 장 요약 v2.1 (발표 첫 장)
 │   ├── 00-기획안.html             P00 발표용 한 파일 페이지 (기획안 + 유저 시나리오, 이미지 포함)
 │   ├── 01-유저시나리오.md          P01 유저 시나리오 v1.7 — 관리자·청소 담당·이용자·대관 팀 총무 × 지금 vs 로봇과 함께, 시간대 7개, 요구사항 R-01~R-20
 │   ├── 02-현장계수표.md            P02 경기 직후 한 장 (폰으로 채우기)
@@ -45,9 +45,9 @@ litter-bot/
 │   ├── 05-제품파라미터-분석.md      P05 v0.4 상용 청소 로봇 사양 범위·효율 비교 → 우리 축소판·제품 개념 파라미터
 │   ├── charter.md                D02 팀 차터 v1.4 (검토)
 │   ├── decisions.md              결정 기록 (기획자 결정, 날짜·이유·출처)
-│   ├── problem.md                D01 문제 정의서 v2.5 (검토) — 사용자·빈 시간 흐름·불편 숫자·경쟁 사례·출처
-│   ├── register.md               D00 산출물 목록 v0.9 (G1 점검표 포함, P06 CAD 모델 행)
-│   ├── requirements.md           D03 요구사항 명세 v1.1 (검토) — 계층·계산(C-01~C-32)·요구사항 표 R-01~R-35(CAD R-33~R-35, 실물 R는 Won't)·단계별 요구사항·R↔T
+│   ├── problem.md                D01 문제 정의서 v3.0 (검토) — 관리자 문제·확인할 가설 H1~H3·흐름·지표(관찰·실측·시뮬)·경쟁 사례·D03 연결·출처
+│   ├── register.md               D00 산출물 목록 v1.0 (G1 점검표 포함, P06 CAD 모델 행)
+│   ├── requirements.md           D03 요구사항 명세 v1.3 (검토) — 계층·계산(C-01~C-32)·요구사항 표 R-01~R-35(CAD R-33~R-35, 실물 R는 Won't)·단계별 요구사항·R↔T
 │   ├── build_html.py             md → html 변환 (uv run --with markdown python docs/build_html.py)
 │   └── img/                      그림 (MuJoCo 직접 렌더: robot_v2.png, robot_v1.png, gym_v1.png, gym_v0.png, depth_test.png, 예전 scene_v0.png · 스케치: module_a_sketch.svg · 개념 이미지(AI 생성): concept_cleaning.jpg, concept_pickup.jpg, scenario_4cut.jpg · 외형 예시: example_render.jpg, example_top.jpg(AI 생성), example_drawing.jpg(벡터 도면))
 ├── data/products/                 제품 사양 DB: specs.csv(원본, 21개 제품) · specs.json(자동) · README.md(칸 설명)
